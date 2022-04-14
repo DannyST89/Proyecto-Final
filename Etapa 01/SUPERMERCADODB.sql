@@ -1,0 +1,28 @@
+/*  Danny Soto j
+	Fecha 13/04/2022
+*/
+
+/*Creámos la base de datos */
+CREATE DATABASE SUPERMERCADODB
+GO
+USE SUPERMERCADODB
+GO
+/*Creámos tabla colaboradores*/
+CREATE TABLE COLABORADORES(
+	ID_COLABORADOR	INT IDENTITY PRIMARY KEY,
+	NOMBRE	VARCHAR(20) NOT NULL,
+	PRIMER_APELLIDO	VARCHAR(20) NOT NULL,
+	SEGUNDO_APELLIDO	VARCHAR(20) NOT NULL,
+	CARGO	VARCHAR(30) DEFAULT 'Cajero'NOT NULL,
+	NOMBRE_USUARIO	VARCHAR(20) NOT NULL,
+	CONTRASENIA	VARCHAR(15) NOT NULL,
+	ESTADO	VARCHAR(3) DEFAULT 'ACT' NOT NULL
+)
+/*Creámos las restricciones de la tabla COLABORADORES*/
+/*Los únicos CARGOS en los que se podrá registrar un colaborador son */
+ALTER TABLE COLABORADORES
+ADD CONSTRAINT CHK_CARGO CHECK (CARGO IN('Cajero','Bodeguero','Administrador'));
+/*El colaborador tendrá dos estados ACT cuando ingresa y INA al desligarse de la empresa*/
+ALTER TABLE COLABORADORES
+ADD CONSTRAINT CHK_ESTADO CHECK (ESTADO IN ('INA','ACT'));
+GO
