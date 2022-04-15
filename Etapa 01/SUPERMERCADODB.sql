@@ -48,22 +48,25 @@ CREATE TABLE PROVEEDORES(
 GO
 /*--------------------------------------------------------------------------------*/
 /*Creámos tabla 03 PRODUCTOS*/
-
+/*Únicamente agregamos los productos al sistema*/
 CREATE TABLE PRODUCTOS(
 	ID_PRODUCTO	VARCHAR(50) PRIMARY KEY NOT NULL,
-	ID_EMPLEADO INT NOT NULL,
 	ID_PROVEEDOR INT NOT NULL,	
 	DESCRIPCION VARCHAR(100) NOT NULL,
-	CANTIDAD	INT NOT NULL,
 	PRECIO_UNIDAD	DECIMAL(10,2) NOT NULL	)
 GO
 /*--------------------------------------------------------------------------------*/
 /*Creámos tabla 04 INVENTARIOS*/
+/*Agregámos los productos al inventario, consultando la tabla de producto
+  tenemos acceso a los productos registrados y sus detalles,
+  */
 CREATE TABLE INVENTARIOS(
 	ID_INVENTARIO INT IDENTITY(1,1) PRIMARY KEY,
 	ID_PRODUCTO VARCHAR(50) NOT NULL,
 	DESCRIPCION	VARCHAR(100) NOT NULL,
+	CANTIDA_INGRESADA INT NOT NULL,/*CANTIDAD INGRESADO*/
 	EXISTENCIA INT NOT NULL,
+	CANTIDAD_VENDIDA INT NOT NULL,
 	PRECIO_UNIDAD	DECIMAL(10,2) NOT NULL
 )
 GO
@@ -119,10 +122,6 @@ GO
 ALTER TABLE PRODUCTOS
 ADD CONSTRAINT CHK_PRODUCTOS_PROVEEDORES
 FOREIGN KEY (ID_PROVEEDOR) REFERENCES PROVEEDORES(ID_PROVEEDOR);
-
-ALTER TABLE PRODUCTOS
-ADD CONSTRAINT CHK_PRODUCTOS_EMPLEADOS
-FOREIGN KEY (ID_EMPLEADO) REFERENCES EMPLEADOS(ID_EMPLEADO);
 
 /*Creámos la referencia de la tabla inventarios con la tabla productos*/
 
