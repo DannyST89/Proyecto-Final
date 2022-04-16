@@ -2,28 +2,163 @@
 	14/04/2022
 */
 
-/*En este script crearémos todos los procedimientos almacenados, triggers necesarios para
-  solucionar el problema */
+/*En este script crearémos todos los procedimientos almacenados, triggers , vistas y consultas necesarias para
+  solucionar el problema  presentado*/
 USE SUPERMERCADODB
 GO
 
-/*Desarrollamos un trigger que se dispare al vender un producto en facturas,
+/* 1- Desarrollamos un trigger que se dispare al vender un producto en facturas,
   actualizando el campo de CANTIDAD_VENDIDA  en la tabla de inventario y restando 
-  la CANTIDAD_VENDIDA  con EXISTENCIA.*/
+  la CANTIDAD_VENDIDA  con EXISTENCIA. además, 
+  en el mismo trigger se dispara cargando la información
+  requerida en la tabla ventas
+  */
+GO
 CREATE OR ALTER TRIGGER TR_FI_FACTURAS
 ON FACTURAS
 FOR INSERT
 AS
-	DECLARE @ID_PRODUCTO VARCHAR(50), @CANTIDAD INT
+	DECLARE @ID_FACTURA INT,@ID_EMPLEADO INT,@ID_PRODUCTO VARCHAR(50),@DESCRIPCION VARCHAR(100),@CANTIDAD INT,@PRECIO_UNIDAD DECIMAL(10,2), @TOTAL DECIMAL(10,2)
+	SELECT @ID_FACTURA = ID_FACTURA FROM inserted
+	SELECT @ID_EMPLEADO = ID_EMPLEADO FROM inserted
 	SELECT @ID_PRODUCTO = ID_PRODUCTO FROM inserted
+	SELECT @DESCRIPCION = DESCRIPCION FROM inserted
 	SELECT @CANTIDAD = CANTIDAD FROM inserted
+	SELECT @PRECIO_UNIDAD = PRECIO_UNIDAD FROM inserted
+	SELECT @TOTAL = TOTAL FROM inserted
+	
 
 	IF(EXISTS(SELECT ID_PRODUCTO FROM INVENTARIOS WHERE ID_PRODUCTO = @ID_PRODUCTO))
+	/*Actualizamos la tabla de inventario*/
 		UPDATE INVENTARIOS SET CANTIDAD_VENDIDA = @CANTIDAD, EXISTENCIA -= @CANTIDAD
+		/*Insertamos la venta realizada en la tabla ventas*/
+		INSERT INTO VENTAS(ID_FACTURA,ID_EMPLEADO,ID_PRODUCTO,DESCRIPCION,CANTIDAD,PRECIO_UNIDAD,TOTAL)
+				VALUES(@ID_FACTURA,@ID_EMPLEADO,@ID_PRODUCTO,@DESCRIPCION,@CANTIDAD,@PRECIO_UNIDAD, @TOTAL)
 		
 GO
 
+/* 2- Desarrollamos un procedimiento almacenado para insertar un EMPLEADO Y si existe lo actualiza*/
+CREATE OR ALTER PROCEDURE SP_INSERTAR_EMPLEADO(@ID_EMPLEADO INT OUT,@NOMBRE VARCHAR(20),@PRIMER_APELLIDO VARCHAR(20),@SEGUNDO_APELLIDO VARCHAR(20),
+											   @TELEFONO VARCHAR(20),@CORREO VARCHAR(20),@DIRECCION VARCHAR(100),@CARGO VARCHAR(30),
+											   @FECHA_INGRESO DATE,@NOMBRE_USUARIO VARCHAR(20),@CONTRASENIA VARCHAR(15), @MSJ VARCHAR(100) OUT)
+AS
+BEGIN
+	BEGIN TRY
+		BEGIN TRANSACTION
+			/*Si el id_empleado no está registrado  vamos a ingresar un empleado con un nuevo id*/
+			IF(NOT EXISTS(SELECT 1 FROM EMPLEADOS WHERE ID_EMPLEADO = @ID_EMPLEADO))
+				BEGIN
+					INSERT INTO EMPLEADOS(NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,TELEFONO,
+										  CORREO,DIRECCION,CARGO,FECHA_INGRESO,NOMBRE_USUARIO,CONTRASENIA)
+								   VALUES(@NOMBRE,@PRIMER_APELLIDO,@SEGUNDO_APELLIDO,@TELEFONO,
+										  @CORREO,@DIRECCION,@CARGO,@FECHA_INGRESO,@NOMBRE_USUARIO,@CONTRASENIA)
+								   SET @MSJ = 'Empleado agregado correctamente'
+				END
+				/*Si ya está registrado lo vamos a actualizar*/
+			ELSE
+				BEGIN
+					UPDATE EMPLEADOS SET NOMBRE = @NOMBRE,
+										 PRIMER_APELLIDO = @PRIMER_APELLIDO,
+										 SEGUNDO_APELLIDO = @SEGUNDO_APELLIDO,
+										 TELEFONO = @TELEFONO,
+										 CORREO =  @CORREO,
+										 DIRECCION = @DIRECCION,
+										 CARGO = @CARGO,
+										 FECHA_INGRESO = @FECHA_INGRESO,
+										 NOMBRE_USUARIO = @NOMBRE_USUARIO,
+										 CONTRASENIA = @CONTRASENIA
+					WHERE ID_EMPLEADO = @ID_EMPLEADO
+					SET @MSJ = 'Empleado actualizado correctamente'
+				END
+		COMMIT TRANSACTION
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRANSACTION
+		SET @MSJ = ERROR_MESSAGE()
+	END CATCH
+END
+GO
+/*Ejecutamos el procedimiento almacenado SP_INSERTAR_EMPLEADO*/
+GO	
+DECLARE @RC int
+DECLARE @ID_EMPLEADO int
+DECLARE @NOMBRE varchar(20)
+DECLARE @PRIMER_APELLIDO varchar(20)
+DECLARE @SEGUNDO_APELLIDO varchar(20)
+DECLARE @TELEFONO varchar(20)
+DECLARE @CORREO varchar(20)
+DECLARE @DIRECCION varchar(100)
+DECLARE @CARGO varchar(30)
+DECLARE @FECHA_INGRESO date
+DECLARE @NOMBRE_USUARIO varchar(20)
+DECLARE @CONTRASENIA varchar(15)
+DECLARE @MSJ varchar(100)
+
+SET @ID_EMPLEADO = 1
+SET @NOMBRE = 'Danny'
+SET @PRIMER_APELLIDO = 'Soto'
+SET @SEGUNDO_APELLIDO = 'Jiménez'
+SET @TELEFONO = '84111915'
+SET @CORREO = 'dnnst89@gmail.com'
+SET @DIRECCION = 'Atenas'
+SET @CARGO = 'Cajero'
+SET @FECHA_INGRESO = GETDATE()
+SET @NOMBRE_USUARIO = 'Dsoto'
+SET @CONTRASENIA = 'Danny89'
+
+EXECUTE @RC = [dbo].[SP_INSERTAR_EMPLEADO] 
+   @ID_EMPLEADO OUTPUT
+  ,@NOMBRE
+  ,@PRIMER_APELLIDO
+  ,@SEGUNDO_APELLIDO
+  ,@TELEFONO
+  ,@CORREO
+  ,@DIRECCION
+  ,@CARGO
+  ,@FECHA_INGRESO
+  ,@NOMBRE_USUARIO
+  ,@CONTRASENIA
+  ,@MSJ OUTPUT
+  PRINT @MSJ
+/*Creámos procedimiento almacenado para cambiar el estado de un empleado a INA ya que no se podrá eliminar completamente*/
+GO
+CREATE OR ALTER PROCEDURE SP_ESTADO_EMPLEADO_INA(@ID_EMPLEADO INT OUT, @MSJ VARCHAR(100) OUT)
+AS
+BEGIN
+	BEGIN TRY
+		BEGIN TRANSACTION
+			/*Si el id_empleado no está registrado  vamos a ingresar un empleado con un nuevo id*/
+			IF(EXISTS(SELECT 1 FROM EMPLEADOS WHERE ID_EMPLEADO = @ID_EMPLEADO))
+				BEGIN
+					UPDATE EMPLEADOS SET ESTADO = 'INA'										
+					WHERE ID_EMPLEADO = @ID_EMPLEADO
+					SET @MSJ = 'Empleado eliminado'
+				END
+		COMMIT TRANSACTION
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRANSACTION
+		SET @MSJ = ERROR_MESSAGE()
+	END CATCH
+END
+GO
+/*Ejecutamos el procedimiento almacenado SP_ESTADO_EMPLEADO_INA*/
+
+GO
+DECLARE @RC int
+DECLARE @ID_EMPLEADO int
+DECLARE @MSJ varchar(100)
+
+SET @ID_EMPLEADO = 1
+
+EXECUTE @RC = [dbo].[SP_ESTADO_EMPLEADO_INA] 
+   @ID_EMPLEADO OUTPUT
+  ,@MSJ OUTPUT
+  PRINT @MSJ
+GO
+
+/* TODO: INSERTAR, ACTUALIZAR Y ELIMINAR UN PROVEEDOR*/
+/* TODO: INSERTAR, ACTUALIZAR Y ELIMINAR UN PRODUCTO*/
 
 
-
-
+  SELECT * FROM EMPLEADOS
