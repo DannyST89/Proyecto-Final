@@ -7,7 +7,8 @@
   /*Agregamos datos a la tabla EMPLEADOS*/
  INSERT INTO EMPLEADOS(NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,TELEFONO,CORREO,DIRECCION,CARGO,FECHA_INGRESO,NOMBRE_USUARIO,CONTRASENIA)
 
-		VALUES('Carlos','Arguedas','Mora','84751210','ArgM@gmail.com','Atenas','Cajero',GETDATE(),'CMora','Carlos1299')
+		VALUES('Carlos','Arguedas','Mora','84751210','ArgM@gmail.com','Atenas','Cajero',GETDATE(),'CMora','Carlos1299'),
+			  ('Josue','Molina','Rivera','87751278','jmolina@gmail.com','San Rafael','Cajero',GETDATE(),'JMolina','Josue0222')
 
 GO
 

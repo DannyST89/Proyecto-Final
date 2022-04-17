@@ -6,7 +6,7 @@
   solucionar el problema  presentado*/
 USE SUPERMERCADODB
 GO
-
+/*-------------------------------------------------------------------------------------------*/
 /* 1- Desarrollamos un trigger que se dispare al vender un producto en facturas,
   actualizando el campo de CANTIDAD_VENDIDA  en la tabla de inventario y restando 
   la CANTIDAD_VENDIDA  con EXISTENCIA. además, 
@@ -36,7 +36,7 @@ AS
 				VALUES(@ID_FACTURA,@ID_EMPLEADO,@ID_PRODUCTO,@DESCRIPCION,@CANTIDAD,@PRECIO_UNIDAD, @TOTAL)
 		
 GO
-
+/*-------------------------------------------------------------------------------------------*/
 /* 2- Desarrollamos un procedimiento almacenado para insertar un EMPLEADO Y si existe lo actualiza*/
 CREATE OR ALTER PROCEDURE SP_INSERTAR_EMPLEADO(@ID_EMPLEADO INT OUT,@NOMBRE VARCHAR(20),@PRIMER_APELLIDO VARCHAR(20),@SEGUNDO_APELLIDO VARCHAR(20),
 											   @TELEFONO VARCHAR(20),@CORREO VARCHAR(20),@DIRECCION VARCHAR(100),@CARGO VARCHAR(30),
@@ -78,6 +78,8 @@ BEGIN
 	END CATCH
 END
 GO
+/*-------------------------------------------------------------------------------------------*/
+
 /*Ejecutamos el procedimiento almacenado SP_INSERTAR_EMPLEADO*/
 GO	
 DECLARE @RC int
@@ -120,19 +122,47 @@ EXECUTE @RC = [dbo].[SP_INSERTAR_EMPLEADO]
   ,@CONTRASENIA
   ,@MSJ OUTPUT
   PRINT @MSJ
-/*Creámos procedimiento almacenado para cambiar el estado de un empleado a INA ya que no se podrá eliminar completamente*/
+/*-------------------------------------------------------------------------------------------*/
+--Creamos procedimiento almacenado para eliminar un empleado
+GO
+CREATE OR ALTER PROCEDURE SP_ELIMINAR_EMPLEADO(@ID_EMPLEADO INT OUT,@MSJ VARCHAR(100) OUT)
+AS
+	BEGIN
+		BEGIN TRY
+			BEGIN TRANSACTION
+				IF(NOT EXISTS(SELECT 1 FROM EMPLEADOS WHERE ID_EMPLEADO = @ID_EMPLEADO))
+					BEGIN
+						SET @MSJ = 'No se encontraron registros'
+					END
+				ELSE
+					BEGIN
+						DELETE FROM EMPLEADOS WHERE ID_EMPLEADO = @ID_EMPLEADO
+						SET @MSJ = 'Empleado eliminado correctamente'
+					END
+			COMMIT TRANSACTION			
+		END TRY
+		BEGIN CATCH
+			ROLLBACK TRANSACTION
+			SET @MSJ = ERROR_MESSAGE()
+		END CATCH
+	END
+GO
+
+/*-------------------------------------------------------------------------------------------*/
+
+/* 3- Creámos procedimiento almacenado para cambiar el estado de un empleado a INA ya que no se podrá eliminar completamente*/
 GO
 CREATE OR ALTER PROCEDURE SP_ESTADO_EMPLEADO_INA(@ID_EMPLEADO INT OUT, @MSJ VARCHAR(100) OUT)
 AS
 BEGIN
 	BEGIN TRY
 		BEGIN TRANSACTION
-			/*Si el id_empleado no está registrado  vamos a ingresar un empleado con un nuevo id*/
+			/*Si el id_empleado está registrado  vamos a actualizar el estado a inactivo*/
 			IF(EXISTS(SELECT 1 FROM EMPLEADOS WHERE ID_EMPLEADO = @ID_EMPLEADO))
 				BEGIN
 					UPDATE EMPLEADOS SET ESTADO = 'INA'										
 					WHERE ID_EMPLEADO = @ID_EMPLEADO
-					SET @MSJ = 'Empleado eliminado'
+					SET @MSJ = 'Inactivado correctamente'
 				END
 		COMMIT TRANSACTION
 	END TRY
@@ -142,6 +172,7 @@ BEGIN
 	END CATCH
 END
 GO
+/*-------------------------------------------------------------------------------------------*/
 /*Ejecutamos el procedimiento almacenado SP_ESTADO_EMPLEADO_INA*/
 
 GO
@@ -156,9 +187,352 @@ EXECUTE @RC = [dbo].[SP_ESTADO_EMPLEADO_INA]
   ,@MSJ OUTPUT
   PRINT @MSJ
 GO
+/*-------------------------------------------------------------------------------------------*/
+/* 4- Precedimiento almacenado para insertar un provedor, si existe lo actualiza*/
+GO
+CREATE OR ALTER PROCEDURE SP_INSERTAR_PROVEEDOR(@ID_PROVEEDOR INT OUT,@NOMBRE_PROVEEDOR VARCHAR(20),@DIRECCION VARCHAR(100),@TELEFONO VARCHAR(20),
+											   @EXTENSION INT,@CORREO VARCHAR(30),@NUMERO_CUENTA VARCHAR(30), @MSJ VARCHAR(100) OUT)
+AS
+BEGIN
+	BEGIN TRY
+		BEGIN TRANSACTION
+			/*Si el id_proveedor no está registrado  vamos a ingresar un proveedor con un nuevo id*/
+			IF(NOT EXISTS(SELECT 1 FROM PROVEEDORES WHERE ID_PROVEEDOR = @ID_PROVEEDOR))
+				BEGIN
+					INSERT INTO PROVEEDORES(NOMBRE_PROVEEDOR,DIRECCION,TELEFONO,EXTENSION,CORREO,NUMERO_CUENTA)
+								   VALUES(@NOMBRE_PROVEEDOR,@DIRECCION,@TELEFONO,@EXTENSION,@CORREO,@NUMERO_CUENTA)
+								   SET @MSJ = 'Proveedor agregado correctamente'
+				END
+				/*Si ya está registrado lo vamos a actualizar*/
+			ELSE
+				BEGIN
+					UPDATE PROVEEDORES SET NOMBRE_PROVEEDOR = @NOMBRE_PROVEEDOR,
+										   DIRECCION = @DIRECCION,
+										   TELEFONO = @TELEFONO,
+										   EXTENSION = @EXTENSION,
+										   CORREO = @CORREO,
+										   NUMERO_CUENTA = @NUMERO_CUENTA
+					WHERE ID_PROVEEDOR= @ID_PROVEEDOR
+					SET @MSJ = 'Proveedor actualizado correctamente'
+				END
+		COMMIT TRANSACTION
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRANSACTION
+		SET @MSJ = ERROR_MESSAGE()
+	END CATCH
+END
+GO
+/*-------------------------------------------------------------------------------------------*/
+--EXECUTE STORED PROCEDURE #4
+GO
+DECLARE @RC int
+DECLARE @ID_PROVEEDOR int
+DECLARE @NOMBRE_PROVEEDOR varchar(20)
+DECLARE @DIRECCION varchar(100)
+DECLARE @TELEFONO varchar(20)
+DECLARE @EXTENSION int
+DECLARE @CORREO varchar(30)
+DECLARE @NUMERO_CUENTA varchar(30)
+DECLARE @MSJ varchar(100)
 
-/* TODO: INSERTAR, ACTUALIZAR Y ELIMINAR UN PROVEEDOR*/
-/* TODO: INSERTAR, ACTUALIZAR Y ELIMINAR UN PRODUCTO*/
+SET @ID_PROVEEDOR = 3
+SET @NOMBRE_PROVEEDOR = 'Cafe Montaña'
+SET @DIRECCION = 'Heredia'
+SET @TELEFONO = '26561236'
+SET @EXTENSION = 124
+SET @CORREO = 'ventar@montaña.com'
+SET @NUMERO_CUENTA = 'IBAN1245004588213'
+
+EXECUTE @RC = [dbo].[SP_AGREGAR_PROVEEDOR] 
+   @ID_PROVEEDOR OUTPUT
+  ,@NOMBRE_PROVEEDOR
+  ,@DIRECCION
+  ,@TELEFONO
+  ,@EXTENSION
+  ,@CORREO
+  ,@NUMERO_CUENTA
+  ,@MSJ OUTPUT
+  PRINT @MSJ
+GO
+/*-------------------------------------------------------------------------------------------*/
+/*CREAT EVERYTHING FROM SCRATCH TO LEARN MORE HOW TO DO IT*/
+-- 5- Se crea procedimiento almacenado para eliminar un proveedor
+GO
+CREATE OR ALTER PROCEDURE SP_ELIMINAR_PROVEEDOR(@ID_PROVEEDOR INT OUT,@MSJ VARCHAR(100) OUT)
+AS
+	BEGIN
+		BEGIN TRY
+			BEGIN TRANSACTION
+				IF(NOT EXISTS(SELECT 1 FROM PROVEEDORES WHERE ID_PROVEEDOR = @ID_PROVEEDOR))
+					BEGIN
+						SET @MSJ = 'No se encontraron registros'
+					END
+				ELSE
+					BEGIN
+						DELETE FROM PROVEEDORES WHERE ID_PROVEEDOR = @ID_PROVEEDOR
+						SET @MSJ = 'Proveedor eliminado correctamente'
+					END
+			COMMIT TRANSACTION			
+		END TRY
+		BEGIN CATCH
+			ROLLBACK TRANSACTION
+			SET @MSJ = ERROR_MESSAGE()
+		END CATCH
+	END
+GO
+/*-------------------------------------------------------------------------------------------*/
+--EXECUTE STORED PROCEDURE #5
+GO
+DECLARE @RC int
+DECLARE @ID_PROVEEDOR int
+DECLARE @MSJ varchar(100)
+
+SET @ID_PROVEEDOR = 0
+
+EXECUTE @RC = [dbo].[SP_ELIMINAR_PROVEEDOR] 
+   @ID_PROVEEDOR OUTPUT
+  ,@MSJ OUTPUT
+  PRINT @MSJ
+GO
+/*-------------------------------------------------------------------------------------------*/
+
+-- 6- Creamos un procedimiento almacenado que nos permita agregar un producto, si es producto existe lo podemos actualizar
+GO
+CREATE OR ALTER PROCEDURE SP_INSERTAR_PRODUCTO(@ID_PRODUCTO VARCHAR(50) OUT,
+											   @ID_PROVEEDOR INT,
+											   @DESCRIPCION VARCHAR(100),
+											   @PRECIO_UNIDAD DECIMAL(10,2),
+											   @MSJ VARCHAR(100) OUT)
+AS
+	BEGIN
+		BEGIN TRY
+			BEGIN TRANSACTION
+				IF(EXISTS(SELECT 1 FROM PRODUCTOS WHERE ID_PRODUCTO = @ID_PRODUCTO))
+					BEGIN
+						UPDATE PRODUCTOS SET ID_PROVEEDOR = @ID_PROVEEDOR,
+											 DESCRIPCION = @DESCRIPCION,
+											 PRECIO_UNIDAD = @PRECIO_UNIDAD
+						WHERE ID_PRODUCTO = @ID_PRODUCTO
+						SET @MSJ = 'Producto actualizado correctamente'
+					END
+				ELSE
+					BEGIN
+						INSERT INTO PRODUCTOS(ID_PRODUCTO,ID_PROVEEDOR,DESCRIPCION,PRECIO_UNIDAD)
+										VALUES(@ID_PRODUCTO,@ID_PROVEEDOR,@DESCRIPCION,@PRECIO_UNIDAD)
+						SET @MSJ = 'Producto agregado correctamente'
+					END
+			COMMIT TRANSACTION
+		END TRY
+		BEGIN CATCH
+			ROLLBACK TRANSACTION
+			SET @MSJ = ERROR_MESSAGE()
+		END CATCH
+	END
+GO
+
+/*-------------------------------------------------------------------------------------------*/
+--EXECUTE STORED PROCEDURE #6
+GO
+DECLARE @RC int
+DECLARE @ID_PRODUCTO VARCHAR(50)
+DECLARE @ID_PROVEEDOR int
+DECLARE @DESCRIPCION varchar(100)
+DECLARE @PRECIO_UNIDAD decimal(10,2)
+DECLARE @MSJ varchar(100)
+
+SET @ID_PRODUCTO = '1450045134501'
+SET @ID_PROVEEDOR = 3
+SET @DESCRIPCION = 'Cafe Tueste Claro 250G'
+SET @PRECIO_UNIDAD = 1100.00
+
+EXECUTE @RC = [dbo].[SP_INSERTAR_PRODUCTO] 
+   @ID_PRODUCTO OUTPUT
+  ,@ID_PROVEEDOR
+  ,@DESCRIPCION
+  ,@PRECIO_UNIDAD
+  ,@MSJ OUTPUT
+  PRINT @MSJ
+GO
+/*-------------------------------------------------------------------------------------------*/
+-- 7- procedimiento almacenado para eliminar un producto
+GO
+CREATE PROCEDURE SP_ELIMINAR_PRODUCTO(@ID_PRODUCTO VARCHAR(50) OUT, @MSJ VARCHAR(100) OUT)
+AS
+	BEGIN
+		BEGIN TRY
+			BEGIN TRANSACTION
+				IF(EXISTS(SELECT 1 FROM PRODUCTOS WHERE ID_PRODUCTO = @ID_PRODUCTO))
+					BEGIN
+						DELETE FROM PRODUCTOS WHERE ID_PRODUCTO = @ID_PRODUCTO
+						SET @MSJ = 'Producto eliminado correctamente'
+					END
+				ELSE
+					BEGIN
+						SET @MSJ = 'No se encontraron registros'
+					END
+			COMMIT TRANSACTION
+		END TRY
+		BEGIN CATCH
+			ROLLBACK TRANSACTION
+			SET @MSJ = ERROR_MESSAGE()
+		END CATCH
+	END
+GO
+/*-------------------------------------------------------------------------------------------*/
+/*EXECUTE STORED PROCEDURE #7*/
+GO
+DECLARE @RC int
+DECLARE @ID_PRODUCTO varchar(50)
+DECLARE @MSJ varchar(100)
+
+SET @ID_PRODUCTO = '1450045134501'
+
+EXECUTE @RC = [dbo].[SP_ELIMINAR_PRODUCTO] 
+   @ID_PRODUCTO OUTPUT
+  ,@MSJ OUTPUT
+  PRINT @MSJ
+GO
+/*-------------------------------------------------------------------------------------------
+-- 8- Creamos procedimiento almacenado para insertar un factura*/
+-- Recordemos que al insertar una factura debería de verse afectadas las tablas ventas e inventarios
+-- ademas, de la de facturas por supuesto.
+GO
+CREATE OR ALTER PROCEDURE SP_INSERTAR_FACTURA(@ID_FACTURA INT OUT,
+											  @ID_EMPLEADO INT,
+											  @ID_PRODUCTO VARCHAR(50),
+											  @DESCRIPCION VARCHAR(100),
+											  @CANTIDAD INT,
+											  @PRECIO_UNIDAD DECIMAL(10,2),
+											  @SUBTOTAL DECIMAL(10,2),
+											  @IVA DECIMAL(4,2),
+											  @DESCUENTO DECIMAL(4,2),
+											  @TOTAL DECIMAL(10,2),
+											  @MSJ VARCHAR(100) OUT)
+AS
+	BEGIN
+		BEGIN TRY
+			BEGIN TRANSACTION
+				IF(NOT EXISTS(SELECT 1 FROM FACTURAS WHERE ID_FACTURA = @ID_FACTURA))
+					BEGIN
+						INSERT INTO FACTURAS(ID_EMPLEADO,ID_PRODUCTO,DESCRIPCION,CANTIDAD,PRECIO_UNIDAD,SUBTOTAL,IVA,DESCUENTO,TOTAL)
+									  VALUES(@ID_EMPLEADO,@ID_PRODUCTO,@DESCRIPCION,@CANTIDAD,@PRECIO_UNIDAD,@SUBTOTAL,@IVA,@DESCUENTO,@TOTAL)
+						SET @MSJ = 'Factura insertada correctamente'
+					END
+				ELSE
+					BEGIN
+						UPDATE FACTURAS SET ID_EMPLEADO = @ID_EMPLEADO,
+											ID_PRODUCTO = @ID_PRODUCTO,
+											DESCRIPCION = @DESCRIPCION,
+											CANTIDAD = @CANTIDAD,
+											PRECIO_UNIDAD = @PRECIO_UNIDAD,
+											SUBTOTAL = @SUBTOTAL,
+											IVA = @IVA,
+											DESCUENTO = @DESCUENTO,
+											TOTAL = @TOTAL
+						WHERE ID_FACTURA = @ID_FACTURA
+						SET @MSJ = 'Factura actualiada correctamente'
+					END
+			COMMIT TRANSACTION
+		END TRY
+		BEGIN CATCH
+			ROLLBACK TRANSACTION
+			SET @MSJ = ERROR_MESSAGE()
+		END CATCH
+	END
+GO
+/*-------------------------------------------------------------------------------------------*/
+--EXECUTE STORED PROCEDURE #8
+GO
+DECLARE @RC int
+DECLARE @ID_FACTURA int
+DECLARE @ID_EMPLEADO int
+DECLARE @ID_PRODUCTO varchar(50)
+DECLARE @DESCRIPCION varchar(100)
+DECLARE @CANTIDAD int
+DECLARE @PRECIO_UNIDAD decimal(10,2)
+DECLARE @SUBTOTAL decimal(10,2)
+DECLARE @IVA decimal(4,2)
+DECLARE @DESCUENTO decimal(4,2)
+DECLARE @TOTAL decimal(10,2)
+DECLARE @MSJ varchar(100)
+
+SET @ID_EMPLEADO = 7
+SET @ID_PRODUCTO = '7896359014811'
+SET @DESCRIPCION = 'Fanta Fresa 300 ml'
+SET @CANTIDAD = 2
+SET @PRECIO_UNIDAD = 1300.00
+SET @SUBTOTAL = 2300.00
+SET @IVA = 0.13
+SET @DESCUENTO = 0
+SET @TOTAL = 2415.00
+
+EXECUTE @RC = [dbo].[SP_INSERTAR_FACTURA] 
+   @ID_FACTURA OUTPUT
+  ,@ID_EMPLEADO
+  ,@ID_PRODUCTO
+  ,@DESCRIPCION
+  ,@CANTIDAD
+  ,@PRECIO_UNIDAD
+  ,@SUBTOTAL
+  ,@IVA
+  ,@DESCUENTO
+  ,@TOTAL
+  ,@MSJ OUTPUT
+  PRINT @MSJ
+GO
+/*-------------------------------------------------------------------------------------------*/
+-- 9- Creamos un procedimiento almacenado que nos permita filtar las ventas según la fecha ingresada mediante consulta
+GO
+CREATE OR ALTER PROCEDURE SP_FILTRAR_VENTAS_XFECHA(@FECHA_SELECCIONADA DATE OUT)
+AS
+	BEGIN
+		SELECT ID_VENTA,ID_FACTURA,ID_EMPLEADO,ID_PRODUCTO,DESCRIPCION,FECHA_VENTA,CANTIDAD,PRECIO_UNIDAD,TOTAL AS [TOTAL FINAL]
+		FROM VENTAS 
+		WHERE FECHA_VENTA = @FECHA_SELECCIONADA
+	END
+GO
+/*-------------------------------------------------------------------------------------------*/
+--EXECUTE STORED PROCEDURE #9
+GO
+DECLARE @RC int
+DECLARE @FECHA_SELECCIONADA date
+
+SET @FECHA_SELECCIONADA = '2022-04-16'
+
+EXECUTE @RC = [dbo].[SP_FILTRAR_VENTAS_XFECHA] 
+   @FECHA_SELECCIONADA OUTPUT
+GO
+/*-------------------------------------------------------------------------------------------*/
+/*Creámos procedimiento almacenado para filtrar las ventas segun el id del vendedor mediante una consulta*/
+GO
+CREATE OR ALTER PROCEDURE SP_FILTRAR_VENTAS_XEMPLEADO(@ID_EMPLEADO INT OUT)
+AS
+	BEGIN
+		SELECT ID_VENTA,ID_FACTURA,ID_EMPLEADO,ID_PRODUCTO,DESCRIPCION,FECHA_VENTA,CANTIDAD,PRECIO_UNIDAD,TOTAL AS [TOTAL FINAL]
+		FROM VENTAS
+		WHERE ID_EMPLEADO = @ID_EMPLEADO
+	END
+
+GO
+/*-------------------------------------------------------------------------------------------*/
+--EXECUTE STORED PROCEDURE 
+GO
+
+DECLARE @RC int
+DECLARE @ID_EMPLEADO int
+
+SET @ID_EMPLEADO = 1
+
+EXECUTE @RC = [dbo].[SP_FILTRAR_VENTAS_XEMPLEADO] 
+   @ID_EMPLEADO OUTPUT
+GO
+--ventas según el empleado
+SELECT * FROM EMPLEADOS
+SELECT * FROM PRODUCTOS
+SELECT * FROM PROVEEDORES
+SELECT * FROM FACTURAS
+SELECT * FROM INVENTARIOS
+SELECT * FROM VENTAS
 
 
-  SELECT * FROM EMPLEADOS
