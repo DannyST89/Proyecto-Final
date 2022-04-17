@@ -118,7 +118,7 @@ ADD CONSTRAINT CKH_FECHA_VENTA CHECK(FECHA_VENTA <= GETDATE());
 GO
 /*--------------------------------------------------------------------------------*/
 
-/*Implementamos las relaciones entre las tabla*/
+/*Implementamos las relaciones entre las tablas*/
 
 /*Agregamos la referencia de la tabla PRODUCTOS la cual tiene relaciones con PROVEEDORES*/
 

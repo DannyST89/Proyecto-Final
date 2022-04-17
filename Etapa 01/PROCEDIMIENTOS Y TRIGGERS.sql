@@ -29,8 +29,8 @@ AS
 	
 
 	IF(EXISTS(SELECT ID_PRODUCTO FROM INVENTARIOS WHERE ID_PRODUCTO = @ID_PRODUCTO))
-	/*Actualizamos la tabla de inventario*/
-		UPDATE INVENTARIOS SET CANTIDAD_VENDIDA = @CANTIDAD, EXISTENCIA -= @CANTIDAD
+	--Actualizamos la tabla de inventario    (se suma la cantidad vendida a las vendidas anteriormente )
+		UPDATE INVENTARIOS SET CANTIDAD_VENDIDA += @CANTIDAD, EXISTENCIA -= @CANTIDAD
 		/*Insertamos la venta realizada en la tabla ventas*/
 		INSERT INTO VENTAS(ID_FACTURA,ID_EMPLEADO,ID_PRODUCTO,DESCRIPCION,CANTIDAD,PRECIO_UNIDAD,TOTAL)
 				VALUES(@ID_FACTURA,@ID_EMPLEADO,@ID_PRODUCTO,@DESCRIPCION,@CANTIDAD,@PRECIO_UNIDAD, @TOTAL)
@@ -460,7 +460,7 @@ DECLARE @MSJ varchar(100)
 SET @ID_EMPLEADO = 7
 SET @ID_PRODUCTO = '7896359014811'
 SET @DESCRIPCION = 'Fanta Fresa 300 ml'
-SET @CANTIDAD = 2
+SET @CANTIDAD = 5
 SET @PRECIO_UNIDAD = 1300.00
 SET @SUBTOTAL = 2300.00
 SET @IVA = 0.13
@@ -504,7 +504,7 @@ EXECUTE @RC = [dbo].[SP_FILTRAR_VENTAS_XFECHA]
    @FECHA_SELECCIONADA OUTPUT
 GO
 /*-------------------------------------------------------------------------------------------*/
-/*Creámos procedimiento almacenado para filtrar las ventas segun el id del vendedor mediante una consulta*/
+/* 10- Creámos procedimiento almacenado para filtrar las ventas segun el id del vendedor mediante una consulta*/
 GO
 CREATE OR ALTER PROCEDURE SP_FILTRAR_VENTAS_XEMPLEADO(@ID_EMPLEADO INT OUT)
 AS
@@ -515,24 +515,254 @@ AS
 	END
 
 GO
-/*-------------------------------------------------------------------------------------------*/
---EXECUTE STORED PROCEDURE 
-GO
 
+--EXECUTE STORED PROCEDURE #10
+GO
 DECLARE @RC int
 DECLARE @ID_EMPLEADO int
 
-SET @ID_EMPLEADO = 1
+SET @ID_EMPLEADO = 7
 
 EXECUTE @RC = [dbo].[SP_FILTRAR_VENTAS_XEMPLEADO] 
    @ID_EMPLEADO OUTPUT
 GO
---ventas según el empleado
-SELECT * FROM EMPLEADOS
-SELECT * FROM PRODUCTOS
-SELECT * FROM PROVEEDORES
-SELECT * FROM FACTURAS
-SELECT * FROM INVENTARIOS
-SELECT * FROM VENTAS
+/*-------------------------------------------------------------------------------------------*/
+-- 11- Se crea el procedimiento almacenado para insertar un cliente
+GO
+CREATE OR ALTER PROCEDURE SP_INSERTAR_CLIENTE(@ID_CLIENTE INT OUT,
+											  @ID_FACTURA INT,
+											  @NUM_IDENTIFICACION VARCHAR(20),
+											  @NOMBRE_CLIENTE VARCHAR(20),
+											  @APELLIDO1 VARCHAR(20),
+											  @APELLIDO2 VARCHAR(20),
+											  @TELEFONO VARCHAR(20),
+											  @DIRECCION VARCHAR(100),
+											  @MSJ VARCHAR(100) OUT)
+AS
+	BEGIN
+		BEGIN TRY
+			BEGIN TRANSACTION
+				IF(NOT EXISTS(SELECT 1 FROM CLIENTES WHERE ID_CLIENTE = @ID_CLIENTE))
+					BEGIN
+						INSERT INTO CLIENTES(ID_FACTURA,NUM_IDENTIFICACION,NOMBRE_CLIENTE,APELLIDO1,APELLIDO2,TELEFONO,DIRECCION)
+									  VALUES( @ID_FACTURA,
+											  @NUM_IDENTIFICACION,
+											  @NOMBRE_CLIENTE,
+											  @APELLIDO1,
+											  @APELLIDO2,
+											  @TELEFONO,
+											  @DIRECCION)
+						SET @MSJ = 'Cliente ingresado correctamente'
+						
+					END
+				ELSE
+					BEGIN
+						UPDATE CLIENTES SET ID_FACTURA = @ID_FACTURA,
+											NUM_IDENTIFICACION = @NUM_IDENTIFICACION,
+											NOMBRE_CLIENTE = @NOMBRE_CLIENTE,
+											APELLIDO1 = @APELLIDO1,
+											APELLIDO2 = @APELLIDO2,
+											TELEFONO = @TELEFONO,
+											DIRECCION = @DIRECCION
+						WHERE ID_CLIENTE = @ID_CLIENTE
+						SET @MSJ = 'Cliente actualizado correctamente'
+					END
+			COMMIT TRANSACTION
+		END TRY
+		BEGIN CATCH
+			ROLLBACK TRANSACTION
+			SET @MSJ = ERROR_MESSAGE()
+		END CATCH
+	END
+GO
+--EXECUTE STORED PRECEDURE #11
+GO
+
+DECLARE @RC int
+DECLARE @ID_CLIENTE int
+DECLARE @ID_FACTURA int
+DECLARE @NUM_IDENTIFICACION varchar(20)
+DECLARE @NOMBRE_CLIENTE varchar(20)
+DECLARE @APELLIDO1 varchar(20)
+DECLARE @APELLIDO2 varchar(20)
+DECLARE @TELEFONO varchar(20)
+DECLARE @DIRECCION varchar(100)
+DECLARE @MSJ varchar(100)
+
+SET @ID_CLIENTE = 1
+SET @ID_FACTURA = 4
+SET @NUM_IDENTIFICACION = '202314569'
+SET @NOMBRE_CLIENTE = 'Miguel'
+SET @APELLIDO1 = 'Ruiz'
+SET @APELLIDO2 = 'Gómez'
+SET @TELEFONO = '84576932'
+SET @DIRECCION = 'Alajuela'
 
 
+EXECUTE @RC = [dbo].[SP_INSERTAR_CLIENTE] 
+   @ID_CLIENTE OUTPUT
+  ,@ID_FACTURA
+  ,@NUM_IDENTIFICACION
+  ,@NOMBRE_CLIENTE
+  ,@APELLIDO1
+  ,@APELLIDO2
+  ,@TELEFONO
+  ,@DIRECCION
+  ,@MSJ OUTPUT
+  PRINT @MSJ
+GO
+/*-------------------------------------------------------------------------------------------*/
+-- 12- se desarrolla procedimiento almacenado para eliminar un cliente
+GO
+CREATE OR ALTER PROCEDURE SP_ELIMINAR_CLIENTE(@ID_CLIENTE INT OUT, @MSJ VARCHAR(100) OUT)
+AS
+	BEGIN
+		BEGIN TRY
+			BEGIN TRANSACTION	
+				IF(EXISTS(SELECT 1 FROM CLIENTES WHERE ID_CLIENTE = @ID_CLIENTE))
+					BEGIN
+						DELETE FROM CLIENTES WHERE ID_CLIENTE = @ID_CLIENTE
+						SET @MSJ = 'Eliminado correctamente'
+					END
+				ELSE
+					SET @MSJ = 'No se encontraron registros'
+			COMMIT TRANSACTION
+		END TRY
+		BEGIN CATCH
+			ROLLBACK TRANSACTION
+			SET @MSJ = ERROR_MESSAGE()
+		END CATCH
+	END
+GO
+/*-------------------------------------------------------------------------------------------*/
+--EXECUTE PROCEDURE #12
+GO
+
+DECLARE @RC int
+DECLARE @ID_CLIENTE int
+DECLARE @MSJ varchar(100)
+
+SET @ID_CLIENTE = 1
+
+EXECUTE @RC = [dbo].[SP_ELIMINAR_CLIENTE] 
+   @ID_CLIENTE OUTPUT
+  ,@MSJ OUTPUT
+  PRINT @MSJ
+GO
+-- 13- Se crea el procedimiento almacenado para actualizar el inventario
+GO
+CREATE OR ALTER PROCEDURE SP_ACTUALIZAR_INVENTARIO(@ID_INVENTARIO INT OUT,
+												   @ID_PRODUCTO VARCHAR(50),
+												   @DESCRIPTION VARCHAR(100),
+												   @CANTIDAD_INGRESADO INT,
+												   @EXISTENCIA INT,
+												   @CANTIDAD_VENDIDA INT,
+												   @PRECIO_UNIDAD DECIMAL(10,2),
+												   @MSJ VARCHAR(100) OUT)
+AS
+	BEGIN
+		BEGIN TRY
+			BEGIN TRANSACTION
+				IF(EXISTS(SELECT 1 FROM INVENTARIOS WHERE ID_INVENTARIO = @ID_INVENTARIO))
+					BEGIN
+						UPDATE INVENTARIOS SET ID_PRODUCTO = @ID_PRODUCTO,
+											   DESCRIPCION = @DESCRIPTION,
+											   CANTIDA_INGRESADA = @CANTIDAD_INGRESADO,
+											   EXISTENCIA =  @EXISTENCIA,
+											   CANTIDAD_VENDIDA = @CANTIDAD_VENDIDA,
+											   PRECIO_UNIDAD = @PRECIO_UNIDAD
+						WHERE ID_INVENTARIO = @ID_INVENTARIO
+						SET @MSJ = 'Inventario actualizado correctamente'
+					END
+				ELSE
+					BEGIN
+						SET @MSJ = 'No se encontraron registros'
+					END
+			COMMIT TRANSACTION
+		END TRY
+		BEGIN CATCH
+			ROLLBACK TRANSACTION
+			SET @MSJ = ERROR_MESSAGE()
+		END CATCH
+	END
+GO
+/*-------------------------------------------------------------------------------------------*/
+--EXECUTE STORED PROCEDURE #13
+GO
+
+DECLARE @RC int
+DECLARE @ID_INVENTARIO int
+DECLARE @ID_PRODUCTO varchar(50)
+DECLARE @DESCRIPTION varchar(100)
+DECLARE @CANTIDAD_INGRESADO int
+DECLARE @EXISTENCIA int
+DECLARE @CANTIDAD_VENDIDA int
+DECLARE @PRECIO_UNIDAD decimal(10,2)
+DECLARE @MSJ varchar(100)
+
+SET @ID_INVENTARIO = 1
+SET @ID_PRODUCTO = '7896359014811'
+SET @DESCRIPTION = 'Fanta Fresa 300 ml'
+SET @CANTIDAD_INGRESADO = 10
+SET @EXISTENCIA = 100
+SET @CANTIDAD_VENDIDA = 13
+SET @PRECIO_UNIDAD = 450.00
+
+
+EXECUTE @RC = [dbo].[SP_ACTUALIZAR_INVENTARIO] 
+   @ID_INVENTARIO OUTPUT
+  ,@ID_PRODUCTO
+  ,@DESCRIPTION
+  ,@CANTIDAD_INGRESADO
+  ,@EXISTENCIA
+  ,@CANTIDAD_VENDIDA
+  ,@PRECIO_UNIDAD
+  ,@MSJ OUTPUT
+  PRINT @MSJ
+GO
+/*-------------------------------------------------------------------------------------------*/
+-- 14- Creámos procedimiento almacenado para eliminar un producto del inventario
+GO
+CREATE OR ALTER PROCEDURE SP_ELIMINAR_PRODUCTO_INVENTARIO(@ID_INVENTARIO INT OUT, @MSJ VARCHAR(100) OUT)
+AS
+	BEGIN
+		BEGIN TRY
+			BEGIN TRANSACTION	
+				IF(EXISTS(SELECT 1 FROM INVENTARIOS WHERE ID_INVENTARIO = @ID_INVENTARIO))
+					BEGIN
+						DELETE FROM INVENTARIOS WHERE ID_INVENTARIO = @ID_INVENTARIO
+						SET @MSJ = 'Eliminado correctamente'
+					END
+				ELSE
+					SET @MSJ = 'No se encontraron registros'
+			COMMIT TRANSACTION
+		END TRY
+		BEGIN CATCH
+			ROLLBACK TRANSACTION
+			SET @MSJ = ERROR_MESSAGE()
+		END CATCH
+	END
+GO
+/*-------------------------------------------------------------------------------------------*/
+--EXECUTE STORED PRECEDURE #14
+GO
+
+DECLARE @RC int
+DECLARE @ID_INVENTARIO int
+DECLARE @MSJ varchar(100)
+
+SET @ID_INVENTARIO = 1
+
+EXECUTE @RC = [dbo].[SP_ELIMINAR_PRODUCTO_INVENTARIO] 
+   @ID_INVENTARIO OUTPUT
+  ,@MSJ OUTPUT
+GO
+/*-------------------------------------------------------------------------------------------*/
+-- 15- creámos procedimiento almacenado para actualizar una venta
+CREATE OR ALTER PROCEDURE SP_ACTUALIZAR_VENTAS
+
+
+
+
+-- 16- Creámos procedimiento almacenado para eliminar una venta
+CREATE OR ALTER PROCEDURE SP_ELIMINAR_VENTAS
