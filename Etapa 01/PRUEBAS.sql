@@ -80,7 +80,51 @@ BEGIN
 END
 GO
 /*-------------------------------------------------------------------------------------------*/
--- 3- Creamos procedimiento almacenado para eliminar un empleado
+
+/*Ejecutamos el procedimiento almacenado SP_INSERTAR_EMPLEADO*/
+GO	
+DECLARE @RC int
+DECLARE @ID_EMPLEADO int
+DECLARE @NOMBRE varchar(20)
+DECLARE @PRIMER_APELLIDO varchar(20)
+DECLARE @SEGUNDO_APELLIDO varchar(20)
+DECLARE @TELEFONO varchar(20)
+DECLARE @CORREO varchar(20)
+DECLARE @DIRECCION varchar(100)
+DECLARE @CARGO varchar(30)
+DECLARE @FECHA_INGRESO date
+DECLARE @NOMBRE_USUARIO varchar(20)
+DECLARE @CONTRASENIA varchar(15)
+DECLARE @MSJ varchar(100)
+
+SET @ID_EMPLEADO = 1
+SET @NOMBRE = 'Danny'
+SET @PRIMER_APELLIDO = 'Soto'
+SET @SEGUNDO_APELLIDO = 'Jiménez'
+SET @TELEFONO = '84111915'
+SET @CORREO = 'dnnst89@gmail.com'
+SET @DIRECCION = 'Atenas'
+SET @CARGO = 'Cajero'
+SET @FECHA_INGRESO = GETDATE()
+SET @NOMBRE_USUARIO = 'Dsoto'
+SET @CONTRASENIA = 'Danny89'
+
+EXECUTE @RC = [dbo].[SP_INSERTAR_EMPLEADO] 
+   @ID_EMPLEADO OUTPUT
+  ,@NOMBRE
+  ,@PRIMER_APELLIDO
+  ,@SEGUNDO_APELLIDO
+  ,@TELEFONO
+  ,@CORREO
+  ,@DIRECCION
+  ,@CARGO
+  ,@FECHA_INGRESO
+  ,@NOMBRE_USUARIO
+  ,@CONTRASENIA
+  ,@MSJ OUTPUT
+  PRINT @MSJ
+/*-------------------------------------------------------------------------------------------*/
+--Creamos procedimiento almacenado para eliminar un empleado
 GO
 CREATE OR ALTER PROCEDURE SP_ELIMINAR_EMPLEADO(@ID_EMPLEADO INT OUT,@MSJ VARCHAR(100) OUT)
 AS
@@ -107,7 +151,7 @@ GO
 
 /*-------------------------------------------------------------------------------------------*/
 
-/* 4- Creámos procedimiento almacenado para cambiar el estado de un empleado a INA ya que no se podrá eliminar completamente*/
+/* 3- Creámos procedimiento almacenado para cambiar el estado de un empleado a INA ya que no se podrá eliminar completamente*/
 GO
 CREATE OR ALTER PROCEDURE SP_ESTADO_EMPLEADO_INA(@ID_EMPLEADO INT OUT, @MSJ VARCHAR(100) OUT)
 AS
@@ -130,9 +174,24 @@ BEGIN
 END
 GO
 /*-------------------------------------------------------------------------------------------*/
-/* 5- Precedimiento almacenado para insertar un provedor, si existe lo actualiza*/
+/*Ejecutamos el procedimiento almacenado SP_ESTADO_EMPLEADO_INA*/
+
 GO
-CREATE PROCEDURE SP_INSERTAR_PROVEEDOR(@ID_PROVEEDOR INT OUT,@NOMBRE_PROVEEDOR VARCHAR(20),@DIRECCION VARCHAR(100),@TELEFONO VARCHAR(20),
+DECLARE @RC int
+DECLARE @ID_EMPLEADO int
+DECLARE @MSJ varchar(100)
+
+SET @ID_EMPLEADO = 1
+
+EXECUTE @RC = [dbo].[SP_ESTADO_EMPLEADO_INA] 
+   @ID_EMPLEADO OUTPUT
+  ,@MSJ OUTPUT
+  PRINT @MSJ
+GO
+/*-------------------------------------------------------------------------------------------*/
+/* 4- Precedimiento almacenado para insertar un provedor, si existe lo actualiza*/
+GO
+CREATE OR ALTER PROCEDURE SP_INSERTAR_PROVEEDOR(@ID_PROVEEDOR INT OUT,@NOMBRE_PROVEEDOR VARCHAR(20),@DIRECCION VARCHAR(100),@TELEFONO VARCHAR(20),
 											   @EXTENSION INT,@CORREO VARCHAR(30),@NUMERO_CUENTA VARCHAR(30), @MSJ VARCHAR(100) OUT)
 AS
 BEGIN
@@ -164,10 +223,42 @@ BEGIN
 		SET @MSJ = ERROR_MESSAGE()
 	END CATCH
 END
+GO
 /*-------------------------------------------------------------------------------------------*/
+--EXECUTE STORED PROCEDURE #4
+GO
+DECLARE @RC int
+DECLARE @ID_PROVEEDOR int
+DECLARE @NOMBRE_PROVEEDOR varchar(20)
+DECLARE @DIRECCION varchar(100)
+DECLARE @TELEFONO varchar(20)
+DECLARE @EXTENSION int
+DECLARE @CORREO varchar(30)
+DECLARE @NUMERO_CUENTA varchar(30)
+DECLARE @MSJ varchar(100)
+
+SET @ID_PROVEEDOR = 3
+SET @NOMBRE_PROVEEDOR = 'Cafe Montaña'
+SET @DIRECCION = 'Heredia'
+SET @TELEFONO = '26561236'
+SET @EXTENSION = 124
+SET @CORREO = 'ventar@montaña.com'
+SET @NUMERO_CUENTA = 'IBAN1245004588213'
+
+EXECUTE @RC = [dbo].[SP_AGREGAR_PROVEEDOR] 
+   @ID_PROVEEDOR OUTPUT
+  ,@NOMBRE_PROVEEDOR
+  ,@DIRECCION
+  ,@TELEFONO
+  ,@EXTENSION
+  ,@CORREO
+  ,@NUMERO_CUENTA
+  ,@MSJ OUTPUT
+  PRINT @MSJ
+GO
 /*-------------------------------------------------------------------------------------------*/
 /*CREAT EVERYTHING FROM SCRATCH TO LEARN MORE HOW TO DO IT*/
--- 6- Se crea procedimiento almacenado para eliminar un proveedor
+-- 5- Se crea procedimiento almacenado para eliminar un proveedor
 GO
 CREATE OR ALTER PROCEDURE SP_ELIMINAR_PROVEEDOR(@ID_PROVEEDOR INT OUT,@MSJ VARCHAR(100) OUT)
 AS
@@ -192,8 +283,22 @@ AS
 	END
 GO
 /*-------------------------------------------------------------------------------------------*/
+--EXECUTE STORED PROCEDURE #5
+GO
+DECLARE @RC int
+DECLARE @ID_PROVEEDOR int
+DECLARE @MSJ varchar(100)
 
--- 7- Creamos un procedimiento almacenado que nos permita agregar un producto, si es producto existe lo podemos actualizar
+SET @ID_PROVEEDOR = 0
+
+EXECUTE @RC = [dbo].[SP_ELIMINAR_PROVEEDOR] 
+   @ID_PROVEEDOR OUTPUT
+  ,@MSJ OUTPUT
+  PRINT @MSJ
+GO
+/*-------------------------------------------------------------------------------------------*/
+
+-- 6- Creamos un procedimiento almacenado que nos permita agregar un producto, si es producto existe lo podemos actualizar
 GO
 CREATE OR ALTER PROCEDURE SP_INSERTAR_PRODUCTO(@ID_PRODUCTO VARCHAR(50) OUT,
 											   @ID_PROVEEDOR INT,
@@ -226,8 +331,32 @@ AS
 		END CATCH
 	END
 GO
+
 /*-------------------------------------------------------------------------------------------*/
--- 8- procedimiento almacenado para eliminar un producto
+--EXECUTE STORED PROCEDURE #6
+GO
+DECLARE @RC int
+DECLARE @ID_PRODUCTO VARCHAR(50)
+DECLARE @ID_PROVEEDOR int
+DECLARE @DESCRIPCION varchar(100)
+DECLARE @PRECIO_UNIDAD decimal(10,2)
+DECLARE @MSJ varchar(100)
+
+SET @ID_PRODUCTO = '1450045134501'
+SET @ID_PROVEEDOR = 3
+SET @DESCRIPCION = 'Cafe Tueste Claro 250G'
+SET @PRECIO_UNIDAD = 1100.00
+
+EXECUTE @RC = [dbo].[SP_INSERTAR_PRODUCTO] 
+   @ID_PRODUCTO OUTPUT
+  ,@ID_PROVEEDOR
+  ,@DESCRIPCION
+  ,@PRECIO_UNIDAD
+  ,@MSJ OUTPUT
+  PRINT @MSJ
+GO
+/*-------------------------------------------------------------------------------------------*/
+-- 7- procedimiento almacenado para eliminar un producto
 GO
 CREATE PROCEDURE SP_ELIMINAR_PRODUCTO(@ID_PRODUCTO VARCHAR(50) OUT, @MSJ VARCHAR(100) OUT)
 AS
@@ -252,7 +381,21 @@ AS
 	END
 GO
 /*-------------------------------------------------------------------------------------------*/
--- 9- Creamos procedimiento almacenado para insertar un factura*/
+/*EXECUTE STORED PROCEDURE #7*/
+GO
+DECLARE @RC int
+DECLARE @ID_PRODUCTO varchar(50)
+DECLARE @MSJ varchar(100)
+
+SET @ID_PRODUCTO = '1450045134501'
+
+EXECUTE @RC = [dbo].[SP_ELIMINAR_PRODUCTO] 
+   @ID_PRODUCTO OUTPUT
+  ,@MSJ OUTPUT
+  PRINT @MSJ
+GO
+/*-------------------------------------------------------------------------------------------
+-- 8- Creamos procedimiento almacenado para insertar un factura*/
 -- Recordemos que al insertar una factura debería de verse afectadas las tablas ventas e inventarios
 -- ademas, de la de facturas por supuesto.
 GO
@@ -300,7 +443,47 @@ AS
 	END
 GO
 /*-------------------------------------------------------------------------------------------*/
--- 10- Creamos un procedimiento almacenado que nos permita filtar las ventas según la fecha ingresada mediante consulta
+--EXECUTE STORED PROCEDURE #8
+GO
+DECLARE @RC int
+DECLARE @ID_FACTURA int
+DECLARE @ID_EMPLEADO int
+DECLARE @ID_PRODUCTO varchar(50)
+DECLARE @DESCRIPCION varchar(100)
+DECLARE @CANTIDAD int
+DECLARE @PRECIO_UNIDAD decimal(10,2)
+DECLARE @SUBTOTAL decimal(10,2)
+DECLARE @IVA decimal(4,2)
+DECLARE @DESCUENTO decimal(4,2)
+DECLARE @TOTAL decimal(10,2)
+DECLARE @MSJ varchar(100)
+
+SET @ID_EMPLEADO = 7
+SET @ID_PRODUCTO = '7896359014811'
+SET @DESCRIPCION = 'Fanta Fresa 300 ml'
+SET @CANTIDAD = 5
+SET @PRECIO_UNIDAD = 1300.00
+SET @SUBTOTAL = 2300.00
+SET @IVA = 0.13
+SET @DESCUENTO = 0
+SET @TOTAL = 2415.00
+
+EXECUTE @RC = [dbo].[SP_INSERTAR_FACTURA] 
+   @ID_FACTURA OUTPUT
+  ,@ID_EMPLEADO
+  ,@ID_PRODUCTO
+  ,@DESCRIPCION
+  ,@CANTIDAD
+  ,@PRECIO_UNIDAD
+  ,@SUBTOTAL
+  ,@IVA
+  ,@DESCUENTO
+  ,@TOTAL
+  ,@MSJ OUTPUT
+  PRINT @MSJ
+GO
+/*-------------------------------------------------------------------------------------------*/
+-- 9- Creamos un procedimiento almacenado que nos permita filtar las ventas según la fecha ingresada mediante consulta
 GO
 CREATE OR ALTER PROCEDURE SP_FILTRAR_VENTAS_XFECHA(@FECHA_SELECCIONADA DATE OUT)
 AS
@@ -311,7 +494,18 @@ AS
 	END
 GO
 /*-------------------------------------------------------------------------------------------*/
-/* 11- Creámos procedimiento almacenado para filtrar las ventas segun el id del vendedor mediante una consulta*/
+--EXECUTE STORED PROCEDURE #9
+GO
+DECLARE @RC int
+DECLARE @FECHA_SELECCIONADA date
+
+SET @FECHA_SELECCIONADA = '2022-04-16'
+
+EXECUTE @RC = [dbo].[SP_FILTRAR_VENTAS_XFECHA] 
+   @FECHA_SELECCIONADA OUTPUT
+GO
+/*-------------------------------------------------------------------------------------------*/
+/* 10- Creámos procedimiento almacenado para filtrar las ventas segun el id del vendedor mediante una consulta*/
 GO
 CREATE OR ALTER PROCEDURE SP_FILTRAR_VENTAS_XEMPLEADO(@ID_EMPLEADO INT OUT)
 AS
@@ -321,6 +515,102 @@ AS
 		WHERE ID_EMPLEADO = @ID_EMPLEADO
 	END
 
+GO
+
+--EXECUTE STORED PROCEDURE #10
+GO
+DECLARE @RC int
+DECLARE @ID_EMPLEADO int
+
+SET @ID_EMPLEADO = 7
+
+EXECUTE @RC = [dbo].[SP_FILTRAR_VENTAS_XEMPLEADO] 
+   @ID_EMPLEADO OUTPUT
+GO
+/*-------------------------------------------------------------------------------------------*/
+-- 11- Se crea el procedimiento almacenado para insertar un cliente
+GO
+CREATE OR ALTER PROCEDURE SP_INSERTAR_CLIENTE(@ID_CLIENTE INT OUT,
+											  @ID_FACTURA INT,
+											  @NUM_IDENTIFICACION VARCHAR(20),
+											  @NOMBRE_CLIENTE VARCHAR(20),
+											  @APELLIDO1 VARCHAR(20),
+											  @APELLIDO2 VARCHAR(20),
+											  @TELEFONO VARCHAR(20),
+											  @DIRECCION VARCHAR(100),
+											  @MSJ VARCHAR(100) OUT)
+AS
+	BEGIN
+		BEGIN TRY
+			BEGIN TRANSACTION
+				IF(NOT EXISTS(SELECT 1 FROM CLIENTES WHERE ID_CLIENTE = @ID_CLIENTE))
+					BEGIN
+						INSERT INTO CLIENTES(ID_FACTURA,NUM_IDENTIFICACION,NOMBRE_CLIENTE,APELLIDO1,APELLIDO2,TELEFONO,DIRECCION)
+									  VALUES( @ID_FACTURA,
+											  @NUM_IDENTIFICACION,
+											  @NOMBRE_CLIENTE,
+											  @APELLIDO1,
+											  @APELLIDO2,
+											  @TELEFONO,
+											  @DIRECCION)
+						SET @MSJ = 'Cliente ingresado correctamente'
+						
+					END
+				ELSE
+					BEGIN
+						UPDATE CLIENTES SET ID_FACTURA = @ID_FACTURA,
+											NUM_IDENTIFICACION = @NUM_IDENTIFICACION,
+											NOMBRE_CLIENTE = @NOMBRE_CLIENTE,
+											APELLIDO1 = @APELLIDO1,
+											APELLIDO2 = @APELLIDO2,
+											TELEFONO = @TELEFONO,
+											DIRECCION = @DIRECCION
+						WHERE ID_CLIENTE = @ID_CLIENTE
+						SET @MSJ = 'Cliente actualizado correctamente'
+					END
+			COMMIT TRANSACTION
+		END TRY
+		BEGIN CATCH
+			ROLLBACK TRANSACTION
+			SET @MSJ = ERROR_MESSAGE()
+		END CATCH
+	END
+GO
+--EXECUTE STORED PRECEDURE #11
+GO
+
+DECLARE @RC int
+DECLARE @ID_CLIENTE int
+DECLARE @ID_FACTURA int
+DECLARE @NUM_IDENTIFICACION varchar(20)
+DECLARE @NOMBRE_CLIENTE varchar(20)
+DECLARE @APELLIDO1 varchar(20)
+DECLARE @APELLIDO2 varchar(20)
+DECLARE @TELEFONO varchar(20)
+DECLARE @DIRECCION varchar(100)
+DECLARE @MSJ varchar(100)
+
+SET @ID_CLIENTE = 1
+SET @ID_FACTURA = 4
+SET @NUM_IDENTIFICACION = '202314569'
+SET @NOMBRE_CLIENTE = 'Miguel'
+SET @APELLIDO1 = 'Ruiz'
+SET @APELLIDO2 = 'Gómez'
+SET @TELEFONO = '84576932'
+SET @DIRECCION = 'Alajuela'
+
+
+EXECUTE @RC = [dbo].[SP_INSERTAR_CLIENTE] 
+   @ID_CLIENTE OUTPUT
+  ,@ID_FACTURA
+  ,@NUM_IDENTIFICACION
+  ,@NOMBRE_CLIENTE
+  ,@APELLIDO1
+  ,@APELLIDO2
+  ,@TELEFONO
+  ,@DIRECCION
+  ,@MSJ OUTPUT
+  PRINT @MSJ
 GO
 /*-------------------------------------------------------------------------------------------*/
 -- 12- se desarrolla procedimiento almacenado para eliminar un cliente
@@ -346,6 +636,20 @@ AS
 	END
 GO
 /*-------------------------------------------------------------------------------------------*/
+--EXECUTE PROCEDURE #12
+GO
+
+DECLARE @RC int
+DECLARE @ID_CLIENTE int
+DECLARE @MSJ varchar(100)
+
+SET @ID_CLIENTE = 1
+
+EXECUTE @RC = [dbo].[SP_ELIMINAR_CLIENTE] 
+   @ID_CLIENTE OUTPUT
+  ,@MSJ OUTPUT
+  PRINT @MSJ
+GO
 -- 13- Se crea el procedimiento almacenado para actualizar el inventario
 GO
 CREATE OR ALTER PROCEDURE SP_ACTUALIZAR_INVENTARIO(@ID_INVENTARIO INT OUT,
@@ -383,7 +687,40 @@ AS
 		END CATCH
 	END
 GO
+/*-------------------------------------------------------------------------------------------*/
+--EXECUTE STORED PROCEDURE #13
+GO
 
+DECLARE @RC int
+DECLARE @ID_INVENTARIO int
+DECLARE @ID_PRODUCTO varchar(50)
+DECLARE @DESCRIPTION varchar(100)
+DECLARE @CANTIDAD_INGRESADO int
+DECLARE @EXISTENCIA int
+DECLARE @CANTIDAD_VENDIDA int
+DECLARE @PRECIO_UNIDAD decimal(10,2)
+DECLARE @MSJ varchar(100)
+
+SET @ID_INVENTARIO = 1
+SET @ID_PRODUCTO = '7896359014811'
+SET @DESCRIPTION = 'Fanta Fresa 300 ml'
+SET @CANTIDAD_INGRESADO = 10
+SET @EXISTENCIA = 100
+SET @CANTIDAD_VENDIDA = 13
+SET @PRECIO_UNIDAD = 450.00
+
+
+EXECUTE @RC = [dbo].[SP_ACTUALIZAR_INVENTARIO] 
+   @ID_INVENTARIO OUTPUT
+  ,@ID_PRODUCTO
+  ,@DESCRIPTION
+  ,@CANTIDAD_INGRESADO
+  ,@EXISTENCIA
+  ,@CANTIDAD_VENDIDA
+  ,@PRECIO_UNIDAD
+  ,@MSJ OUTPUT
+  PRINT @MSJ
+GO
 /*-------------------------------------------------------------------------------------------*/
 -- 14- Creámos procedimiento almacenado para eliminar un producto del inventario
 GO
@@ -408,7 +745,22 @@ AS
 	END
 GO
 /*-------------------------------------------------------------------------------------------*/
+--EXECUTE STORED PRECEDURE #14
+GO
+
+DECLARE @RC int
+DECLARE @ID_INVENTARIO int
+DECLARE @MSJ varchar(100)
+
+SET @ID_INVENTARIO = 1
+
+EXECUTE @RC = [dbo].[SP_ELIMINAR_PRODUCTO_INVENTARIO] 
+   @ID_INVENTARIO OUTPUT
+  ,@MSJ OUTPUT
+GO
+/*-------------------------------------------------------------------------------------------*/
 ---- 15- Creámos procedimiento almacenado para eliminar una venta
+GO
 CREATE OR ALTER PROCEDURE SP_ELIMINAR_VENTAS(@ID_VENTA INT OUT, @MSJ VARCHAR(100) OUT)
 AS
 	BEGIN	
@@ -432,6 +784,22 @@ AS
 	END
 GO
 /*-------------------------------------------------------------------------------------------*/
+--EXECUTE STORED PROCEDURE #15
+GO
+
+DECLARE @RC int
+DECLARE @ID_VENTA int
+DECLARE @MSJ varchar(100)
+
+SET @ID_VENTA = 3
+
+EXECUTE @RC = [dbo].[SP_ELIMINAR_VENTAS] 
+   @ID_VENTA OUTPUT
+  ,@MSJ OUTPUT
+  PRINT @MSJ
+GO
+/*-------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------*/
 -- 16-- crear un trigger que se dispare al eliminar una venta, 
 --       restando de inventarios la cantidad vendida y la existencia de ese producto vendido. además se debe eliminar los registros de la tabla facturas
 --       este trigger se crea con la razón de que se realiza una factura pero el cliente finalmente 
@@ -441,12 +809,11 @@ CREATE OR ALTER TRIGGER TR_FD_VENTAS
 ON VENTAS
 FOR DELETE
 AS --Obtenemos los valores para eliminar y actualizar las tablas requeridas
-	DECLARE @ID_FACTURA INT
 	DECLARE @ID_VENTA INT
 	DECLARE @ID_PRODUCTO VARCHAR(50) -- Para localizar en inventarios el producto
 	DECLARE @CANTIDAD_VENDIDA INT -- Después de localizar el id, necesitamos actulizar los datos restando la cantidad vendida
-	SET @ID_FACTURA = (SELECT ID_FACTURA FROM deleted)						  -- la cual será eliminada en la tabla ventas
-	SET @ID_VENTA = (SELECT ID_VENTA FROM deleted)
+								  -- la cual será eliminada en la tabla ventas
+	SET @ID_VENTA = (SELECT ID_VENTA FROM inserted)
 	SET @ID_PRODUCTO = (SELECT ID_PRODUCTO FROM deleted)
 	SET @CANTIDAD_VENDIDA = (SELECT CANTIDAD FROM deleted)
 
@@ -456,7 +823,29 @@ AS --Obtenemos los valores para eliminar y actualizar las tablas requeridas
 		-- Actualizamos la existencia sumandole la cantidad vendida eliminada, ya que la crearse la factura se restó de existencia
 							   EXISTENCIA += @CANTIDAD_VENDIDA
 		WHERE ID_PRODUCTO = @ID_PRODUCTO
-		 -- Eliminamos en facturas la factura eliminada en ventas
-		DELETE FROM FACTURAS WHERE ID_FACTURA = @ID_FACTURA
+GO/*-------------------------------------------------------------------------------------------*/
+-- 17-- crear un trigger que se dispare al eliminar una venta, 
+--se debe eliminar los registros de la tabla facturas
+
 GO
-/*-------------------------------------------------------------------------------------------*/
+CREATE OR ALTER TRIGGER TR_FD_VENTAS_FACTURAS
+ON VENTAS
+FOR DELETE
+AS --Obtenemos los valores para eliminar y actualizar las tablas requeridas
+	DECLARE @ID_VENTA INT
+	DECLARE @ID_FACTURA INT --Para eliminar la factua
+	DECLARE @ID_PRODUCTO VARCHAR(50) -- Para localizar en inventarios el producto
+	DECLARE @CANTIDAD_VENDIDA INT -- Después de localizar el id, necesitamos actulizar los datos restando la cantidad vendida
+								  -- la cual será eliminada en la tabla ventas
+	SET @ID_VENTA = (SELECT ID_VENTA FROM inserted)
+	SET @ID_FACTURA = (SELECT ID_FACTURA FROM deleted)
+
+	IF(EXISTS( SELECT 1 FROM VENTAS WHERE ID_VENTA = @ID_VENTA))
+	    -- Eliminamos la factura eliminada en ventas
+		
+--verificamos que el trigger #16 funcione correctamente
+--Para ellos eliminamos una venta con el procedimiento almacenado #15
+--verificamos los cambios en las tablas siguientes
+SELECT * FROM FACTURAS
+SELECT * FROM INVENTARIOS
+SELECT * FROM VENTAS
