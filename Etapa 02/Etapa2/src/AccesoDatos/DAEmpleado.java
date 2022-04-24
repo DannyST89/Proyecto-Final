@@ -36,8 +36,9 @@ public class DAEmpleado {
     //recibimos como paramétro un objeto de tipo EntidadEmpleado que trae todos los miembros de la clase
     public int insertarEmpleado(EntidadEmpleado empleado) throws Exception{
         int idEmpleado = -1;
-        String sentencia = "INSERT INTO EMPLEADOS(NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,"
-                         + "TELEFONO,CORREO,DIRECCION,CARGAR,FECHA_INGRESO,NOMBRE_USUARIO,CONTRASENIA,ESTADO) VALUES(?,?,?)";
+        String sentencia = "INSERT INTO EMPLEADOS(NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,TELEFONO,"
+                         + "CORREO,DIRECCION,CARGO,FECHA_INGRESO,NOMBRE_USUARIO,CONTRASENIA) VALUES(?,?,?,?,?,?,?,?,?,?)";
+   
         try
         {
             //Me permite enviar parámetros
@@ -49,10 +50,9 @@ public class DAEmpleado {
             sm.setString(5, empleado.getCorreo());   
             sm.setString(6, empleado.getDireccion());    
             sm.setString(7, empleado.getCargo());    
-            sm.setDate(8, (Date) empleado.getFechaIngreso());   
+            sm.setDate(8, (Date)empleado.getFechaIngreso());   
             sm.setString(9, empleado.getNombreUsuario()); 
-            sm.setString(10, empleado.getConstrasenia());
-            
+            sm.setString(10, empleado.getConstrasenia());            
             sm.execute();
             ResultSet rs = sm.getGeneratedKeys();
             if(rs != null && rs.next()){

@@ -58,14 +58,14 @@ public class FrmMenu extends javax.swing.JFrame {
         panelContenido.setLayout(panelContenidoLayout);
         panelContenidoLayout.setHorizontalGroup(
             panelContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 930, Short.MAX_VALUE)
+            .addGap(0, 920, Short.MAX_VALUE)
         );
         panelContenidoLayout.setVerticalGroup(
             panelContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 550, Short.MAX_VALUE)
         );
 
-        panelMenu.add(panelContenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 210, 930, 550));
+        panelMenu.add(panelContenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 160, 920, 550));
 
         panelMenuMini.setBackground(new java.awt.Color(236, 236, 236));
         panelMenuMini.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -206,12 +206,12 @@ public class FrmMenu extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Britannic Bold", 0, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("Bienvenido");
-        panelMenu.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, 150, 50));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/bienvenido.png"))); // NOI18N
+        panelMenu.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 0, 200, 50));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Nombre del usuario");
-        panelMenu.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 70, -1, -1));
+        panelMenu.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 50, -1, -1));
 
         btnSalir.setBackground(new java.awt.Color(255, 255, 255));
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8-exit-32.png"))); // NOI18N
@@ -226,11 +226,15 @@ public class FrmMenu extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 1160, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 1128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 760, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 710, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
 
         pack();
