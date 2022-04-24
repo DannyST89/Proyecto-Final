@@ -7,8 +7,7 @@ import Entidades.EntidadEmpleado;//Importamos la entidadEmpleado
 
 public class BLEmpleado {
     //Atributos
-    private String mensaje;
-    
+    private String mensaje;    
     
     public String getMensaje(){
         return mensaje;

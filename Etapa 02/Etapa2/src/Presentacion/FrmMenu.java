@@ -16,7 +16,8 @@ public class FrmMenu extends javax.swing.JFrame {
         //centramos el formulario al abrirse
         this.setLocationRelativeTo(null);    
         //maximizamos el formulario al abrirse
-        //this.setExtendedState(FrmMenu.MAXIMIZED_BOTH);      
+        //
+        this.setTitle("EasyMarket");
     }
 
     @SuppressWarnings("unchecked")
