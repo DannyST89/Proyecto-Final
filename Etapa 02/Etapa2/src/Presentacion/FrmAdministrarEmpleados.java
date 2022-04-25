@@ -24,6 +24,12 @@ public class FrmAdministrarEmpleados extends javax.swing.JInternalFrame {
         initComponents();
         //mostramos la fecha
         txtFechaIngreso.setCalendar(fecha);
+        //cargarmos los datos de la tabla desde un inicio
+        try {
+            cargarDatos("");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error" + ex.getMessage());
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -67,64 +73,65 @@ public class FrmAdministrarEmpleados extends javax.swing.JInternalFrame {
         setPreferredSize(new java.awt.Dimension(955, 610));
 
         panelEmpleados.setBackground(new java.awt.Color(255, 255, 255));
-        panelEmpleados.setForeground(new java.awt.Color(255, 255, 255));
+        panelEmpleados.setForeground(new java.awt.Color(51, 51, 51));
         panelEmpleados.setName("hala"); // NOI18N
         panelEmpleados.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblIdEmpleado.setText("ID");
-        panelEmpleados.add(lblIdEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, -1, -1));
-        panelEmpleados.add(txtFechaIngreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 160, 147, 33));
+        panelEmpleados.add(lblIdEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
+        panelEmpleados.add(txtFechaIngreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 160, 147, 33));
 
         txtIdEmpleado.setEditable(false);
-        panelEmpleados.add(txtIdEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, 147, 33));
+        txtIdEmpleado.setBackground(new java.awt.Color(204, 204, 204));
+        panelEmpleados.add(txtIdEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 147, 33));
 
         lblDireccion.setText("Dirección");
-        panelEmpleados.add(lblDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 200, -1, -1));
+        panelEmpleados.add(lblDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 200, -1, -1));
 
         lblFechaIngreso.setText("Fecha Ingreso");
-        panelEmpleados.add(lblFechaIngreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 140, -1, -1));
-        panelEmpleados.add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 160, 147, 33));
+        panelEmpleados.add(lblFechaIngreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 140, -1, -1));
+        panelEmpleados.add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 160, 147, 33));
 
         cboCargo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", "Cajero", "Bodeguero" }));
-        panelEmpleados.add(cboCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 160, 150, 33));
-        panelEmpleados.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 220, 312, 33));
+        panelEmpleados.add(cboCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 160, 150, 33));
+        panelEmpleados.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 220, 312, 33));
 
         lblTelefono.setText("Teléfono");
-        panelEmpleados.add(lblTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 140, -1, -1));
+        panelEmpleados.add(lblTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, -1));
 
         lblCargo.setText("Cargo");
-        panelEmpleados.add(lblCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 140, -1, -1));
-        panelEmpleados.add(txtPrimerApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 100, 147, 33));
-        panelEmpleados.add(txtNombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 220, 147, 33));
-        panelEmpleados.add(txtSegundoApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(627, 100, 150, 33));
+        panelEmpleados.add(lblCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 140, -1, -1));
+        panelEmpleados.add(txtPrimerApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 100, 147, 33));
+        panelEmpleados.add(txtNombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 147, 33));
+        panelEmpleados.add(txtSegundoApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 100, 150, 33));
 
         lblCorreo.setText("Correo Electrónico");
-        panelEmpleados.add(lblCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 140, -1, -1));
-        panelEmpleados.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 100, 147, 33));
-        panelEmpleados.add(txtContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 220, 147, 33));
+        panelEmpleados.add(lblCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 140, -1, -1));
+        panelEmpleados.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 100, 147, 33));
+        panelEmpleados.add(txtContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 220, 147, 33));
 
         lblNombre.setText("Nombre");
-        panelEmpleados.add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 80, -1, -1));
+        panelEmpleados.add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 80, -1, -1));
 
         lblNombreUsuario.setText("Nombre Usuario");
-        panelEmpleados.add(lblNombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, -1, -1));
+        panelEmpleados.add(lblNombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, -1, -1));
 
         lblPrimerApellido.setText("Primer Apellido");
-        panelEmpleados.add(lblPrimerApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 80, -1, -1));
-        panelEmpleados.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 147, 33));
+        panelEmpleados.add(lblPrimerApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 80, -1, -1));
+        panelEmpleados.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 147, 33));
 
         lblSegundoApellido.setText("Segundo Apellido");
-        panelEmpleados.add(lblSegundoApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 80, -1, -1));
+        panelEmpleados.add(lblSegundoApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 80, -1, -1));
 
         lblContrasenia.setText("Contraseña");
-        panelEmpleados.add(lblContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 200, -1, -1));
+        panelEmpleados.add(lblContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 200, -1, -1));
 
         jButton4.setBackground(new java.awt.Color(98, 87, 219));
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8-available-updates-24.png"))); // NOI18N
         jButton4.setText("  Actualizar");
-        panelEmpleados.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 490, 120, 50));
+        panelEmpleados.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 490, 120, 50));
 
         btnGuardar.setBackground(new java.awt.Color(98, 87, 219));
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -136,18 +143,19 @@ public class FrmAdministrarEmpleados extends javax.swing.JInternalFrame {
                 btnGuardarActionPerformed(evt);
             }
         });
-        panelEmpleados.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 490, 120, 50));
+        panelEmpleados.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 490, 120, 50));
 
         jButton6.setBackground(new java.awt.Color(98, 87, 219));
         jButton6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-delete-24.png"))); // NOI18N
         jButton6.setText("  Eliminar");
-        panelEmpleados.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 490, 120, 50));
+        panelEmpleados.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 490, 120, 50));
 
         lblTitulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Administrar Empleados.png"))); // NOI18N
         panelEmpleados.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 440, 60));
 
+        tblEmpleados.setBackground(new java.awt.Color(255, 255, 255));
         tblEmpleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -161,19 +169,19 @@ public class FrmAdministrarEmpleados extends javax.swing.JInternalFrame {
         ));
         jScrollPane2.setViewportView(tblEmpleados);
 
-        panelEmpleados.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 260, 630, 220));
+        panelEmpleados.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 910, 220));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelEmpleados, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 980, Short.MAX_VALUE)
+            .addComponent(panelEmpleados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(panelEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 651, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(panelEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 651, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
 
         pack();
@@ -184,13 +192,6 @@ public class FrmAdministrarEmpleados extends javax.swing.JInternalFrame {
     //Creamos el método para generar entidad
     private EntidadEmpleado generarEntidad(){        
         EntidadEmpleado empleado = new EntidadEmpleado();
-        ///Damos formato a la fecha de de ingreso de empleado
-        //SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy/MM/dd");
-       // String fecha = formatoFecha.format(txtFechaIngreso.getDate());      //aquí está el error   
-        
-             
-       
-        
         if(!txtIdEmpleado.getText().equals("")){
             empleado.setExiste(true);
             empleado.setIdEmpleado(Integer.parseInt(txtIdEmpleado.getText()));
@@ -206,18 +207,13 @@ public class FrmAdministrarEmpleados extends javax.swing.JInternalFrame {
             empleado.setConstrasenia(txtContrasenia.getText());
             
              //convertivmos java.util.Date a java.sql.Date
-                java.util.Date utilStartDate = txtFechaIngreso.getDate();
-                java.sql.Date fechaIngreso = new java.sql.Date(utilStartDate.getTime());
-                
-                //Date fechaDate = formatoFecha.parse(fecha);
-                empleado.setFechaIngreso(fechaIngreso); 
-//            try
-//            {
-//                
-//            } catch (ParseException ex)
-//            {
-//                JOptionPane.showMessageDialog(this,"Error al recuperar la fecha " + ex.getMessage());
-//            }
+             //Realizamos la siguiente conversión  ya que surge el problema de que al ingresarse una fecha
+             //en la capa de datos la fecha es de tipo java.sql.Date por es lo que vamos a recibir en la base de datos
+             //para eso necesitamos hacer la conversión aquí para que en la capa de datos el datos que se 
+             //envie a la base de datos sea el correcto.
+            java.util.Date utilStartDate = txtFechaIngreso.getDate();
+            java.sql.Date fechaIngreso = new java.sql.Date(utilStartDate.getTime());              
+            empleado.setFechaIngreso(fechaIngreso);     
         }
         return empleado;
     }//Fin método generarEntidad
@@ -253,34 +249,35 @@ public class FrmAdministrarEmpleados extends javax.swing.JInternalFrame {
     }//Fin limpiarFormulario
     //***********************************************
     //Método para cargar los datos en la tabla
-//    private void cargarDatos(String condicion) throws Exception{
-//        BLEmpleado logica = new BLEmpleado();
-//        List<EntidadEmpleado> lista;
-//        limpiarTabla();
-//        Object[] fila = new Object[11];
-//        try
-//        {
-//            lista = logica.insertarEmpleado(condicion);
-//            for(EntidadEmpleado empleado : lista){
-//                fila[0] = empleado.getIdEmpleado(); 
-//                fila[1] = empleado.getNombre();   
-//                fila[2] = empleado.getPrimerApellido();  
-//                fila[3] = empleado.getSegundoApellido();   
-//                fila[4] = empleado.getTelefono(); 
-//                fila[5] = empleado.getDireccion();   
-//                fila[6] = empleado.getNombreUsuario();    
-//                fila[7] = empleado.getCorreo();     
-//                fila[8] = empleado.getFechaIngreso();     
-//                fila[9] = empleado.getConstrasenia();
-//                fila[10]= empleado.getCargo();
-//                modelo.addRow(fila);
-//            }
-//        } catch (Exception ex)
-//        {
-//            JOptionPane.showMessageDialog(this, ex.getMessage());
-//        }
-//        
-//    }
+    private void cargarDatos(String condicion) throws Exception{
+        BLEmpleado logica = new BLEmpleado();
+        List<EntidadEmpleado> lista;
+        limpiarTabla();
+        Object[] fila = new Object[12];
+        try
+        {
+            lista = logica.ListarClientes(condicion);
+            for(EntidadEmpleado empleado : lista){
+                fila[0] = empleado.getIdEmpleado(); 
+                fila[1] = empleado.getNombre();   
+                fila[2] = empleado.getPrimerApellido();  
+                fila[3] = empleado.getSegundoApellido();   
+                fila[4] = empleado.getTelefono(); 
+                fila[5] = empleado.getDireccion();   
+                fila[6] = empleado.getNombreUsuario();    
+                fila[7] = empleado.getCorreo();     
+                fila[8] = empleado.getFechaIngreso();     
+                fila[9] = empleado.getConstrasenia();
+                fila[10]= empleado.getCargo();
+                fila[11] = empleado.getEstado();
+                modelo.addRow(fila);
+            }
+        } catch (Exception ex)
+        {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+        
+    }
     //*****************************************************
     //Método limpiar tabla
     private void limpiarTabla(){
