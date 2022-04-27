@@ -40,6 +40,27 @@ public class EntidadEmpleado {
         this.existe = existe;
         
     }
+    
+    //******************************************
+    //constructor con sobrecarga
+    
+      public EntidadEmpleado(int idEmpleado, String nombre, String primerApellido, String segundoApellido, 
+                           String telefono, String correo, String direccion, String cargo, Date fechaIngreso,
+                           String nombreUsuario, String constrasenia, String estado){
+        this.idEmpleado = idEmpleado;
+        this.nombre = nombre;
+        this.primerApellido = primerApellido;
+        this.segundoApellido = segundoApellido;
+        this.telefono = telefono;
+        this.correo = correo;
+        this.direccion = direccion;
+        this.cargo = cargo;
+        this.fechaIngreso = fechaIngreso;
+        this.nombreUsuario = nombreUsuario;
+        this.constrasenia = constrasenia;
+        this.estado = estado;
+        
+    }
     //Vacío 
     public EntidadEmpleado() {
         idEmpleado = 0;

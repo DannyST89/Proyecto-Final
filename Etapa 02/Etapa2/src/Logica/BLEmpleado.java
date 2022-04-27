@@ -3,12 +3,14 @@ package Logica;
 
 import AccesoDatos.DAEmpleado;
 import Entidades.EntidadEmpleado;//Importamos la entidadEmpleado
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class BLEmpleado {
     //Atributos
-    private String mensaje;
-    
+    private String mensaje;    
     
     public String getMensaje(){
         return mensaje;
@@ -27,5 +29,18 @@ public class BLEmpleado {
             throw e;
         }
         return id;
+    }//Fin método insertarEmpleados
+    //**********************************************************
+    //método para listarEmpleados
+   public List<EntidadEmpleado> ListarClientes(String condicion) throws Exception{
+        List<EntidadEmpleado> empleado = new ArrayList();
+        DAEmpleado datosEmpleado;
+        try {
+            datosEmpleado = new DAEmpleado();
+            empleado = datosEmpleado.listarEmpleados(condicion);
+        } catch (Exception ex) {
+            throw ex;
+        }
+        return empleado;
     }
 }//Fin clase BLEmpleado
