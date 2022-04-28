@@ -167,6 +167,13 @@ public class FrmAdministrarEmpleados extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblEmpleados.setShowHorizontalLines(true);
+        tblEmpleados.setSurrendersFocusOnKeystroke(true);
+        tblEmpleados.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblEmpleadosMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblEmpleados);
 
         panelEmpleados.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 910, 220));
@@ -181,7 +188,7 @@ public class FrmAdministrarEmpleados extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 651, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -223,9 +230,14 @@ public class FrmAdministrarEmpleados extends javax.swing.JInternalFrame {
         BLEmpleado logica = new BLEmpleado();
         EntidadEmpleado empleado = generarEntidad(); 
         try{
-            logica.insertarEmpleado(empleado);
+            
+            if(empleado.isExiste()){
+                logica.modificarEmpleado(empleado);
+            }else{   
+                logica.insertarEmpleado(empleado);
+            }
             limpiarFormulario();
-            //cargarDatos("");
+            cargarDatos("");
             JOptionPane.showMessageDialog(this, logica.getMensaje());
         } catch (Exception ex)
         {
@@ -233,6 +245,41 @@ public class FrmAdministrarEmpleados extends javax.swing.JInternalFrame {
         }
          
     }//GEN-LAST:event_btnGuardarActionPerformed
+    //********************************************    
+    //Al dar clic sobre las filas de la tabla me carga el datos en el formulario para poder modificarlo
+    private void tblEmpleadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEmpleadosMouseClicked
+       BLEmpleado logica = new BLEmpleado();
+       EntidadEmpleado empleado;
+       String condicion;
+        try
+        {
+           if(evt.getClickCount() == 2){
+               int fila = tblEmpleados.rowAtPoint(evt.getPoint());
+               txtIdEmpleado.setText(tblEmpleados.getValueAt(fila,0).toString());
+               
+               condicion = String.format("ID_EMPLEADO=%s", txtIdEmpleado.getText());
+               
+               empleado = logica.ObtenerUnEmpleado(condicion);
+               
+               txtNombre.setText(empleado.getNombre()); 
+               txtPrimerApellido.setText(empleado.getPrimerApellido()); 
+               txtSegundoApellido.setText(empleado.getSegundoApellido());  
+               txtTelefono.setText(empleado.getTelefono());    
+               txtCorreo.setText(empleado.getCorreo());
+               txtDireccion.setText(empleado.getDireccion());
+               cboCargo.addItem(empleado.getCargo()); 
+               txtFechaIngreso.setDate((Date)empleado.getFechaIngreso());
+               txtNombreUsuario.setText(empleado.getNombreUsuario());                
+               txtContrasenia.setText(empleado.getConstrasenia());
+               
+           } 
+        } catch (Exception ex)
+        {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+        
+        
+    }//GEN-LAST:event_tblEmpleadosMouseClicked
     //***********************************************
     //Método para limpiar el formulario
     public void limpiarFormulario(){
@@ -256,7 +303,7 @@ public class FrmAdministrarEmpleados extends javax.swing.JInternalFrame {
         Object[] fila = new Object[12];
         try
         {
-            lista = logica.ListarClientes(condicion);
+            lista = logica.ListarEmpleados(condicion);
             for(EntidadEmpleado empleado : lista){
                 fila[0] = empleado.getIdEmpleado(); 
                 fila[1] = empleado.getNombre();   

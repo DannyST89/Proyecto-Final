@@ -30,9 +30,25 @@ public class BLEmpleado {
         }
         return id;
     }//Fin método insertarEmpleados
-    //**********************************************************
+    //********************************************************** 
+    //Modificar un empleado
+    public int modificarEmpleado(EntidadEmpleado empleado) throws Exception{
+        int resultado = -1;
+        DAEmpleado datosEmpleado;
+        try
+        {
+            datosEmpleado = new DAEmpleado();
+            resultado = datosEmpleado.modificarEmpleado(empleado);
+        } catch (Exception ex)
+        {
+            throw ex;
+        }
+        return resultado;
+    }
+
+    //**********************************************************    
     //método para listarEmpleados
-   public List<EntidadEmpleado> ListarClientes(String condicion) throws Exception{
+   public List<EntidadEmpleado> ListarEmpleados(String condicion) throws Exception{
         List<EntidadEmpleado> empleado = new ArrayList();
         DAEmpleado datosEmpleado;
         try {
@@ -41,6 +57,23 @@ public class BLEmpleado {
         } catch (Exception ex) {
             throw ex;
         }
-        return empleado;
+         return empleado;
+    }//Fin método ListarEmpleamdos
+    public EntidadEmpleado ObtenerUnEmpleado(String condicion) throws Exception{
+        EntidadEmpleado resultado;
+        DAEmpleado datosEmpleado;
+        try {
+            datosEmpleado = new DAEmpleado();
+            resultado = datosEmpleado.ObtenerUnEmpleado(condicion);
+            if (resultado.isExiste()) {
+                mensaje = "Empleado encontrado";
+            }
+            else{
+                mensaje = "No se encontraron registros";
+            }
+        } catch (Exception ex) {
+            throw ex;
+        }
+        return resultado;
     }
 }//Fin clase BLEmpleado
