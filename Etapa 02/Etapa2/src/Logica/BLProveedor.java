@@ -30,7 +30,24 @@ public class BLProveedor {
         return id;
     }//Fin método insertarEmpleados
     //**********************************************************    
-
+     //**********************************************************   
+    //Eliminar PROVEEDOR
+    public int eliminarProveedor(EntidadProveedor proveedor) throws Exception{
+        int resultado = -1;
+        DAProveedor datosProveedor = new DAProveedor();
+       
+        try
+        {
+            resultado = datosProveedor.eliminarProveedor(proveedor);
+            mensaje = datosProveedor.getMensaje();
+        } catch (Exception ex)
+        {
+            throw ex;
+        }
+        return resultado;
+    }
+    
+    //**********************************************************    
     //método para listarEmpleados
     public List<EntidadProveedor> ListarProveedor(String condicion) throws Exception{
         List<EntidadProveedor> proveedor = new ArrayList();
@@ -44,4 +61,22 @@ public class BLProveedor {
         }
          return proveedor;
     }//Fin método ListarEmpleamdos
+    //*******************************************************
+     public EntidadProveedor ObtenerUnProveedor(String condicion) throws Exception{
+        EntidadProveedor resultado;
+        DAProveedor datosProveedor;
+        try {
+            datosProveedor = new DAProveedor();
+            resultado = datosProveedor.ObtenerUnProveedor(condicion);
+            if (resultado.isExiste()) {
+                mensaje = "Proveedor encontrado";
+            }
+            else{
+                mensaje = "No se encontraron registros";
+            }
+        } catch (Exception ex) {
+            throw ex;
+        }
+        return resultado;
+    }
 }

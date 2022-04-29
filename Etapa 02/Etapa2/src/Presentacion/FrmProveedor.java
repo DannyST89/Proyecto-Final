@@ -6,6 +6,7 @@ import Logica.BLProveedor;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.*;
 
 /**
  *
@@ -16,7 +17,9 @@ public class FrmProveedor extends javax.swing.JInternalFrame {
    
      DefaultTableModel modelo;
     public FrmProveedor() {
+        
         initComponents();
+        
         try {
             cargarDatos("");
         } catch (Exception ex) {
@@ -40,14 +43,29 @@ public class FrmProveedor extends javax.swing.JInternalFrame {
         txtNumeroCuenta = new javax.swing.JTextField();
         txtDireccion = new javax.swing.JTextField();
         txtTelefono = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBorder(null);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMinimumSize(new java.awt.Dimension(930, 550));
+        setNextFocusableComponent(txtNombreProveedor);
         setPreferredSize(new java.awt.Dimension(930, 550));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelProveedor.setBackground(new java.awt.Color(255, 255, 255));
+        panelProveedor.setFocusable(false);
         panelProveedor.setMinimumSize(new java.awt.Dimension(930, 540));
         panelProveedor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -61,7 +79,7 @@ public class FrmProveedor extends javax.swing.JInternalFrame {
                 btnEliminarActionPerformed(evt);
             }
         });
-        panelProveedor.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 400, 120, 50));
+        panelProveedor.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 400, 120, 50));
 
         btnGuardar.setBackground(new java.awt.Color(98, 87, 219));
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -73,7 +91,7 @@ public class FrmProveedor extends javax.swing.JInternalFrame {
                 btnGuardarActionPerformed(evt);
             }
         });
-        panelProveedor.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 400, 120, 50));
+        panelProveedor.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 400, 120, 50));
 
         tblProveedor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -86,38 +104,116 @@ public class FrmProveedor extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblProveedor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProveedorMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblProveedor);
 
-        panelProveedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 170, 700, 221));
+        panelProveedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 170, 700, 221));
 
         txtIdProveedor.setEditable(false);
         txtIdProveedor.setBackground(new java.awt.Color(153, 153, 153));
-        panelProveedor.add(txtIdProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 70, 110, -1));
-        panelProveedor.add(txtExtension, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, 110, -1));
-        panelProveedor.add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 110, 114, -1));
-        panelProveedor.add(txtNombreProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 70, 114, -1));
-        panelProveedor.add(txtNumeroCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 110, 116, -1));
-        panelProveedor.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 70, 116, -1));
-        panelProveedor.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 70, 108, -1));
+        panelProveedor.add(txtIdProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 110, -1));
+        panelProveedor.add(txtExtension, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 70, 110, -1));
+        panelProveedor.add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, 114, -1));
+        panelProveedor.add(txtNombreProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 70, 114, -1));
+        panelProveedor.add(txtNumeroCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 130, 116, -1));
+        panelProveedor.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 130, 250, -1));
+        panelProveedor.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 70, 108, -1));
 
-        getContentPane().add(panelProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 950, 580));
+        jLabel1.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel1.setText("ID");
+        panelProveedor.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, -1, -1));
+
+        jLabel2.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel2.setText("Nombre Proveedor");
+        panelProveedor.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 50, -1, -1));
+
+        jLabel3.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel3.setText("Dirección");
+        panelProveedor.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 110, -1, -1));
+
+        jLabel4.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel4.setText("Teléfono");
+        panelProveedor.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 50, -1, -1));
+
+        jLabel5.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel5.setText("Extensión");
+        panelProveedor.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 50, -1, -1));
+
+        jLabel6.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel6.setText("Correo");
+        panelProveedor.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, -1, -1));
+
+        jLabel7.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel7.setText("Número Cuenta");
+        panelProveedor.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 110, -1, -1));
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel8.setText("*");
+        panelProveedor.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 100, 10, 20));
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel9.setText("*");
+        panelProveedor.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 40, 10, 20));
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel10.setText("*");
+        panelProveedor.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 40, 10, 20));
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel11.setText("*");
+        panelProveedor.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 40, 10, 20));
+
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel12.setText("*");
+        panelProveedor.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 100, 10, 20));
+
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel13.setText("*");
+        panelProveedor.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 100, 10, 20));
+
+        getContentPane().add(panelProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 940, 550));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private EntidadProveedor generarEntidad(){        
         EntidadProveedor proveedor = new EntidadProveedor();
-        if(!txtIdProveedor.getText().equals("")){
-            proveedor.setExiste(true);
-            proveedor.setId_proveedor(Integer.parseInt(txtIdProveedor.getText()));
-        }else{
-            proveedor.setNombreProveedor(txtNombreProveedor.getText());            
-            proveedor.setTelefono(txtTelefono.getText());   
-            proveedor.setCorreo(txtCorreo.getText());                
-            proveedor.setDireccion(txtDireccion.getText());
-            proveedor.setExtension(Integer.parseInt(txtExtension.getText()));
-            proveedor.setNumeroCuenta(txtNumeroCuenta.getText());  
+        try
+        {
+            if (!txtIdProveedor.getText().equals(""))
+            {
+                proveedor.setExiste(true);
+                proveedor.setId_proveedor(Integer.parseInt(txtIdProveedor.getText()));
+                proveedor.setNombreProveedor(txtNombreProveedor.getText());
+                proveedor.setTelefono(txtTelefono.getText());
+                proveedor.setCorreo(txtCorreo.getText());
+                proveedor.setDireccion(txtDireccion.getText());
+                proveedor.setExtension(Integer.parseInt(txtExtension.getText()));
+                proveedor.setNumeroCuenta(txtNumeroCuenta.getText());
+            } else
+            {
+                proveedor.setNombreProveedor(txtNombreProveedor.getText());
+                proveedor.setTelefono(txtTelefono.getText());
+                proveedor.setCorreo(txtCorreo.getText());
+                proveedor.setDireccion(txtDireccion.getText());
+                proveedor.setExtension(Integer.parseInt(txtExtension.getText()));
+                proveedor.setNumeroCuenta(txtNumeroCuenta.getText());
+            }
+        
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
+        
         return proveedor;
     }//Fin método generarEntidad   
     
@@ -125,28 +221,28 @@ public class FrmProveedor extends javax.swing.JInternalFrame {
     
     
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-//        BLEmpleado logica = new BLEmpleado();
-//        EntidadEmpleado empleado;
-//        try
-//        {
-//            empleado = generarEntidad();
-//            if(empleado.isExiste()){
-//                if(logica.eliminarEmpleado(empleado) > 0){
-//                    JOptionPane.showMessageDialog(this, logica.getMensaje());
-//                    limpiarFormulario();
-//                    cargarDatos("");
-//                }else{
-//                    JOptionPane.showMessageDialog(this, "No fue posible eliminar");
-//                    limpiarFormulario();
-//                }
-//
-//            }else{
-//                JOptionPane.showMessageDialog(this, "Debe seleccionar un dato a eliminar");
-//            }
-//        } catch (Exception ex)
-//        {
-//            JOptionPane.showMessageDialog(this, ex.getMessage());
-//        }
+        BLProveedor logica = new BLProveedor();
+        EntidadProveedor empleado;
+        try
+        {
+            empleado = generarEntidad();
+            if(empleado.isExiste()){
+                if(logica.eliminarProveedor(empleado) > 0){
+                    JOptionPane.showMessageDialog(this, logica.getMensaje());
+                    limpiarFormulario();
+                    cargarDatos("");
+                }else{
+                    JOptionPane.showMessageDialog(this, "No fue posible eliminar");
+                    limpiarFormulario();
+                }
+
+            }else{
+                JOptionPane.showMessageDialog(this, "Debe seleccionar un dato a eliminar");
+            }
+        } catch (Exception ex)
+        {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
 
     }//GEN-LAST:event_btnEliminarActionPerformed
 
@@ -155,16 +251,57 @@ public class FrmProveedor extends javax.swing.JInternalFrame {
         BLProveedor logica = new BLProveedor();
         EntidadProveedor proveedor = generarEntidad();
         try{
+            if(!txtNombreProveedor.getText().trim().isEmpty() &&
+               !txtDireccion.getText().trim().isEmpty() &&
+               !txtTelefono.getText().trim().isEmpty() &&
+               !txtExtension.getText().trim().isEmpty() &&
+               !txtCorreo.getText().trim().isEmpty() &&
+               !txtNumeroCuenta.getText().trim().isEmpty()){
 
-            logica.insertarEmpleado(proveedor);
-            cargarDatos("");
-           
-            JOptionPane.showMessageDialog(this, logica.getMensaje());
+                logica.insertarEmpleado(proveedor);
+                limpiarFormulario();
+                cargarDatos("");
+
+                JOptionPane.showMessageDialog(this, logica.getMensaje());
+            }else{
+                 JOptionPane.showMessageDialog(null, "Debe completar todos los datos", "Error",JOptionPane.WARNING_MESSAGE);
+            }
         } catch (Exception ex)
         {
             JOptionPane.showMessageDialog(this, "Error " + ex.getMessage());
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void tblProveedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProveedorMouseClicked
+         BLProveedor logica = new BLProveedor();
+       EntidadProveedor proveedor;
+       String condicion;
+        try
+        {
+           if(evt.getClickCount() == 2){
+               int fila = tblProveedor.rowAtPoint(evt.getPoint());
+               txtIdProveedor.setText(tblProveedor.getValueAt(fila,0).toString());
+               
+               condicion = String.format("id_Proveedor=%s", txtIdProveedor.getText());
+               
+               proveedor = logica.ObtenerUnProveedor(condicion);
+               
+               txtNombreProveedor.setText(proveedor.getNombreProveedor()); 
+               txtTelefono.setText(proveedor.getTelefono()); 
+               txtExtension. setText(String.valueOf(proveedor.getExtension()));  
+               txtTelefono.setText(proveedor.getTelefono());    
+               txtCorreo.setText(proveedor.getCorreo());
+               txtDireccion.setText(proveedor.getDireccion());
+               txtNumeroCuenta.setText(proveedor.getNumeroCuenta());                
+
+               
+           } 
+        } catch (Exception ex)
+        {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }      
+        
+    }//GEN-LAST:event_tblProveedorMouseClicked
  //***********************************************
     //Método para limpiar el formulario
     public void limpiarFormulario(){
@@ -226,9 +363,9 @@ public class FrmProveedor extends javax.swing.JInternalFrame {
         modelo.addColumn("Número Cuenta");   
 
     }//Fin método limpiarTabla
-    /**
-     * @param args the command line arguments
-     */
+    //**********************************************
+
+ 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -271,6 +408,19 @@ public class FrmProveedor extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelProveedor;
     private javax.swing.JTable tblProveedor;

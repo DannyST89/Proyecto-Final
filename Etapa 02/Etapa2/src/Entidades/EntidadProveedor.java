@@ -49,6 +49,8 @@ public class EntidadProveedor {
     //Propiedades
     //Getter
 
+    
+
     public int getId_proveedor() {
         return id_proveedor;
     }

@@ -11,6 +11,7 @@ public class FrmMenu extends javax.swing.JFrame {
 
     boolean a;
     public FrmMenu() {
+        
         initComponents();
   
         //centramos el formulario al abrirse
@@ -264,6 +265,7 @@ public class FrmMenu extends javax.swing.JFrame {
 //Abrir el formulario para administrar Proveedores
     private void btnProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProveedorActionPerformed
         panelContenido.removeAll();
+        //this.setUndecorated(true);
         FrmProveedor frmProveedor = new FrmProveedor();        
         panelContenido.add(frmProveedor);
         Dimension sizeContenedor = panelContenido.getSize();

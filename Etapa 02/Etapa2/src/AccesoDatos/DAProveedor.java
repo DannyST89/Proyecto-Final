@@ -37,7 +37,7 @@ public class DAProveedor {
     
     }//Fin constructor 
     //*****************************************************************
-    //método para insertar un proveedor con procedimiento almacentado
+    //método para insertar y actualizar un proveedor con procedimiento almacentado
     public int insertarProveedor(EntidadProveedor proveedor) throws SQLException{
         int resultado = -1;
         int id_Proveedor;
@@ -68,6 +68,29 @@ public class DAProveedor {
         }       
         return resultado;
     }//Fin insertarProveedor
+    //****************************************************************************  
+    //EliminarEmpleado
+    public int eliminarProveedor(EntidadProveedor proveedor) throws SQLException{
+        int resultado = -1;
+        int id_Empleado;
+        try
+        {
+            CallableStatement cs = _cnn.prepareCall("{call SP_ELIMINAR_PROVEEDOR(?,?)}");
+            cs.setInt(1, proveedor.getId_proveedor());            
+            cs.setString(2, mensaje);
+            cs.registerOutParameter(1, Types.INTEGER);     
+            cs.registerOutParameter(2, Types.VARCHAR);
+            resultado = cs.executeUpdate();
+            id_Empleado = cs.getInt(1);            
+            mensaje  = cs.getString(2);            
+            
+        } catch (Exception ex)
+        {
+            throw ex;
+        }       
+        return resultado;
+        
+    }//Fin eliminarProveedor
     public List<EntidadProveedor> listarProveedor(String condicion) throws SQLException{
         ResultSet rs = null;
         List<EntidadProveedor> lista = new ArrayList();
@@ -83,12 +106,12 @@ public class DAProveedor {
             rs = stm.executeQuery(sentencia);
             while(rs.next()){
                 lista.add(new EntidadProveedor(rs.getInt("ID_PROVEEDOR"),
-                                              rs.getString("NOMBRE_PROVEEDOR"),
-                                              rs.getString("DIRECCION"),
-                                              rs.getString("TELEFONO"),
-                                              rs.getInt("EXTENSION"),
-                                              rs.getString("CORREO"),
-                                              rs.getString("NUMERO_CUENTA")
+                                               rs.getString("NOMBRE_PROVEEDOR"),
+                                               rs.getString("DIRECCION"),
+                                               rs.getString("TELEFONO"),
+                                               rs.getInt("EXTENSION"),
+                                               rs.getString("CORREO"),
+                                               rs.getString("NUMERO_CUENTA")
                                               
                 ));
             }
@@ -100,4 +123,33 @@ public class DAProveedor {
         }
         return lista;
     }//Fin método listarEmpleados
+    public EntidadProveedor ObtenerUnProveedor(String condicion) throws SQLException{
+           ResultSet rs = null;
+           EntidadProveedor proveedor = new EntidadProveedor();
+           try {
+               Statement stm = _cnn.createStatement();
+               String sentencia = "SELECT ID_PROVEEDOR,NOMBRE_PROVEEDOR,DIRECCION,TELEFONO,EXTENSION,CORREO,"
+                                + "NUMERO_CUENTA FROM PROVEEDORES";
+               if (!condicion.equals("")) {
+                   sentencia = String.format("%s WHERE %s", sentencia, condicion);
+               }
+               rs = stm.executeQuery(sentencia);
+               if (rs.next()) {
+                   proveedor.setId_proveedor(rs.getInt(1));
+                   proveedor.setNombreProveedor(rs.getString(2));
+                   proveedor.setDireccion(rs.getString(3));
+                   proveedor.setTelefono(rs.getString(4));  
+                   proveedor.setExtension(rs.getInt(5));  
+                   proveedor.setCorreo(rs.getString(6));                   
+                   proveedor.setNumeroCuenta(rs.getString(7));   
+                   proveedor.setExiste(true);
+               }
+
+           } catch (SQLException ex) {
+               throw ex;
+           } finally {
+               _cnn = null;
+           }
+           return proveedor;
+    }//fin ObtenerUnProveedor  
 }

@@ -32,7 +32,6 @@ ADD CONSTRAINT CKH_FECHA_INGRESO CHECK(FECHA_INGRESO <= GETDATE());
 ALTER TABLE EMPLEADOS
 ADD CONSTRAINT CHK_ESTADO CHECK (ESTADO IN ('INA','ACT')and ESTADO = upper(ESTADO));
 GO
-select * from EMPLEADOS
 /*--------------------------------------------------------------------------------*/
 /*Creámos tabla 02 PROVEEDORES*/
 CREATE TABLE PROVEEDORES(
@@ -44,6 +43,12 @@ CREATE TABLE PROVEEDORES(
 	CORREO	VARCHAR(30) NULL,
 	NUMERO_CUENTA	VARCHAR(25) NOT NULL,
 )
+ALTER TABLE PROVEEDORES
+ADD ESTADO VARCHAR(3) DEFAULT 'ACT' NOT NULL
+GO
+/*El colaborador tendrá dos estados ACT cuando ingresa y INA al desligarse de la empresa*/
+ALTER TABLE PROVEEDORES
+ADD CONSTRAINT CHK_ESTADO_PROVEEDOR CHECK (ESTADO IN ('INA','ACT')and ESTADO = upper(ESTADO));
 GO
 /*--------------------------------------------------------------------------------*/
 /*Creámos tabla 03 PRODUCTOS*/

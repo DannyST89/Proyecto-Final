@@ -3,6 +3,7 @@ package AccesoDatos;
 
 import Config.Config;
 import Entidades.EntidadEmpleado;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -10,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -114,32 +116,32 @@ public class DAEmpleado {
     //****************************************************************************  
     //EliminarEmpleado
     public int eliminarEmpleado(EntidadEmpleado empleado) throws SQLException{
-        int resultado = 0;
-        String sentencia = "DELETE FROM EMPLEADOS WHERE ID_EMPLEADO = ?";
+        int resultado = -1;
+        int id_Empleado;
         try
         {
-            PreparedStatement ps = _cnn.prepareStatement(sentencia);
-            ps.setInt(1, empleado.getIdEmpleado());
-            if(resultado > 0){
-                mensaje = "Empleado eliminado";
-            }
-            //SP_ELIMINAR_EMPLEADO
+            CallableStatement cs = _cnn.prepareCall("{call SP_ELIMINAR_EMPLEADO(?,?)}");
+            cs.setInt(1, empleado.getIdEmpleado());  
+            
+            cs.setString(2, mensaje);
+            cs.registerOutParameter(1, Types.INTEGER);     
+            cs.registerOutParameter(2, Types.VARCHAR);
+            resultado = cs.executeUpdate();
+            id_Empleado = cs.getInt(1);            
+            mensaje  = cs.getString(2);
+            
+            
         } catch (SQLException ex)
         {
             throw ex;
-        } finally
-        {
-            _cnn = null;
-        }
+        }       
         return resultado;
         
     }//Fin eliminarEmpleado
     //****************************************************************************   
     //Eliminar con procedimiento almacenado
     
-    //**************************************************************************** 
-
-    
+    //****************************************************************************     
 
     public List<EntidadEmpleado> listarEmpleados(String condicion) throws SQLException{
         ResultSet rs = null;

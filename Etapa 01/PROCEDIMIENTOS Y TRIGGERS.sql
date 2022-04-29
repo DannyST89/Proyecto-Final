@@ -94,7 +94,7 @@ AS
 				ELSE
 					BEGIN
 						DELETE FROM EMPLEADOS WHERE ID_EMPLEADO = @ID_EMPLEADO
-						SET @MSJ = 'Empleado eliminado correctamente'
+						SET @MSJ = 'Se ha cambiado el estado del Empleado a Inactivo'
 					END
 			COMMIT TRANSACTION			
 		END TRY
@@ -105,30 +105,7 @@ AS
 	END
 GO
 
-/*-------------------------------------------------------------------------------------------*/
 
-/* 4- Creámos procedimiento almacenado para cambiar el estado de un empleado a INA ya que no se podrá eliminar completamente*/
-GO
-CREATE OR ALTER PROCEDURE SP_ESTADO_EMPLEADO_INA(@ID_EMPLEADO INT OUT, @MSJ VARCHAR(100) OUT)
-AS
-BEGIN
-	BEGIN TRY
-		BEGIN TRANSACTION
-			/*Si el id_empleado está registrado  vamos a actualizar el estado a inactivo*/
-			IF(EXISTS(SELECT 1 FROM EMPLEADOS WHERE ID_EMPLEADO = @ID_EMPLEADO))
-				BEGIN
-					UPDATE EMPLEADOS SET ESTADO = 'INA'										
-					WHERE ID_EMPLEADO = @ID_EMPLEADO
-					SET @MSJ = 'Inactivado correctamente'
-				END
-		COMMIT TRANSACTION
-	END TRY
-	BEGIN CATCH
-		ROLLBACK TRANSACTION
-		SET @MSJ = ERROR_MESSAGE()
-	END CATCH
-END
-GO
 /*-------------------------------------------------------------------------------------------*/
 /* 5- Precedimiento almacenado para insertar un provedor, si existe lo actualiza*/
 GO
@@ -181,7 +158,7 @@ AS
 				ELSE
 					BEGIN
 						DELETE FROM PROVEEDORES WHERE ID_PROVEEDOR = @ID_PROVEEDOR
-						SET @MSJ = 'Proveedor eliminado correctamente'
+						SET @MSJ = 'Proveedor inactivo'
 					END
 			COMMIT TRANSACTION			
 		END TRY
@@ -473,5 +450,17 @@ AS
 							  
 		WHERE ID_EMPLEADO= @ID_EMPLEADO
 GO
-SELECT * FROM EMPLEADOS
-DELETE FROM EMPLEADOS WHERE ID_EMPLEADO = 3
+/*-------------------------------------------------------------------------------------------*/
+/*Trigger que se dispara al eliminar un proveedor*/
+CREATE OR ALTER TRIGGER TR_INACTIVAR_PROVEEDOR
+ON PROVEEDORES
+INSTEAD OF DELETE
+AS 
+	DECLARE @ID_PROVEEDOR INT
+	SET @ID_PROVEEDOR = (SELECT ID_PROVEEDOR FROM deleted)
+	IF(EXISTS( SELECT 1 FROM PROVEEDORES WHERE ID_PROVEEDOR = @ID_PROVEEDOR))
+		
+		UPDATE PROVEEDORES SET ESTADO = 'INA'		
+							  
+		WHERE ID_PROVEEDOR= @ID_PROVEEDOR
+GO
