@@ -24,9 +24,7 @@ CREATE TABLE EMPLEADOS(
 	ESTADO	VARCHAR(3) DEFAULT 'ACT' NOT NULL
 )
 /*Creámos las restricciones de la tabla COLABORADORES*/
-/*Los únicos CARGOS en los que se podrá registrar un colaborador son */
-ALTER TABLE EMPLEADOS
-ADD CONSTRAINT CHK_CARGO CHECK (CARGO IN('Cajero','Bodeguero','Administrador'));
+
 /*La fecha no puede ser mayor a la fecha actual*/
 ALTER TABLE EMPLEADOS
 ADD CONSTRAINT CKH_FECHA_INGRESO CHECK(FECHA_INGRESO <= GETDATE());
@@ -34,6 +32,7 @@ ADD CONSTRAINT CKH_FECHA_INGRESO CHECK(FECHA_INGRESO <= GETDATE());
 ALTER TABLE EMPLEADOS
 ADD CONSTRAINT CHK_ESTADO CHECK (ESTADO IN ('INA','ACT')and ESTADO = upper(ESTADO));
 GO
+select * from EMPLEADOS
 /*--------------------------------------------------------------------------------*/
 /*Creámos tabla 02 PROVEEDORES*/
 CREATE TABLE PROVEEDORES(

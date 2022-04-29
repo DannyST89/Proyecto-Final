@@ -460,3 +460,18 @@ AS --Obtenemos los valores para eliminar y actualizar las tablas requeridas
 		DELETE FROM FACTURAS WHERE ID_FACTURA = @ID_FACTURA
 GO
 /*-------------------------------------------------------------------------------------------*/
+/*Trigger que se dispara al eliminar un empleado*/
+CREATE OR ALTER TRIGGER TR_CAMBIA_ESTADO_INA
+ON EMPLEADOS
+INSTEAD OF DELETE
+AS 
+	DECLARE @ID_EMPLEADO INT
+	SET @ID_EMPLEADO = (SELECT ID_EMPLEADO FROM deleted)
+	IF(EXISTS( SELECT 1 FROM EMPLEADOS WHERE ID_EMPLEADO = @ID_EMPLEADO))
+		
+		UPDATE EMPLEADOS SET ESTADO = 'INA'		
+							  
+		WHERE ID_EMPLEADO= @ID_EMPLEADO
+GO
+SELECT * FROM EMPLEADOS
+DELETE FROM EMPLEADOS WHERE ID_EMPLEADO = 3

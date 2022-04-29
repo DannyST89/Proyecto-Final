@@ -111,6 +111,11 @@ public class FrmMenu extends javax.swing.JFrame {
         btnProveedor.setNextFocusableComponent(btnClientes);
         btnProveedor.setOpaque(true);
         btnProveedor.setSelected(true);
+        btnProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProveedorActionPerformed(evt);
+            }
+        });
         panelMenuMini.add(btnProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 160, 40));
 
         btnInventario.setBackground(new java.awt.Color(236, 236, 236));
@@ -243,9 +248,10 @@ public class FrmMenu extends javax.swing.JFrame {
     private void btnInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnInventarioActionPerformed
-
+    
     private void btnEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpleadosActionPerformed
         //Abrimos el formulario para administrar empleados 
+        panelContenido.removeAll();
         FrmAdministrarEmpleados frmEmpleados = new FrmAdministrarEmpleados();
         panelContenido.add(frmEmpleados);
         Dimension sizeContenedor = panelContenido.getSize();
@@ -254,6 +260,18 @@ public class FrmMenu extends javax.swing.JFrame {
                         ((int) sizeContenedor.getHeight() - (int) sizeFrm.getHeight()) / 2);
         frmEmpleados.show();
     }//GEN-LAST:event_btnEmpleadosActionPerformed
+//******************************************************************    
+//Abrir el formulario para administrar Proveedores
+    private void btnProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProveedorActionPerformed
+        panelContenido.removeAll();
+        FrmProveedor frmProveedor = new FrmProveedor();        
+        panelContenido.add(frmProveedor);
+        Dimension sizeContenedor = panelContenido.getSize();
+        Dimension sizeFrm = frmProveedor.getSize();
+        frmProveedor.setLocation((((int) sizeContenedor.getWidth() - (int) sizeFrm.getWidth()) / 2),
+                        ((int) sizeContenedor.getHeight() - (int) sizeFrm.getHeight()) / 2);
+        frmProveedor.show();
+    }//GEN-LAST:event_btnProveedorActionPerformed
 
    //**************************************************************
     public static void main(String args[]) {

@@ -3,15 +3,13 @@ package Presentacion;
 
 import Entidades.EntidadEmpleado;
 import Logica.BLEmpleado;
-import java.util.List;
-import java.awt.event.WindowEvent;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
+import java.util.List;
 
 
 public class FrmAdministrarEmpleados extends javax.swing.JInternalFrame {
@@ -62,15 +60,17 @@ public class FrmAdministrarEmpleados extends javax.swing.JInternalFrame {
         lblContrasenia = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblEmpleados = new javax.swing.JTable();
 
         setBorder(null);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8-user-24.png"))); // NOI18N
         setName("Administrar Empleados"); // NOI18N
         setPreferredSize(new java.awt.Dimension(955, 610));
+        setVisible(true);
 
         panelEmpleados.setBackground(new java.awt.Color(255, 255, 255));
         panelEmpleados.setForeground(new java.awt.Color(51, 51, 51));
@@ -145,12 +145,17 @@ public class FrmAdministrarEmpleados extends javax.swing.JInternalFrame {
         });
         panelEmpleados.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 490, 120, 50));
 
-        jButton6.setBackground(new java.awt.Color(98, 87, 219));
-        jButton6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-delete-24.png"))); // NOI18N
-        jButton6.setText("  Eliminar");
-        panelEmpleados.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 490, 120, 50));
+        btnEliminar.setBackground(new java.awt.Color(98, 87, 219));
+        btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-delete-24.png"))); // NOI18N
+        btnEliminar.setText("  Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+        panelEmpleados.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 490, 120, 50));
 
         lblTitulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Administrar Empleados.png"))); // NOI18N
         panelEmpleados.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 440, 60));
@@ -182,12 +187,12 @@ public class FrmAdministrarEmpleados extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelEmpleados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelEmpleados, javax.swing.GroupLayout.DEFAULT_SIZE, 955, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(panelEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 651, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 589, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -257,7 +262,7 @@ public class FrmAdministrarEmpleados extends javax.swing.JInternalFrame {
                int fila = tblEmpleados.rowAtPoint(evt.getPoint());
                txtIdEmpleado.setText(tblEmpleados.getValueAt(fila,0).toString());
                
-               condicion = String.format("ID_EMPLEADO=%s", txtIdEmpleado.getText());
+               condicion = String.format("id_Empleado=%s", txtIdEmpleado.getText());
                
                empleado = logica.ObtenerUnEmpleado(condicion);
                
@@ -267,6 +272,9 @@ public class FrmAdministrarEmpleados extends javax.swing.JInternalFrame {
                txtTelefono.setText(empleado.getTelefono());    
                txtCorreo.setText(empleado.getCorreo());
                txtDireccion.setText(empleado.getDireccion());
+             
+               //JOptionPane.showMessageDialog(this, elCargo);
+               //cboCargo.removeAllItems();
                cboCargo.addItem(empleado.getCargo()); 
                txtFechaIngreso.setDate((Date)empleado.getFechaIngreso());
                txtNombreUsuario.setText(empleado.getNombreUsuario());                
@@ -276,10 +284,35 @@ public class FrmAdministrarEmpleados extends javax.swing.JInternalFrame {
         } catch (Exception ex)
         {
             JOptionPane.showMessageDialog(this, ex.getMessage());
-        }
-        
+        }      
         
     }//GEN-LAST:event_tblEmpleadosMouseClicked
+    //Eliminamos un dato de la tabla
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+       BLEmpleado logica = new BLEmpleado();
+       EntidadEmpleado empleado;
+        try
+        {
+            empleado = generarEntidad();
+            if(empleado.isExiste()){
+                if(logica.eliminarEmpleado(empleado) > 0){
+                    JOptionPane.showMessageDialog(this, logica.getMensaje());
+                    limpiarFormulario();
+                    cargarDatos("");
+                }else{
+                    JOptionPane.showMessageDialog(this, "No fue posible eliminar");
+                    limpiarFormulario();
+                }
+            
+            }else{            
+                JOptionPane.showMessageDialog(this, "Debe seleccionar un dato a eliminar");
+            }
+        } catch (Exception ex)
+        {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+        
+    }//GEN-LAST:event_btnEliminarActionPerformed
     //***********************************************
     //Método para limpiar el formulario
     public void limpiarFormulario(){
@@ -310,12 +343,12 @@ public class FrmAdministrarEmpleados extends javax.swing.JInternalFrame {
                 fila[2] = empleado.getPrimerApellido();  
                 fila[3] = empleado.getSegundoApellido();   
                 fila[4] = empleado.getTelefono(); 
-                fila[5] = empleado.getDireccion();   
-                fila[6] = empleado.getNombreUsuario();    
-                fila[7] = empleado.getCorreo();     
-                fila[8] = empleado.getFechaIngreso();     
-                fila[9] = empleado.getConstrasenia();
-                fila[10]= empleado.getCargo();
+                fila[5] = empleado.getCorreo();
+                fila[6] = empleado.getDireccion();   
+                fila[7] = empleado.getFechaIngreso();    
+                fila[8]= empleado.getCargo();      
+                fila[9] = empleado.getNombreUsuario();  
+                fila[10] = empleado.getConstrasenia();                
                 fila[11] = empleado.getEstado();
                 modelo.addRow(fila);
             }
@@ -337,13 +370,13 @@ public class FrmAdministrarEmpleados extends javax.swing.JInternalFrame {
         tblEmpleados.setModel(modelo);
         modelo.addColumn("ID");
         modelo.addColumn("Nombre");
-        modelo.addColumn("Primer Apellido"); 
-        modelo.addColumn("Segundo Apellido");  
+        modelo.addColumn("1° Apellido"); 
+        modelo.addColumn("2° Apellido");  
         modelo.addColumn("Teléfono");  
-        modelo.addColumn("Correo Electrónico");   
+        modelo.addColumn("Correo");  
+        modelo.addColumn("Dirección");   
         modelo.addColumn("Fecha Ingreso");    
-        modelo.addColumn("Cargo");  
-        modelo.addColumn("Dirección");    
+        modelo.addColumn("Cargo");           
         modelo.addColumn("Nombre Usuario");   
         modelo.addColumn("Contraseña");
         modelo.addColumn("Estado");
@@ -389,10 +422,10 @@ public class FrmAdministrarEmpleados extends javax.swing.JInternalFrame {
     }//Fin método main
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JComboBox<String> cboCargo;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton6;
     private com.toedter.calendar.JMonthChooserBeanInfo jMonthChooserBeanInfo1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblCargo;

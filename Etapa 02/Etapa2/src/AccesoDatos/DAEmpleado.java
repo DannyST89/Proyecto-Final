@@ -101,7 +101,7 @@ public class DAEmpleado {
             if(resultado > 0){
                 mensaje = "Actualizado Correctamente";
             }                
-        } catch (Exception ex)
+        } catch (SQLException ex)
         {
             throw ex;
         } finally
@@ -111,7 +111,35 @@ public class DAEmpleado {
         return resultado;
     }//Fin void modificarEmpleado
 
+    //****************************************************************************  
+    //EliminarEmpleado
+    public int eliminarEmpleado(EntidadEmpleado empleado) throws SQLException{
+        int resultado = 0;
+        String sentencia = "DELETE FROM EMPLEADOS WHERE ID_EMPLEADO = ?";
+        try
+        {
+            PreparedStatement ps = _cnn.prepareStatement(sentencia);
+            ps.setInt(1, empleado.getIdEmpleado());
+            if(resultado > 0){
+                mensaje = "Empleado eliminado";
+            }
+            //SP_ELIMINAR_EMPLEADO
+        } catch (SQLException ex)
+        {
+            throw ex;
+        } finally
+        {
+            _cnn = null;
+        }
+        return resultado;
+        
+    }//Fin eliminarEmpleado
+    //****************************************************************************   
+    //Eliminar con procedimiento almacenado
+    
     //**************************************************************************** 
+
+    
 
     public List<EntidadEmpleado> listarEmpleados(String condicion) throws SQLException{
         ResultSet rs = null;
@@ -141,7 +169,7 @@ public class DAEmpleado {
                                               rs.getString("ESTADO")
                 ));
             }
-        } catch (Exception ex)
+        } catch (SQLException ex)
         {
             throw ex;
         }finally{
@@ -177,7 +205,7 @@ public class DAEmpleado {
                    empleado.setExiste(true);
                }
 
-           } catch (Exception ex) {
+           } catch (SQLException ex) {
                throw ex;
            } finally {
                _cnn = null;

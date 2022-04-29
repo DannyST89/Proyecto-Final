@@ -39,6 +39,7 @@ public class BLEmpleado {
         {
             datosEmpleado = new DAEmpleado();
             resultado = datosEmpleado.modificarEmpleado(empleado);
+            mensaje = datosEmpleado.getMensaje();
         } catch (Exception ex)
         {
             throw ex;
@@ -46,7 +47,25 @@ public class BLEmpleado {
         return resultado;
     }
 
+    //**********************************************************   
+    //Eliminar empleado
+    public int eliminarEmpleado(EntidadEmpleado empleado) throws Exception{
+        int resultado = -1;
+        DAEmpleado datosEmpleado = new DAEmpleado();
+       
+        try
+        {
+            resultado = datosEmpleado.eliminarEmpleado(empleado);
+            mensaje = datosEmpleado.getMensaje();
+        } catch (Exception ex)
+        {
+            throw ex;
+        }
+        return resultado;
+    }
+    
     //**********************************************************    
+
     //método para listarEmpleados
    public List<EntidadEmpleado> ListarEmpleados(String condicion) throws Exception{
         List<EntidadEmpleado> empleado = new ArrayList();
