@@ -27,6 +27,7 @@ public class FrmMenu extends javax.swing.JFrame {
 
         panelMenu = new javax.swing.JPanel();
         panelContenido = new javax.swing.JPanel();
+        lblBienvenida = new javax.swing.JLabel();
         panelMenuMini = new javax.swing.JPanel();
         btnFacturacion = new javax.swing.JButton();
         btnClientes = new javax.swing.JButton();
@@ -34,9 +35,9 @@ public class FrmMenu extends javax.swing.JFrame {
         btnInventario = new javax.swing.JButton();
         btnProductos = new javax.swing.JButton();
         btnEmpleados = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        btnDashBoard = new javax.swing.JButton();
         lblLogo = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -55,15 +56,24 @@ public class FrmMenu extends javax.swing.JFrame {
 
         panelContenido.setBackground(new java.awt.Color(255, 255, 255));
 
+        lblBienvenida.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblBienvenida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Logo bienvenida.png"))); // NOI18N
+
         javax.swing.GroupLayout panelContenidoLayout = new javax.swing.GroupLayout(panelContenido);
         panelContenido.setLayout(panelContenidoLayout);
         panelContenidoLayout.setHorizontalGroup(
             panelContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 920, Short.MAX_VALUE)
+            .addGroup(panelContenidoLayout.createSequentialGroup()
+                .addGap(226, 226, 226)
+                .addComponent(lblBienvenida)
+                .addContainerGap(230, Short.MAX_VALUE))
         );
         panelContenidoLayout.setVerticalGroup(
             panelContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 550, Short.MAX_VALUE)
+            .addGroup(panelContenidoLayout.createSequentialGroup()
+                .addGap(133, 133, 133)
+                .addComponent(lblBienvenida, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(166, Short.MAX_VALUE))
         );
 
         panelMenu.add(panelContenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 160, 920, 550));
@@ -150,6 +160,11 @@ public class FrmMenu extends javax.swing.JFrame {
         btnProductos.setNextFocusableComponent(btnClientes);
         btnProductos.setOpaque(true);
         btnProductos.setSelected(true);
+        btnProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProductosActionPerformed(evt);
+            }
+        });
         panelMenuMini.add(btnProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 150, 40));
 
         btnEmpleados.setBackground(new java.awt.Color(236, 236, 236));
@@ -170,13 +185,6 @@ public class FrmMenu extends javax.swing.JFrame {
             }
         });
         panelMenuMini.add(btnEmpleados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 150, 40));
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(153, 0, 204));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8-application-32.png"))); // NOI18N
-        jLabel1.setText("Dashboard");
-        panelMenuMini.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 120, 50));
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(51, 51, 51));
@@ -203,6 +211,22 @@ public class FrmMenu extends javax.swing.JFrame {
         );
 
         panelMenuMini.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 450, 160, 4));
+
+        btnDashBoard.setBackground(new java.awt.Color(237, 237, 237));
+        btnDashBoard.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnDashBoard.setForeground(new java.awt.Color(255, 51, 255));
+        btnDashBoard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8-application-32.png"))); // NOI18N
+        btnDashBoard.setText("Dashboard");
+        btnDashBoard.setBorder(null);
+        btnDashBoard.setBorderPainted(false);
+        btnDashBoard.setContentAreaFilled(false);
+        btnDashBoard.setFocusPainted(false);
+        btnDashBoard.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDashBoardActionPerformed(evt);
+            }
+        });
+        panelMenuMini.add(btnDashBoard, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, -1, -1));
 
         panelMenu.add(panelMenuMini, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, 770));
 
@@ -232,15 +256,11 @@ public class FrmMenu extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(panelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 1128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+            .addComponent(panelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 1128, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(panelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 710, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+            .addComponent(panelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 710, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -274,6 +294,23 @@ public class FrmMenu extends javax.swing.JFrame {
                         ((int) sizeContenedor.getHeight() - (int) sizeFrm.getHeight()) / 2);
         frmProveedor.show();
     }//GEN-LAST:event_btnProveedorActionPerformed
+    
+    private void btnDashBoardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashBoardActionPerformed
+        panelContenido.removeAll();
+        lblBienvenida.setVisible(true);
+    }//GEN-LAST:event_btnDashBoardActionPerformed
+
+    private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
+        panelContenido.removeAll();
+        //this.setUndecorated(true);
+        FrmProducto frmProducto = new FrmProducto();        
+        panelContenido.add(frmProducto);
+        Dimension sizeContenedor = panelContenido.getSize();
+        Dimension sizeFrm = frmProducto.getSize();
+        frmProducto.setLocation((((int) sizeContenedor.getWidth() - (int) sizeFrm.getWidth()) / 2),
+                        ((int) sizeContenedor.getHeight() - (int) sizeFrm.getHeight()) / 2);
+        frmProducto.show();
+    }//GEN-LAST:event_btnProductosActionPerformed
 
    //**************************************************************
     public static void main(String args[]) {
@@ -323,6 +360,7 @@ public class FrmMenu extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClientes;
+    private javax.swing.JButton btnDashBoard;
     private javax.swing.JButton btnEmpleados;
     private javax.swing.JButton btnFacturacion;
     private javax.swing.JButton btnInventario;
@@ -330,10 +368,10 @@ public class FrmMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnProveedor;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lblBienvenida;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JPanel panelContenido;
     private javax.swing.JPanel panelMenu;

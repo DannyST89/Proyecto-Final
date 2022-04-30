@@ -144,7 +144,7 @@ public class FrmAdministrarEmpleados extends javax.swing.JInternalFrame {
                 btnGuardarActionPerformed(evt);
             }
         });
-        panelEmpleados.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 490, 120, 50));
+        panelEmpleados.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 490, 120, 50));
 
         btnEliminar.setBackground(new java.awt.Color(98, 87, 219));
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -159,7 +159,7 @@ public class FrmAdministrarEmpleados extends javax.swing.JInternalFrame {
         panelEmpleados.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 490, 120, 50));
 
         lblTitulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Administrar Empleados.png"))); // NOI18N
-        panelEmpleados.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 440, 60));
+        panelEmpleados.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 0, 440, 60));
 
         tblEmpleados.setBackground(new java.awt.Color(255, 255, 255));
         tblEmpleados.setModel(new javax.swing.table.DefaultTableModel(

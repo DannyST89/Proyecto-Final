@@ -99,7 +99,7 @@ public class DAProveedor {
         {
             Statement stm = _cnn.createStatement();
             String sentencia = "SELECT ID_PROVEEDOR,NOMBRE_PROVEEDOR,DIRECCION,TELEFONO,EXTENSION,CORREO,"
-                             + "NUMERO_CUENTA FROM PROVEEDORES";
+                             + "NUMERO_CUENTA, ESTADO FROM PROVEEDORES";
             if(!condicion.equals("")){
                 sentencia = String.format("%s WHERE %s", sentencia, condicion);
             }
@@ -111,7 +111,9 @@ public class DAProveedor {
                                                rs.getString("TELEFONO"),
                                                rs.getInt("EXTENSION"),
                                                rs.getString("CORREO"),
-                                               rs.getString("NUMERO_CUENTA")
+                                               rs.getString("NUMERO_CUENTA"), 
+                                               rs.getString("ESTADO")
+
                                               
                 ));
             }

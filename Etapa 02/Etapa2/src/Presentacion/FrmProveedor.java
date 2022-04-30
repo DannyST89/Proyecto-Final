@@ -181,7 +181,7 @@ public class FrmProveedor extends javax.swing.JInternalFrame {
         jLabel13.setText("*");
         panelProveedor.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 100, 10, 20));
 
-        getContentPane().add(panelProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 940, 550));
+        getContentPane().add(panelProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1080, 710));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -222,12 +222,12 @@ public class FrmProveedor extends javax.swing.JInternalFrame {
     
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         BLProveedor logica = new BLProveedor();
-        EntidadProveedor empleado;
+        EntidadProveedor proveedor;
         try
         {
-            empleado = generarEntidad();
-            if(empleado.isExiste()){
-                if(logica.eliminarProveedor(empleado) > 0){
+            proveedor = generarEntidad();
+            if(proveedor.isExiste()){
+                if(logica.eliminarProveedor(proveedor) > 0){
                     JOptionPane.showMessageDialog(this, logica.getMensaje());
                     limpiarFormulario();
                     cargarDatos("");
@@ -273,9 +273,9 @@ public class FrmProveedor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void tblProveedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProveedorMouseClicked
-         BLProveedor logica = new BLProveedor();
-       EntidadProveedor proveedor;
-       String condicion;
+        BLProveedor logica = new BLProveedor();
+        EntidadProveedor proveedor;
+        String condicion;
         try
         {
            if(evt.getClickCount() == 2){
@@ -335,6 +335,8 @@ public class FrmProveedor extends javax.swing.JInternalFrame {
                 fila[4] = proveedor.getExtension(); 
                 fila[5] = proveedor.getCorreo();
                 fila[6] = proveedor.getNumeroCuenta();   
+                fila[7] = proveedor.getEstado();   
+ 
                
                 modelo.addRow(fila);
             }
@@ -360,7 +362,9 @@ public class FrmProveedor extends javax.swing.JInternalFrame {
         modelo.addColumn("Teléfono");  
         modelo.addColumn("Extensión");   
         modelo.addColumn("Correo");  
-        modelo.addColumn("Número Cuenta");   
+        modelo.addColumn("Número Cuenta");  
+        modelo.addColumn("Estado");   
+
 
     }//Fin método limpiarTabla
     //**********************************************

@@ -12,10 +12,11 @@ public class EntidadProveedor {
     private int extension;
     private String correo;
     private String numeroCuenta;
+    private String estado;
     private boolean existe;
     //Constructor
     //con parámetros
-    public EntidadProveedor(int id_proveedor, String nombreProveedor, String direccion, String telefono, int extension, String correo, String numeroCuenta, boolean existe) {
+    public EntidadProveedor(int id_proveedor, String nombreProveedor, String direccion, String telefono, int extension, String correo, String numeroCuenta,String estado, boolean existe) {
         this.id_proveedor = id_proveedor;
         this.nombreProveedor = nombreProveedor;
         this.direccion = direccion;
@@ -23,9 +24,10 @@ public class EntidadProveedor {
         this.extension = extension;
         this.correo = correo;
         this.numeroCuenta = numeroCuenta;
+        this.estado = estado;
         this.existe = existe;
     }
-      public EntidadProveedor(int id_proveedor, String nombreProveedor, String direccion, String telefono, int extension, String correo, String numeroCuenta) {
+      public EntidadProveedor(int id_proveedor, String nombreProveedor, String direccion, String telefono, int extension, String correo, String numeroCuenta,String estado) {
         this.id_proveedor = id_proveedor;
         this.nombreProveedor = nombreProveedor;
         this.direccion = direccion;
@@ -33,6 +35,7 @@ public class EntidadProveedor {
         this.extension = extension;
         this.correo = correo;
         this.numeroCuenta = numeroCuenta;
+        this.estado = estado;
         this.existe = existe;
     }
     //Vacío
@@ -44,6 +47,7 @@ public class EntidadProveedor {
         extension = 0;
         correo = "";
         numeroCuenta = "";
+        estado = "";
         existe = false;
     }
     //Propiedades
@@ -78,7 +82,9 @@ public class EntidadProveedor {
     public String getNumeroCuenta() {
         return numeroCuenta;
     }
-
+    public String getEstado() {
+        return estado;
+    }
     public boolean isExiste() {
         return existe;
     }
@@ -111,7 +117,9 @@ public class EntidadProveedor {
     public void setNumeroCuenta(String numeroCuenta) {
         this.numeroCuenta = numeroCuenta;
     }
-
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
     public void setExiste(boolean existe) {
         this.existe = existe;
     }
