@@ -249,7 +249,7 @@ public class FrmProveedor extends javax.swing.JInternalFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
         BLProveedor logica = new BLProveedor();
-        EntidadProveedor proveedor = generarEntidad();
+        
         try{
             if(!txtNombreProveedor.getText().trim().isEmpty() &&
                !txtDireccion.getText().trim().isEmpty() &&
@@ -257,8 +257,8 @@ public class FrmProveedor extends javax.swing.JInternalFrame {
                !txtExtension.getText().trim().isEmpty() &&
                !txtCorreo.getText().trim().isEmpty() &&
                !txtNumeroCuenta.getText().trim().isEmpty()){
-
-                logica.insertarEmpleado(proveedor);
+                EntidadProveedor proveedor = generarEntidad();
+                logica.insertarProveedor(proveedor);
                 limpiarFormulario();
                 cargarDatos("");
 

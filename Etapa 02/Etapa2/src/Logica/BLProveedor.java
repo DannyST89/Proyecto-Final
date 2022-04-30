@@ -15,7 +15,7 @@ public class BLProveedor {
         return mensaje;
     }
     //Cosntructor
-    public int insertarEmpleado(EntidadProveedor proveedor) throws Exception{
+    public int insertarProveedor(EntidadProveedor proveedor) throws Exception{
         DAProveedor datosProveedor;
         int id = -1;
         try
@@ -28,7 +28,7 @@ public class BLProveedor {
             throw ex;
         }
         return id;
-    }//Fin método insertarEmpleados
+    }//Fin método insertarProveedor
     //**********************************************************    
      //**********************************************************   
     //Eliminar PROVEEDOR
@@ -46,9 +46,8 @@ public class BLProveedor {
         }
         return resultado;
     }
-    
     //**********************************************************    
-    //método para listarEmpleados
+    //método para listarProveedor
     public List<EntidadProveedor> ListarProveedor(String condicion) throws Exception{
         List<EntidadProveedor> proveedor = new ArrayList();
         DAProveedor datosProveedor;
@@ -60,7 +59,7 @@ public class BLProveedor {
             throw ex;
         }
          return proveedor;
-    }//Fin método ListarEmpleamdos
+    }//Fin método ListarProveedor
     //*******************************************************
      public EntidadProveedor ObtenerUnProveedor(String condicion) throws Exception{
         EntidadProveedor resultado;
