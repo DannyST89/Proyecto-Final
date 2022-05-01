@@ -32,7 +32,7 @@ public class FrmInventario extends javax.swing.JInternalFrame {
         tblInventario = new javax.swing.JTable();
         txtIdInventario = new javax.swing.JTextField();
         txtIdProducto = new javax.swing.JTextField();
-        txtPrecioUnidad = new javax.swing.JTextField();
+        txtCodigoBarras = new javax.swing.JTextField();
         txtDescripcion = new javax.swing.JTextField();
         txtCantidadIngresada = new javax.swing.JTextField();
         btnAgregarProducto = new javax.swing.JButton();
@@ -45,9 +45,9 @@ public class FrmInventario extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         txtExistencia = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        btnGuardar1 = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -78,7 +78,9 @@ public class FrmInventario extends javax.swing.JInternalFrame {
 
         txtIdProducto.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.add(txtIdProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 200, 140, 30));
-        jPanel1.add(txtPrecioUnidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 200, 140, 30));
+
+        txtCodigoBarras.setEditable(false);
+        jPanel1.add(txtCodigoBarras, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 200, 140, 30));
 
         txtDescripcion.setEditable(false);
         jPanel1.add(txtDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 200, 140, 30));
@@ -126,7 +128,7 @@ public class FrmInventario extends javax.swing.JInternalFrame {
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 110, -1, -1));
 
         jLabel6.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel6.setText("Precio Unidad");
+        jLabel6.setText("Código de Barras");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 180, -1, -1));
 
         jLabel7.setForeground(new java.awt.Color(51, 51, 51));
@@ -139,17 +141,17 @@ public class FrmInventario extends javax.swing.JInternalFrame {
         jLabel8.setText("Administrar Inventario");
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 40, 460, 40));
 
-        btnGuardar1.setBackground(new java.awt.Color(98, 87, 219));
-        btnGuardar1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnGuardar1.setForeground(new java.awt.Color(255, 255, 255));
-        btnGuardar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-save-24.png"))); // NOI18N
-        btnGuardar1.setText("  Guardar");
-        btnGuardar1.addActionListener(new java.awt.event.ActionListener() {
+        btnGuardar.setBackground(new java.awt.Color(98, 87, 219));
+        btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-save-24.png"))); // NOI18N
+        btnGuardar.setText("  Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardar1ActionPerformed(evt);
+                btnGuardarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnGuardar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 110, 120, 50));
+        jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 110, 120, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -167,15 +169,15 @@ public class FrmInventario extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnGuardar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardar1ActionPerformed
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
          BLInventario logica = new BLInventario();
         
         try{
             if(!txtIdProducto.getText().trim().isEmpty() &&
                !txtDescripcion.getText().trim().isEmpty() &&
                !txtCantidadIngresada.getText().trim().isEmpty() &&
-               !txtExistencia.getText().trim().isEmpty() &&
-               !txtPrecioUnidad.getText().trim().isEmpty()){
+               //!txtExistencia.getText().trim().isEmpty() &&
+               !txtCodigoBarras.getText().trim().isEmpty()){
                 EntidadInventario inventario = generarEntidad();
                 logica.insertarInventario(inventario);
                 limpiarFormulario();
@@ -189,7 +191,7 @@ public class FrmInventario extends javax.swing.JInternalFrame {
         {
             JOptionPane.showMessageDialog(this, "Error " + ex.getMessage());
         }
-    }//GEN-LAST:event_btnGuardar1ActionPerformed
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProductoActionPerformed
         BLProducto logica = new BLProducto();
@@ -203,7 +205,7 @@ public class FrmInventario extends javax.swing.JInternalFrame {
                 producto = logica.ObtenerUnProducto(condicion);
             
                 txtDescripcion.setText(producto.getDescripcion());   
-                txtPrecioUnidad.setText(String.valueOf(producto.getPrecioUnidad()));
+                txtCodigoBarras.setText(producto.getCodigoBarra());
 
             }else{
                 JOptionPane.showMessageDialog(null, "Por favor ingrese un producto antes de continuar", "Error",JOptionPane.WARNING_MESSAGE);
@@ -233,8 +235,9 @@ public class FrmInventario extends javax.swing.JInternalFrame {
                txtIdProducto.setText(String.valueOf(inventario.getIdProducto())); 
                txtDescripcion.setText(inventario.getDescripcion()); 
                txtCantidadIngresada.setText(String.valueOf(inventario.getCantidadIngresada()));  
-               txtPrecioUnidad.setText(String.valueOf(inventario.getPrecioUnidad())); 
                txtExistencia.setText(String.valueOf(inventario.getExistencia())); 
+               txtCodigoBarras.setText(inventario.getCodigoBarra()); 
+              
            } 
         } catch (Exception ex)
         {
@@ -279,7 +282,7 @@ public class FrmInventario extends javax.swing.JInternalFrame {
                 inventario.setDescripcion(txtDescripcion.getText());
                 inventario.setCantidadIngresada(Integer.parseInt(txtCantidadIngresada.getText()));
                 inventario.setExistencia(Integer.parseInt(txtExistencia.getText()));
-                inventario.setPrecioUnidad(Double.parseDouble(txtPrecioUnidad.getText()));
+                inventario.setCodigoBarra(txtCodigoBarras.getText());
 
             } else
             {
@@ -287,7 +290,7 @@ public class FrmInventario extends javax.swing.JInternalFrame {
                 inventario.setDescripcion(txtDescripcion.getText());
                 inventario.setCantidadIngresada(Integer.parseInt(txtCantidadIngresada.getText()));
                 inventario.setExistencia(Integer.parseInt(txtExistencia.getText()));
-                inventario.setPrecioUnidad(Double.parseDouble(txtPrecioUnidad.getText()));
+                inventario.setCodigoBarra(txtCodigoBarras.getText());
             }
         
         }catch(Exception ex){
@@ -313,7 +316,7 @@ public class FrmInventario extends javax.swing.JInternalFrame {
                 fila[3] = inventario.getCantidadIngresada();   
                 fila[4] = inventario.getExistencia(); 
                 fila[5] = inventario.getCantidadVendida();
-                fila[6] = inventario.getPrecioUnidad(); 
+                fila[6] = inventario.getCodigoBarra(); 
                
                 modelo.addRow(fila);
             }
@@ -337,7 +340,7 @@ public class FrmInventario extends javax.swing.JInternalFrame {
         modelo.addColumn("Cantidad Ingresada");  
         modelo.addColumn("Existencia");   
         modelo.addColumn("Cantidad Vendida");  
-        modelo.addColumn("Precio Unidad");  
+        modelo.addColumn("Código de Barra");  
 
     }//Fin método limpiarTabla
     //**********************************************
@@ -348,7 +351,7 @@ public class FrmInventario extends javax.swing.JInternalFrame {
         txtDescripcion.setText(null); 
         txtCantidadIngresada.setText(null);  
         txtExistencia.setText(null);    
-        txtPrecioUnidad.setText(null);  
+        txtCodigoBarras.setText(null);  
 
     }//Fin limpiarFormulario
     
@@ -367,7 +370,7 @@ public class FrmInventario extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarProducto;
     private javax.swing.JButton btnEliminar;
-    private javax.swing.JButton btnGuardar1;
+    private javax.swing.JButton btnGuardar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -379,10 +382,10 @@ public class FrmInventario extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblInventario;
     private javax.swing.JTextField txtCantidadIngresada;
+    private javax.swing.JTextField txtCodigoBarras;
     private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtExistencia;
     private javax.swing.JTextField txtIdInventario;
     private javax.swing.JTextField txtIdProducto;
-    private javax.swing.JTextField txtPrecioUnidad;
     // End of variables declaration//GEN-END:variables
 }

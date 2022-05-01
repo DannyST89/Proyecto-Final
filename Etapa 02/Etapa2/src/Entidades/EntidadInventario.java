@@ -10,28 +10,28 @@ public class EntidadInventario {
     private int cantidadIngresada;
     private int existencia;
     private int cantidadVendida;
-    private double precioUnidad;
+    private String codigoBarra;
     private boolean existe;
     //Constructores
 
-    public EntidadInventario(int idInventario, int idProducto, String descripcion, int cantidadIngresada, int existencia, int cantidadVendida, double precioUnidad,boolean existe) {
+    public EntidadInventario(int idInventario, int idProducto, String descripcion, int cantidadIngresada, int existencia, int cantidadVendida, String codigoBarra,boolean existe) {
         this.idInventario = idInventario;
         this.idProducto = idProducto;
         this.descripcion = descripcion;
         this.cantidadIngresada = cantidadIngresada;
         this.existencia = existencia;
         this.cantidadVendida = cantidadVendida;
-        this.precioUnidad = precioUnidad;
+        this.codigoBarra = codigoBarra;
         this.existe = existe;
     }
-     public EntidadInventario(int idInventario, int idProducto, String descripcion, int cantidadIngresada, int existencia, int cantidadVendida, double precioUnidad) {
+     public EntidadInventario(int idInventario, int idProducto, String descripcion, int cantidadIngresada, int existencia, int cantidadVendida, String codigoBarra) {
         this.idInventario = idInventario;
         this.idProducto = idProducto;
         this.descripcion = descripcion;
         this.cantidadIngresada = cantidadIngresada;
         this.existencia = existencia;
         this.cantidadVendida = cantidadVendida;
-        this.precioUnidad = precioUnidad;
+        this.codigoBarra = codigoBarra;
     }
      public EntidadInventario() {
         idInventario = 0;
@@ -40,10 +40,11 @@ public class EntidadInventario {
         cantidadIngresada = 0;
         existencia = 0;
         cantidadVendida = 0;
-        precioUnidad = 0;
+        codigoBarra = "";
     }
     //métodos de acceso
      //Getter 
+
     public int getIdInventario() {
         return idInventario;
     }
@@ -68,14 +69,14 @@ public class EntidadInventario {
         return cantidadVendida;
     }
 
-    public double getPrecioUnidad() {
-        return precioUnidad;
+    public String getCodigoBarra() {
+        return codigoBarra;
     }
 
     public boolean isExiste() {
         return existe;
     }
-     //Setter
+   //Setter
 
     public void setIdInventario(int idInventario) {
         this.idInventario = idInventario;
@@ -101,12 +102,13 @@ public class EntidadInventario {
         this.cantidadVendida = cantidadVendida;
     }
 
-    public void setPrecioUnidad(double precioUnidad) {
-        this.precioUnidad = precioUnidad;
+    public void setCodigoBarra(String codigoBarra) {
+        this.codigoBarra = codigoBarra;
     }
 
     public void setExiste(boolean existe) {
         this.existe = existe;
     }
+    
     
 }//Fin etidadInventario

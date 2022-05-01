@@ -51,7 +51,7 @@ public class DAInventario {
             cs.setInt(4, inventario.getCantidadIngresada());     
             cs.setInt(5, inventario.getExistencia());   
             cs.setInt(6, inventario.getCantidadVendida()); 
-            cs.setDouble(7, inventario.getPrecioUnidad());      
+            cs.setString(7, inventario.getCodigoBarra());      
             cs.setString(8, mensaje);
 
             cs.registerOutParameter(1, Types.INTEGER);     
@@ -99,7 +99,7 @@ public class DAInventario {
         {
             Statement stm = _cnn.createStatement();
             String sentencia = "SELECT ID_INVENTARIO,ID_PRODUCTO ,DESCRIPCION,CANTIDA_INGRESADA,EXISTENCIA,"
-                             + "CANTIDAD_VENDIDA, PRECIO_UNIDAD FROM INVENTARIOS";
+                             + "CANTIDAD_VENDIDA, CODIGO_BARRA FROM INVENTARIOS";
             if(!condicion.equals("")){
                 sentencia = String.format("%s WHERE %s", sentencia, condicion);
             }
@@ -111,7 +111,7 @@ public class DAInventario {
                                                rs.getInt("CANTIDA_INGRESADA"),
                                                rs.getInt("EXISTENCIA"),
                                                rs.getInt("CANTIDAD_VENDIDA"),
-                                               rs.getDouble("PRECIO_UNIDAD")
+                                               rs.getString("CODIGO_BARRA")
 
                                               
                 ));
@@ -130,7 +130,7 @@ public class DAInventario {
            try {
                Statement stm = _cnn.createStatement();
                String sentencia = "SELECT ID_INVENTARIO,ID_PRODUCTO ,DESCRIPCION,CANTIDA_INGRESADA,EXISTENCIA,"
-                             + "CANTIDAD_VENDIDA, PRECIO_UNIDAD FROM INVENTARIOS";
+                             + "CANTIDAD_VENDIDA, CODIGO_BARRA FROM INVENTARIOS";
                if (!condicion.equals("")) {
                    sentencia = String.format("%s WHERE %s", sentencia, condicion);
                }
@@ -142,7 +142,7 @@ public class DAInventario {
                    inventario.setCantidadIngresada(rs.getInt(4));  
                    inventario.setExistencia(rs.getInt(5));  
                    inventario.setCantidadVendida(rs.getInt(6));                   
-                   inventario.setPrecioUnidad(rs.getInt(7));   
+                   inventario.setCodigoBarra(rs.getString(7));   
                    inventario.setExiste(true);
                }
 
@@ -158,17 +158,15 @@ public class DAInventario {
            EntidadProducto producto = new EntidadProducto();
            try {
                Statement stm = _cnn.createStatement();
-               String sentencia = "SELECT ID_PRODUCTO,ID_PROVEEDOR,NOMBRE_PROVEEDOR,DESCRIPCION,PRECIO_UNIDAD FROM PRODUCTOS";
+               String sentencia = "SELECT ID_PRODUCTO,DESCRIPCION,CODIGO_BARRAS FROM PRODUCTOS";
                if (!condicion.equals("")) {
                    sentencia = String.format("%s WHERE %s", sentencia, condicion);
                }
                rs = stm.executeQuery(sentencia);
                if (rs.next()) {
-                   producto.setIdProducto(rs.getInt(1));
-                   producto.setIdProveedor(rs.getInt(2));
-                   producto.setNombreProveedor(rs.getString(3));                   
-                   producto.setDescripcion(rs.getString(4));  
-                   producto.setPrecioUnidad(rs.getDouble(5));    
+                   producto.setIdProducto(rs.getInt(1));                
+                   producto.setDescripcion(rs.getString(2));  
+                   producto.setCodigoBarra(rs.getString(3));    
                    producto.setExiste(true);
                }
 
