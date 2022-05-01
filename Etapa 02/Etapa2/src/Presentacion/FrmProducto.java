@@ -15,12 +15,12 @@ public class FrmProducto extends javax.swing.JInternalFrame {
     public FrmProducto() {
         initComponents();
         //Creamos una restricción para el campo de idProducto para 
-        //Eliminar el desbordamiento
-        RestrictedTextField restricted = new RestrictedTextField(txtIdProducto);    
-        RestrictedTextField onlyInt = new RestrictedTextField(txtIdProveedor);
-        onlyInt.setOnlyNums(true);
-        restricted.setLimit(10);
-        restricted.setOnlyNums(true);
+        //Eliminar el desbordamiento, además se restringen los campos al ingresar datos
+//        RestrictedTextField restricted = new RestrictedTextField(txtIdProducto);    
+//        RestrictedTextField onlyInt = new RestrictedTextField(txtIdProveedor);
+//        onlyInt.setOnlyNums(true);
+//        restricted.setLimit(10);
+//        restricted.setOnlyNums(true);
         try {
             cargarDatos("");
         } catch (Exception ex) {
@@ -42,13 +42,14 @@ public class FrmProducto extends javax.swing.JInternalFrame {
         txtPrecioUnidad = new javax.swing.JTextField();
         txtNombreProveedor = new javax.swing.JTextField();
         btnAgregarProveedor = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txtDescripcion = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
+        txtCodigoBarra = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -100,49 +101,56 @@ public class FrmProducto extends javax.swing.JInternalFrame {
         panelContenido.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 480, 120, 50));
 
         txtIdProveedor.setBackground(new java.awt.Color(204, 204, 204));
-        panelContenido.add(txtIdProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 230, 134, 30));
-        panelContenido.add(txtIdProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 160, 134, 30));
-        panelContenido.add(txtPrecioUnidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 430, 134, 30));
+        panelContenido.add(txtIdProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 170, 134, 30));
+
+        txtIdProducto.setEditable(false);
+        txtIdProducto.setBackground(new java.awt.Color(204, 204, 204));
+        txtIdProducto.setForeground(new java.awt.Color(51, 51, 51));
+        panelContenido.add(txtIdProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 310, 134, 30));
+        panelContenido.add(txtPrecioUnidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 500, 134, 30));
 
         txtNombreProveedor.setEditable(false);
-        panelContenido.add(txtNombreProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 300, 134, 30));
+        panelContenido.add(txtNombreProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 240, 134, 30));
 
         btnAgregarProveedor.setBackground(new java.awt.Color(255, 255, 255));
+        btnAgregarProveedor.setForeground(new java.awt.Color(51, 51, 51));
         btnAgregarProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8-search-client-30.png"))); // NOI18N
+        btnAgregarProveedor.setText("Agregar Proveedor");
         btnAgregarProveedor.setBorder(null);
         btnAgregarProveedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarProveedorActionPerformed(evt);
             }
         });
-        panelContenido.add(btnAgregarProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 230, 28, -1));
-
-        jLabel1.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel1.setText("Agregar Proveedor");
-        panelContenido.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 210, -1, -1));
+        panelContenido.add(btnAgregarProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, 150, 40));
 
         jLabel2.setForeground(new java.awt.Color(51, 51, 51));
         jLabel2.setText("ID Producto");
-        panelContenido.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 140, -1, -1));
+        panelContenido.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 290, -1, -1));
 
         jLabel3.setForeground(new java.awt.Color(51, 51, 51));
         jLabel3.setText("Nombre Proveedor");
-        panelContenido.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 280, -1, -1));
+        panelContenido.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 220, -1, -1));
 
         jLabel4.setForeground(new java.awt.Color(51, 51, 51));
         jLabel4.setText("Precio Unidad");
-        panelContenido.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 410, -1, -1));
+        panelContenido.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 480, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(102, 102, 255));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Administrar Productos");
-        panelContenido.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 30, 490, 70));
-        panelContenido.add(txtDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 360, 134, 30));
+        panelContenido.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 40, 490, 70));
+        panelContenido.add(txtDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 430, 134, 30));
 
         jLabel6.setForeground(new java.awt.Color(51, 51, 51));
         jLabel6.setText("Descripción");
-        panelContenido.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 340, -1, -1));
+        panelContenido.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 410, -1, -1));
+        panelContenido.add(txtCodigoBarra, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 370, 134, 30));
+
+        jLabel7.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel7.setText("Código de barra");
+        panelContenido.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 350, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -168,12 +176,14 @@ public class FrmProducto extends javax.swing.JInternalFrame {
             if(!txtIdProducto.getText().equals("")){
                 producto.setExiste(true);
                 producto.setIdProducto(Integer.parseInt(txtIdProducto.getText()));
-                producto.setIdProveedor(Integer.parseInt(txtIdProveedor.getText()));               
+                producto.setIdProveedor(Integer.parseInt(txtIdProveedor.getText())); 
+                producto.setCodigoBarra(txtCodigoBarra.getText());              
                 producto.setNombreProveedor(txtNombreProveedor.getText());
                 producto.setDescripcion(txtDescripcion.getText());
                 producto.setPrecioUnidad(Double.parseDouble(txtPrecioUnidad.getText()));
             }else{
-                producto.setIdProveedor(Integer.parseInt(txtIdProveedor.getText()));               
+                producto.setIdProveedor(Integer.parseInt(txtIdProveedor.getText()));   
+                producto.setCodigoBarra(txtCodigoBarra.getText());  
                 producto.setNombreProveedor(txtNombreProveedor.getText());
                 producto.setDescripcion(txtDescripcion.getText());
                 producto.setPrecioUnidad(Double.parseDouble(txtPrecioUnidad.getText()));          
@@ -195,7 +205,7 @@ public class FrmProducto extends javax.swing.JInternalFrame {
         
         try
         {
-            if(txtNombreProveedor.getText().trim().isEmpty()){               
+            if(!txtIdProveedor.getText().trim().isEmpty()){               
                 condicion = String.format("id_Proveedor=%s", txtIdProveedor.getText());
                 proveedor = logica.ObtenerUnProveedor(condicion);
             
@@ -217,8 +227,9 @@ public class FrmProducto extends javax.swing.JInternalFrame {
         try
         {
             if(!txtNombreProveedor.getText().trim().isEmpty() &&
-               !txtIdProveedor.getText().trim().isEmpty() &&
-               !txtIdProducto.getText().trim().isEmpty() &&
+               !txtIdProveedor.getText().trim().isEmpty() && 
+               !txtCodigoBarra.getText().trim().isEmpty() &&
+               //!txtIdProducto.getText().trim().isEmpty() &&
                !txtDescripcion.getText().trim().isEmpty() &&
                !txtPrecioUnidad.getText().trim().isEmpty()){    
                 
@@ -250,7 +261,8 @@ public class FrmProducto extends javax.swing.JInternalFrame {
                condicion = String.format("ID_PRODUCTO=%s", txtIdProducto.getText());
                
                producto = logica.ObtenerUnProducto(condicion);
-               txtIdProveedor.setText(String.valueOf(producto.getIdProveedor()));
+               txtIdProveedor.setText(String.valueOf(producto.getIdProveedor()));       
+               txtCodigoBarra.setText(producto.getCodigoBarra()); 
                txtNombreProveedor.setText(producto.getNombreProveedor()); 
                txtDescripcion.setText(producto.getDescripcion()); 
                txtPrecioUnidad.setText(String.valueOf(producto.getPrecioUnidad()));  
@@ -294,7 +306,9 @@ public class FrmProducto extends javax.swing.JInternalFrame {
         txtIdProducto.setText(null);   
         txtNombreProveedor.setText(null);    
         txtDescripcion.setText(null);   
-        txtPrecioUnidad.setText(null);
+        txtPrecioUnidad.setText(null);    
+        txtCodigoBarra.setText(null);
+
         
     }
     //********************************************************
@@ -311,9 +325,10 @@ public class FrmProducto extends javax.swing.JInternalFrame {
             for(EntidadProducto producto : lista){
                 fila[0] = producto.getIdProducto(); 
                 fila[1] = producto.getIdProveedor();  
-                fila[2] = producto.getNombreProveedor();   
-                fila[3] = producto.getDescripcion();  
-                fila[4] = producto.getPrecioUnidad();    
+                fila[2] = producto.getCodigoBarra();   
+                fila[3] = producto.getNombreProveedor();   
+                fila[4] = producto.getDescripcion();  
+                fila[5] = producto.getPrecioUnidad();    
                
                 modelo.addRow(fila);
             }
@@ -333,7 +348,8 @@ public class FrmProducto extends javax.swing.JInternalFrame {
         };
         tblProductos.setModel(modelo);
         modelo.addColumn("ID Producto");
-        modelo.addColumn("ID Proveedor");
+        modelo.addColumn("ID Proveedor");  
+        modelo.addColumn("Código de barra");
         modelo.addColumn("Nombre Proveedor");
         modelo.addColumn("Descripción");  
         modelo.addColumn("Precio Unidad");   
@@ -385,15 +401,16 @@ public class FrmProducto extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnAgregarProveedor;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelContenido;
     private javax.swing.JTable tblProductos;
+    private javax.swing.JTextField txtCodigoBarra;
     private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtIdProducto;
     private javax.swing.JTextField txtIdProveedor;

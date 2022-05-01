@@ -44,21 +44,22 @@ public class DAProducto {
         
         try
         {
-            CallableStatement cs = _cnn.prepareCall("{call SP_INSERTAR_PRODUCTO(?,?,?,?,?,?)}");
+            CallableStatement cs = _cnn.prepareCall("{call SP_INSERTAR_PRODUCTO(?,?,?,?,?,?,?)}");
             cs.setInt(1, producto.getIdProducto());  
-            cs.setInt(2, producto.getIdProveedor());      
-            cs.setString(3, producto.getNombreProveedor());       
-            cs.setString(4, producto.getDescripcion());
-            cs.setDouble(5, producto.getPrecioUnidad());
+            cs.setInt(2, producto.getIdProveedor());
+            cs.setString(3, producto.getCodigoBarra());      
+            cs.setString(4, producto.getNombreProveedor());       
+            cs.setString(5, producto.getDescripcion());
+            cs.setDouble(6, producto.getPrecioUnidad());
      
-            cs.setString(6, mensaje);
+            cs.setString(7, mensaje);
 
             cs.registerOutParameter(1, Types.INTEGER);     
-            cs.registerOutParameter(6, Types.VARCHAR);
+            cs.registerOutParameter(7, Types.VARCHAR);
             resultado = cs.executeUpdate();
             id_Producto = cs.getString(1);
             
-            mensaje  = cs.getString(6);
+            mensaje  = cs.getString(7);
             
             
         } catch (Exception ex)
@@ -97,17 +98,18 @@ public class DAProducto {
            EntidadProducto producto = new EntidadProducto();
            try {
                Statement stm = _cnn.createStatement();
-               String sentencia = "SELECT ID_PRODUCTO,ID_PROVEEDOR,NOMBRE_PROVEEDOR,DESCRIPCION,PRECIO_UNIDAD FROM PRODUCTOS";
+               String sentencia = "SELECT ID_PRODUCTO,ID_PROVEEDOR,CODIGO_BARRA,NOMBRE_PROVEEDOR,DESCRIPCION,PRECIO_UNIDAD FROM PRODUCTOS";
                if (!condicion.equals("")) {
                    sentencia = String.format("%s WHERE %s", sentencia, condicion);
                }
                rs = stm.executeQuery(sentencia);
                if (rs.next()) {
                    producto.setIdProducto(rs.getInt(1));
-                   producto.setIdProveedor(rs.getInt(2));
-                   producto.setNombreProveedor(rs.getString(3));                   
-                   producto.setDescripcion(rs.getString(4));  
-                   producto.setPrecioUnidad(rs.getDouble(5));    
+                   producto.setIdProveedor(rs.getInt(2));    
+                   producto.setCodigoBarra(rs.getString(3));
+                   producto.setNombreProveedor(rs.getString(4));                   
+                   producto.setDescripcion(rs.getString(5));  
+                   producto.setPrecioUnidad(rs.getDouble(6));    
                    producto.setExiste(true);
                }
 
@@ -125,14 +127,15 @@ public class DAProducto {
         try
         {
             Statement stm = _cnn.createStatement();
-            String sentencia = "SELECT ID_PRODUCTO,ID_PROVEEDOR,NOMBRE_PROVEEDOR,DESCRIPCION,PRECIO_UNIDAD FROM PRODUCTOS";
+            String sentencia = "SELECT ID_PRODUCTO,ID_PROVEEDOR,CODIGO_BARRA,NOMBRE_PROVEEDOR,DESCRIPCION,PRECIO_UNIDAD FROM PRODUCTOS";
             if(!condicion.equals("")){
                 sentencia = String.format("%s WHERE %s", sentencia, condicion);
             }
             rs = stm.executeQuery(sentencia);
             while(rs.next()){
                 lista.add(new EntidadProducto(rs.getInt("ID_PRODUCTO"),
-                                               rs.getInt("ID_PROVEEDOR"),
+                                               rs.getInt("ID_PROVEEDOR"),                    
+                                               rs.getString("CODIGO_BARRA"),
                                                rs.getString("NOMBRE_PROVEEDOR"),
                                                rs.getString("DESCRIPCION"),
                                                rs.getDouble("PRECIO_UNIDAD")                                              

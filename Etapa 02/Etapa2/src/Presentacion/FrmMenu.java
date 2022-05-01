@@ -265,10 +265,6 @@ public class FrmMenu extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnInventarioActionPerformed
     
     private void btnEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpleadosActionPerformed
         //Abrimos el formulario para administrar empleados 
@@ -311,6 +307,18 @@ public class FrmMenu extends javax.swing.JFrame {
                         ((int) sizeContenedor.getHeight() - (int) sizeFrm.getHeight()) / 2);
         frmProducto.show();
     }//GEN-LAST:event_btnProductosActionPerformed
+
+    private void btnInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarioActionPerformed
+        panelContenido.removeAll();
+        //this.setUndecorated(true);
+        FrmInventario frmInventario = new FrmInventario();        
+        panelContenido.add(frmInventario);
+        Dimension sizeContenedor = panelContenido.getSize();
+        Dimension sizeFrm = frmInventario.getSize();
+        frmInventario.setLocation((((int) sizeContenedor.getWidth() - (int) sizeFrm.getWidth()) / 2),
+                        ((int) sizeContenedor.getHeight() - (int) sizeFrm.getHeight()) / 2);
+        frmInventario.show();
+    }//GEN-LAST:event_btnInventarioActionPerformed
 
    //**************************************************************
     public static void main(String args[]) {

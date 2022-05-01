@@ -65,7 +65,7 @@ public class BLProducto {
         return resultado;
     }//Fin método insertarProducto
      //**********************************************************    
-    //método para listarProveedor
+    //método para listarProducto
     public List<EntidadProducto> ListarProducto(String condicion) throws Exception{
         List<EntidadProducto> producto = new ArrayList();
         DAProducto datosProducto;
