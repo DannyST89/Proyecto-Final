@@ -44,7 +44,6 @@ public class FrmMenu extends javax.swing.JFrame {
         btnSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(900, 480));
         setMinimumSize(new java.awt.Dimension(900, 480));
 
         panelMenu.setBackground(new java.awt.Color(255, 255, 255));
@@ -63,20 +62,20 @@ public class FrmMenu extends javax.swing.JFrame {
         panelContenido.setLayout(panelContenidoLayout);
         panelContenidoLayout.setHorizontalGroup(
             panelContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelContenidoLayout.createSequentialGroup()
-                .addGap(226, 226, 226)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelContenidoLayout.createSequentialGroup()
+                .addContainerGap(306, Short.MAX_VALUE)
                 .addComponent(lblBienvenida)
-                .addContainerGap(230, Short.MAX_VALUE))
+                .addGap(280, 280, 280))
         );
         panelContenidoLayout.setVerticalGroup(
             panelContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelContenidoLayout.createSequentialGroup()
-                .addGap(133, 133, 133)
+                .addGap(132, 132, 132)
                 .addComponent(lblBienvenida, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(166, Short.MAX_VALUE))
+                .addContainerGap(157, Short.MAX_VALUE))
         );
 
-        panelMenu.add(panelContenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 160, 920, 550));
+        panelMenu.add(panelContenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 170, 1050, 540));
 
         panelMenuMini.setBackground(new java.awt.Color(236, 236, 236));
         panelMenuMini.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -94,6 +93,11 @@ public class FrmMenu extends javax.swing.JFrame {
         btnFacturacion.setNextFocusableComponent(btnClientes);
         btnFacturacion.setOpaque(true);
         btnFacturacion.setSelected(true);
+        btnFacturacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFacturacionActionPerformed(evt);
+            }
+        });
         panelMenuMini.add(btnFacturacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 150, 40));
 
         btnClientes.setBackground(new java.awt.Color(236, 236, 236));
@@ -232,7 +236,7 @@ public class FrmMenu extends javax.swing.JFrame {
 
         lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/EasyMarket.png"))); // NOI18N
-        panelMenu.add(lblLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 10, 210, 150));
+        panelMenu.add(lblLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 20, 210, 150));
 
         jLabel2.setFont(new java.awt.Font("Britannic Bold", 0, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
@@ -250,13 +254,13 @@ public class FrmMenu extends javax.swing.JFrame {
         btnSalir.setContentAreaFilled(false);
         btnSalir.setFocusPainted(false);
         btnSalir.setRequestFocusEnabled(false);
-        panelMenu.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(1078, 30, 30, 30));
+        panelMenu.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(1180, 30, 30, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 1128, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(panelMenu, javax.swing.GroupLayout.DEFAULT_SIZE, 1261, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -319,6 +323,18 @@ public class FrmMenu extends javax.swing.JFrame {
                         ((int) sizeContenedor.getHeight() - (int) sizeFrm.getHeight()) / 2);
         frmInventario.show();
     }//GEN-LAST:event_btnInventarioActionPerformed
+
+    private void btnFacturacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturacionActionPerformed
+        panelContenido.removeAll();
+        //this.setUndecorated(true);
+        FrmFacturacion frmFacturacion = new FrmFacturacion();        
+        panelContenido.add(frmFacturacion);
+        Dimension sizeContenedor = panelContenido.getSize();
+        Dimension sizeFrm = frmFacturacion.getSize();
+        frmFacturacion.setLocation((((int) sizeContenedor.getWidth() - (int) sizeFrm.getWidth()) / 2),
+                        ((int) sizeContenedor.getHeight() - (int) sizeFrm.getHeight()) / 2);
+        frmFacturacion.show();
+    }//GEN-LAST:event_btnFacturacionActionPerformed
 
    //**************************************************************
     public static void main(String args[]) {

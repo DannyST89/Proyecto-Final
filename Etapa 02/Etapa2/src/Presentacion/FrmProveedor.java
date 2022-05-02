@@ -67,7 +67,7 @@ public class FrmProveedor extends javax.swing.JInternalFrame {
 
         panelProveedor.setBackground(new java.awt.Color(255, 255, 255));
         panelProveedor.setFocusable(false);
-        panelProveedor.setMinimumSize(new java.awt.Dimension(930, 540));
+        panelProveedor.setRequestFocusEnabled(false);
         panelProveedor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnEliminar.setBackground(new java.awt.Color(98, 87, 219));
@@ -80,7 +80,7 @@ public class FrmProveedor extends javax.swing.JInternalFrame {
                 btnEliminarActionPerformed(evt);
             }
         });
-        panelProveedor.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 470, 120, 50));
+        panelProveedor.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 440, 120, 50));
 
         btnGuardar.setBackground(new java.awt.Color(98, 87, 219));
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -92,7 +92,7 @@ public class FrmProveedor extends javax.swing.JInternalFrame {
                 btnGuardarActionPerformed(evt);
             }
         });
-        panelProveedor.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 470, 120, 50));
+        panelProveedor.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 440, 120, 50));
 
         tblProveedor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -112,83 +112,83 @@ public class FrmProveedor extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(tblProveedor);
 
-        panelProveedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 240, 700, 221));
+        panelProveedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 210, 700, 221));
 
         txtIdProveedor.setEditable(false);
         txtIdProveedor.setBackground(new java.awt.Color(153, 153, 153));
-        panelProveedor.add(txtIdProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 140, 110, -1));
-        panelProveedor.add(txtExtension, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 140, 110, -1));
-        panelProveedor.add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, 114, -1));
-        panelProveedor.add(txtNombreProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 140, 114, -1));
-        panelProveedor.add(txtNumeroCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 200, 116, -1));
-        panelProveedor.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 200, 250, -1));
-        panelProveedor.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 140, 108, -1));
+        panelProveedor.add(txtIdProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 110, 110, -1));
+        panelProveedor.add(txtExtension, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 110, 110, -1));
+        panelProveedor.add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 170, 114, -1));
+        panelProveedor.add(txtNombreProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 110, 114, -1));
+        panelProveedor.add(txtNumeroCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 170, 116, -1));
+        panelProveedor.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 170, 250, -1));
+        panelProveedor.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 110, 108, -1));
 
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));
         jLabel1.setText("ID");
-        panelProveedor.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 120, -1, -1));
+        panelProveedor.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 90, -1, -1));
 
         jLabel2.setForeground(new java.awt.Color(51, 51, 51));
         jLabel2.setText("Nombre Proveedor");
-        panelProveedor.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 120, -1, -1));
+        panelProveedor.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 90, -1, -1));
 
         jLabel3.setForeground(new java.awt.Color(51, 51, 51));
         jLabel3.setText("Dirección");
-        panelProveedor.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 180, -1, -1));
+        panelProveedor.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 150, -1, -1));
 
         jLabel4.setForeground(new java.awt.Color(51, 51, 51));
         jLabel4.setText("Teléfono");
-        panelProveedor.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 120, -1, -1));
+        panelProveedor.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 90, -1, -1));
 
         jLabel5.setForeground(new java.awt.Color(51, 51, 51));
         jLabel5.setText("Extensión");
-        panelProveedor.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 120, -1, -1));
+        panelProveedor.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 90, -1, -1));
 
         jLabel6.setForeground(new java.awt.Color(51, 51, 51));
         jLabel6.setText("Correo");
-        panelProveedor.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, -1, -1));
+        panelProveedor.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 150, -1, -1));
 
         jLabel7.setForeground(new java.awt.Color(51, 51, 51));
         jLabel7.setText("Número Cuenta");
-        panelProveedor.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 180, -1, -1));
+        panelProveedor.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 150, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(51, 51, 51));
         jLabel8.setText("*");
-        panelProveedor.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 170, 10, 20));
+        panelProveedor.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 140, 10, 20));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(51, 51, 51));
         jLabel9.setText("*");
-        panelProveedor.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 110, 10, 20));
+        panelProveedor.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 80, 10, 20));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(51, 51, 51));
         jLabel10.setText("*");
-        panelProveedor.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 110, 10, 20));
+        panelProveedor.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 80, 10, 20));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(51, 51, 51));
         jLabel11.setText("*");
-        panelProveedor.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 110, 10, 20));
+        panelProveedor.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 80, 10, 20));
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(51, 51, 51));
         jLabel12.setText("*");
-        panelProveedor.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 170, 10, 20));
+        panelProveedor.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 140, 10, 20));
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(51, 51, 51));
         jLabel13.setText("*");
-        panelProveedor.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 170, 10, 20));
+        panelProveedor.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 140, 10, 20));
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(102, 102, 255));
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel14.setText("Administrar Proveedor");
-        panelProveedor.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 50, 580, 50));
+        panelProveedor.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, 580, 50));
 
-        getContentPane().add(panelProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1240, 740));
+        getContentPane().add(panelProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1240, 670));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

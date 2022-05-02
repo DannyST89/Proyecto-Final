@@ -159,7 +159,7 @@ public class FrmAdministrarEmpleados extends javax.swing.JInternalFrame {
         panelEmpleados.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 490, 120, 50));
 
         lblTitulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Administrar Empleados.png"))); // NOI18N
-        panelEmpleados.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 0, 440, 60));
+        panelEmpleados.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 20, 440, 40));
 
         tblEmpleados.setBackground(new java.awt.Color(255, 255, 255));
         tblEmpleados.setModel(new javax.swing.table.DefaultTableModel(
@@ -173,7 +173,6 @@ public class FrmAdministrarEmpleados extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tblEmpleados.setShowHorizontalLines(true);
         tblEmpleados.setSurrendersFocusOnKeystroke(true);
         tblEmpleados.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

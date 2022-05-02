@@ -14,11 +14,12 @@ GO
   requerida en la tabla ventas
   */
 GO
-CREATE OR ALTER TRIGGER TR_FI_FACTURAS
+CREATE TRIGGER TR_FI_FACTURAS
 ON FACTURAS
 FOR INSERT
+
 AS
-	DECLARE @ID_FACTURA INT,@ID_EMPLEADO INT,@ID_PRODUCTO VARCHAR(50),@DESCRIPCION VARCHAR(100),@CANTIDAD INT,@PRECIO_UNIDAD DECIMAL(10,2), @TOTAL DECIMAL(10,2)
+	DECLARE @ID_FACTURA INT,@ID_EMPLEADO INT,@ID_PRODUCTO INT,@DESCRIPCION VARCHAR(100),@CANTIDAD INT,@PRECIO_UNIDAD DECIMAL(10,2), @TOTAL DECIMAL(10,2)
 	SELECT @ID_FACTURA = ID_FACTURA FROM inserted
 	SELECT @ID_EMPLEADO = ID_EMPLEADO FROM inserted
 	SELECT @ID_PRODUCTO = ID_PRODUCTO FROM inserted
@@ -32,16 +33,35 @@ AS
 	--Actualizamos la tabla de inventario    (se suma la cantidad vendida a las vendidas anteriormente )
 		UPDATE INVENTARIOS SET CANTIDAD_VENDIDA += @CANTIDAD, EXISTENCIA -= @CANTIDAD
 		WHERE ID_PRODUCTO = @ID_PRODUCTO
+
 		/*Insertamos la venta realizada en la tabla ventas*/
 		INSERT INTO VENTAS(ID_FACTURA,ID_EMPLEADO,ID_PRODUCTO,DESCRIPCION,CANTIDAD,PRECIO_UNIDAD,TOTAL)
 				VALUES(@ID_FACTURA,@ID_EMPLEADO,@ID_PRODUCTO,@DESCRIPCION,@CANTIDAD,@PRECIO_UNIDAD, @TOTAL)
 		
 GO
+--AL ELIMINARSE UNA FACTURA
+GO
+CREATE TRIGGER TR_FD_FACTURAS
+ON FACTURAS
+FOR DELETE
+
+AS
+	DECLARE @ID_PRODUCTO INT ,@CANTIDAD INT
+	SELECT @ID_PRODUCTO = ID_PRODUCTO FROM deleted
+	SELECT @CANTIDAD = CANTIDAD FROM deleted
+	
+
+	IF(EXISTS(SELECT ID_PRODUCTO FROM INVENTARIOS WHERE ID_PRODUCTO = @ID_PRODUCTO))
+	--Actualizamos la tabla de inventario    (se suma la cantidad vendida a las vendidas anteriormente )
+		UPDATE INVENTARIOS SET CANTIDAD_VENDIDA -= @CANTIDAD, EXISTENCIA += @CANTIDAD
+		WHERE ID_PRODUCTO = @ID_PRODUCTO
+		
+GO
 /*-------------------------------------------------------------------------------------------*/
 /* 2- Desarrollamos un procedimiento almacenado para insertar un EMPLEADO Y si existe lo actualiza*/
 GO
-CREATE OR ALTER PROCEDURE SP_INSERTAR_EMPLEADO(@ID_EMPLEADO INT OUT,@NOMBRE VARCHAR(20),@PRIMER_APELLIDO VARCHAR(20),@SEGUNDO_APELLIDO VARCHAR(20),
-											   @TELEFONO VARCHAR(20),@CORREO VARCHAR(20),@DIRECCION VARCHAR(100),@CARGO VARCHAR(30),
+CREATE PROCEDURE SP_INSERTAR_EMPLEADO(@ID_EMPLEADO INT OUT,@NOMBRE VARCHAR(20),@PRIMER_APELLIDO VARCHAR(20),@SEGUNDO_APELLIDO VARCHAR(20),
+											   @TELEFONO VARCHAR(20),@CORREO VARCHAR(30),@DIRECCION VARCHAR(100),@CARGO VARCHAR(30),
 											   @FECHA_INGRESO DATE,@NOMBRE_USUARIO VARCHAR(20),@CONTRASENIA VARCHAR(15), @MSJ VARCHAR(100) OUT)
 AS
 BEGIN
@@ -238,17 +258,17 @@ GO
 -- Recordemos que al insertar una factura debería de verse afectadas las tablas ventas e inventarios
 -- ademas, de la de facturas por supuesto.
 GO
-CREATE OR ALTER PROCEDURE SP_INSERTAR_FACTURA(@ID_FACTURA INT OUT,
+CREATE PROCEDURE SP_INSERTAR_FACTURA(@ID_FACTURA INT OUT,
 											  @ID_EMPLEADO INT,
-											  @ID_PRODUCTO VARCHAR(50),
+											  @ID_PRODUCTO INT,
 											  @DESCRIPCION VARCHAR(100),
 											  @CANTIDAD INT,
 											  @PRECIO_UNIDAD DECIMAL(10,2),
 											  @SUBTOTAL DECIMAL(10,2),
-											  @IVA DECIMAL(4,2),
-											  @DESCUENTO DECIMAL(4,2),
+											  @IVA DECIMAL(10,2),
+											  @DESCUENTO INT,
 											  @TOTAL DECIMAL(10,2),
-											  @MSJ VARCHAR(100) OUT)
+											  @MSJ VARCHAR(200) OUT)
 AS
 	BEGIN
 		BEGIN TRY
@@ -260,7 +280,7 @@ AS
 						SET @MSJ = 'Factura insertada correctamente'
 					END
 				ELSE
-				IF(NOT EXISTS(SELECT 1 FROM FACTURAS WHERE ID_FACTURA = @ID_FACTURA))
+				IF(EXISTS(SELECT 1 FROM FACTURAS WHERE ID_FACTURA = @ID_FACTURA))
 					BEGIN
 						UPDATE FACTURAS SET ID_EMPLEADO = @ID_EMPLEADO,
 											ID_PRODUCTO = @ID_PRODUCTO,
@@ -336,7 +356,6 @@ CREATE PROCEDURE SP_ACTUALIZAR_INVENTARIO(@ID_INVENTARIO INT OUT,
 												   @DESCRIPTION VARCHAR(100),
 												   @CANTIDAD_INGRESADO INT,
 												   @EXISTENCIA INT,
-												   @CANTIDAD_VENDIDA INT,
 												   @CODIGO_BARRA VARCHAR(50),
 												   @MSJ VARCHAR(200) OUT)
 AS
@@ -349,17 +368,14 @@ AS
 											   DESCRIPCION = @DESCRIPTION,
 											   CANTIDA_INGRESADA = @CANTIDAD_INGRESADO,
 											   EXISTENCIA =  @CANTIDAD_INGRESADO + @EXISTENCIA,
-											   CANTIDAD_VENDIDA = @CANTIDAD_VENDIDA,
 											   CODIGO_BARRA = @CODIGO_BARRA
 						WHERE ID_INVENTARIO = @ID_INVENTARIO
 						SET @MSJ = 'Inventario actualizado correctamente'
 					END
 				ELSE IF(NOT EXISTS(SELECT 1 FROM INVENTARIOS WHERE ID_INVENTARIO = @ID_INVENTARIO))
 					BEGIN
-						INSERT INTO INVENTARIOS(ID_PRODUCTO, DESCRIPCION, CANTIDA_INGRESADA, EXISTENCIA,
-											   CANTIDAD_VENDIDA,CODIGO_BARRA)
-						                  VALUES(@ID_PRODUCTO , @DESCRIPTION , @CANTIDAD_INGRESADO, @EXISTENCIA,
-												 @CANTIDAD_VENDIDA, @CODIGO_BARRA)
+						INSERT INTO INVENTARIOS(ID_PRODUCTO, DESCRIPCION, CANTIDA_INGRESADA, EXISTENCIA,CODIGO_BARRA)
+						                  VALUES(@ID_PRODUCTO , @DESCRIPTION , @CANTIDAD_INGRESADO, @EXISTENCIA,@CODIGO_BARRA)
 						SET @MSJ = 'Registro insertado'
 					END
 				ELSE
@@ -374,6 +390,7 @@ AS
 		END CATCH
 	END
 GO
+
 /*-------------------------------------------------------------------------------------------*/
 -- 14- Creámos procedimiento almacenado para eliminar un producto del inventario
 GO
@@ -399,7 +416,7 @@ AS
 GO
 /*-------------------------------------------------------------------------------------------*/
 ---- 15- Creámos procedimiento almacenado para eliminar una venta
-CREATE OR ALTER PROCEDURE SP_ELIMINAR_VENTAS(@ID_VENTA INT OUT, @MSJ VARCHAR(100) OUT)
+CREATE PROCEDURE SP_ELIMINAR_VENTAS(@ID_VENTA INT OUT, @MSJ VARCHAR(100) OUT)
 AS
 	BEGIN	
 		BEGIN TRY	
@@ -426,32 +443,30 @@ GO
 --       restando de inventarios la cantidad vendida y la existencia de ese producto vendido. además se debe eliminar los registros de la tabla facturas
 --       este trigger se crea con la razón de que se realiza una factura pero el cliente finalmente 
 --       deside no llevar los productos por diferentes razones
-GO
-CREATE OR ALTER TRIGGER TR_FD_VENTAS
-ON VENTAS
-FOR DELETE
-AS --Obtenemos los valores para eliminar y actualizar las tablas requeridas
-	DECLARE @ID_FACTURA INT
-	DECLARE @ID_VENTA INT
-	DECLARE @ID_PRODUCTO VARCHAR(50) -- Para localizar en inventarios el producto
-	DECLARE @CANTIDAD_VENDIDA INT -- Después de localizar el id, necesitamos actulizar los datos restando la cantidad vendida
-	SET @ID_FACTURA = (SELECT ID_FACTURA FROM deleted)						  -- la cual será eliminada en la tabla ventas
-	SET @ID_VENTA = (SELECT ID_VENTA FROM deleted)
-	SET @ID_PRODUCTO = (SELECT ID_PRODUCTO FROM deleted)
-	SET @CANTIDAD_VENDIDA = (SELECT CANTIDAD FROM deleted)
+--GO
+--CREATE TRIGGER TR_FD_VENTAS
+--ON VENTAS
+--FOR DELETE
+--AS --Obtenemos los valores para eliminar y actualizar las tablas requeridas
+--	DECLARE @ID_FACTURA INT
+--	DECLARE @ID_VENTA INT
+--	DECLARE @ID_PRODUCTO VARCHAR(50) -- Para localizar en inventarios el producto
+--	DECLARE @CANTIDAD_VENDIDA INT -- Después de localizar el id, necesitamos actulizar los datos restando la cantidad vendida
+--	SET @ID_FACTURA = (SELECT ID_FACTURA FROM deleted)						  -- la cual será eliminada en la tabla ventas
+--	SET @ID_VENTA = (SELECT ID_VENTA FROM deleted)
+--	SET @ID_PRODUCTO = (SELECT ID_PRODUCTO FROM deleted)
+--	SET @CANTIDAD_VENDIDA = (SELECT CANTIDAD FROM deleted)
 
-	IF(EXISTS( SELECT 1 FROM VENTAS WHERE ID_VENTA = @ID_VENTA))
-		--Al eliminarse la venta, a la cantidad vendida le restamos esa venta que no se hizo 
-		UPDATE INVENTARIOS SET CANTIDAD_VENDIDA -= @CANTIDAD_VENDIDA,
-		-- Actualizamos la existencia sumandole la cantidad vendida eliminada, ya que la crearse la factura se restó de existencia
-							   EXISTENCIA += @CANTIDAD_VENDIDA
-		WHERE ID_PRODUCTO = @ID_PRODUCTO
-		 -- Eliminamos en facturas la factura eliminada en ventas
-		DELETE FROM FACTURAS WHERE ID_FACTURA = @ID_FACTURA
-GO
+--	IF(EXISTS( SELECT 1 FROM VENTAS WHERE ID_VENTA = @ID_VENTA))
+--		--Al eliminarse la venta, a la cantidad vendida le restamos esa venta que no se hizo 
+--		UPDATE INVENTARIOS SET CANTIDAD_VENDIDA -= @CANTIDAD_VENDIDA,
+--		-- Actualizamos la existencia sumandole la cantidad vendida eliminada, ya que la crearse la factura se restó de existencia
+--							   EXISTENCIA += @CANTIDAD_VENDIDA
+--		WHERE ID_PRODUCTO = @ID_PRODUCTO
+--GO
 /*-------------------------------------------------------------------------------------------*/
 /*Trigger que se dispara al eliminar un empleado*/
-CREATE OR ALTER TRIGGER TR_CAMBIA_ESTADO_INA
+CREATE TRIGGER TR_CAMBIA_ESTADO_INA
 ON EMPLEADOS
 INSTEAD OF DELETE
 AS 
@@ -465,7 +480,7 @@ AS
 GO
 /*-------------------------------------------------------------------------------------------*/
 /*Trigger que se dispara al eliminar un proveedor*/
-CREATE OR ALTER TRIGGER TR_INACTIVAR_PROVEEDOR
+CREATE  TRIGGER TR_INACTIVAR_PROVEEDOR
 ON PROVEEDORES
 INSTEAD OF DELETE
 AS 
@@ -487,4 +502,26 @@ AS
 		WHERE ID_PROVEEDOR = @ID_PROVEEDOR
 	END
 
+GO
+--Eliminar una factura
+GO
+CREATE or alter PROCEDURE SP_ELIMINAR_FACTURA(@ID_FACTURA INT OUT, @MSJ VARCHAR(200) OUT)
+AS
+	BEGIN
+		BEGIN TRY
+			BEGIN TRANSACTION	
+				IF(EXISTS(SELECT 1 FROM FACTURAS WHERE ID_FACTURA = @ID_FACTURA))
+					BEGIN
+						DELETE FROM FACTURAS WHERE ID_FACTURA = @ID_FACTURA
+						SET @MSJ = 'Eliminada correctamente'
+					END
+				ELSE
+					SET @MSJ = 'No fue posible eliminar la factura'
+			COMMIT TRANSACTION
+		END TRY
+		BEGIN CATCH
+			ROLLBACK TRANSACTION
+			SET @MSJ = ERROR_MESSAGE()
+		END CATCH
+	END
 GO

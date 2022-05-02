@@ -44,22 +44,22 @@ public class DAInventario {
         
         try
         {
-            CallableStatement cs = _cnn.prepareCall("{call SP_ACTUALIZAR_INVENTARIO(?,?,?,?,?,?,?,?)}");
+            CallableStatement cs = _cnn.prepareCall("{call SP_ACTUALIZAR_INVENTARIO(?,?,?,?,?,?,?)}");
             cs.setInt(1, inventario.getIdInventario());  
             cs.setInt(2, inventario.getIdProducto());      
             cs.setString(3, inventario.getDescripcion());       
             cs.setInt(4, inventario.getCantidadIngresada());     
             cs.setInt(5, inventario.getExistencia());   
-            cs.setInt(6, inventario.getCantidadVendida()); 
-            cs.setString(7, inventario.getCodigoBarra());      
-            cs.setString(8, mensaje);
+            //cs.setInt(6, inventario.getCantidadVendida()); 
+            cs.setString(6, inventario.getCodigoBarra());      
+            cs.setString(7, mensaje);
 
             cs.registerOutParameter(1, Types.INTEGER);     
-            cs.registerOutParameter(8, Types.VARCHAR);
+            cs.registerOutParameter(7, Types.VARCHAR);
             resultado = cs.executeUpdate();
             idInventario = cs.getInt(1);
             
-            mensaje  = cs.getString(8);
+            mensaje  = cs.getString(7);
             
             
         } catch (Exception ex)
