@@ -11,6 +11,7 @@ public class FrmMenu extends javax.swing.JFrame {
 
     boolean a;
     public FrmMenu() {
+        
         initComponents();
   
         //centramos el formulario al abrirse
@@ -26,6 +27,7 @@ public class FrmMenu extends javax.swing.JFrame {
 
         panelMenu = new javax.swing.JPanel();
         panelContenido = new javax.swing.JPanel();
+        lblBienvenida = new javax.swing.JLabel();
         panelMenuMini = new javax.swing.JPanel();
         btnFacturacion = new javax.swing.JButton();
         btnClientes = new javax.swing.JButton();
@@ -33,16 +35,15 @@ public class FrmMenu extends javax.swing.JFrame {
         btnInventario = new javax.swing.JButton();
         btnProductos = new javax.swing.JButton();
         btnEmpleados = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        btnDashBoard = new javax.swing.JButton();
         lblLogo = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         btnSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(900, 480));
         setMinimumSize(new java.awt.Dimension(900, 480));
 
         panelMenu.setBackground(new java.awt.Color(255, 255, 255));
@@ -54,18 +55,27 @@ public class FrmMenu extends javax.swing.JFrame {
 
         panelContenido.setBackground(new java.awt.Color(255, 255, 255));
 
+        lblBienvenida.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblBienvenida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Logo bienvenida.png"))); // NOI18N
+
         javax.swing.GroupLayout panelContenidoLayout = new javax.swing.GroupLayout(panelContenido);
         panelContenido.setLayout(panelContenidoLayout);
         panelContenidoLayout.setHorizontalGroup(
             panelContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 920, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelContenidoLayout.createSequentialGroup()
+                .addContainerGap(306, Short.MAX_VALUE)
+                .addComponent(lblBienvenida)
+                .addGap(280, 280, 280))
         );
         panelContenidoLayout.setVerticalGroup(
             panelContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 550, Short.MAX_VALUE)
+            .addGroup(panelContenidoLayout.createSequentialGroup()
+                .addGap(132, 132, 132)
+                .addComponent(lblBienvenida, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(157, Short.MAX_VALUE))
         );
 
-        panelMenu.add(panelContenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 160, 920, 550));
+        panelMenu.add(panelContenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 170, 1050, 540));
 
         panelMenuMini.setBackground(new java.awt.Color(236, 236, 236));
         panelMenuMini.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -83,6 +93,11 @@ public class FrmMenu extends javax.swing.JFrame {
         btnFacturacion.setNextFocusableComponent(btnClientes);
         btnFacturacion.setOpaque(true);
         btnFacturacion.setSelected(true);
+        btnFacturacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFacturacionActionPerformed(evt);
+            }
+        });
         panelMenuMini.add(btnFacturacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 150, 40));
 
         btnClientes.setBackground(new java.awt.Color(236, 236, 236));
@@ -111,6 +126,11 @@ public class FrmMenu extends javax.swing.JFrame {
         btnProveedor.setNextFocusableComponent(btnClientes);
         btnProveedor.setOpaque(true);
         btnProveedor.setSelected(true);
+        btnProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProveedorActionPerformed(evt);
+            }
+        });
         panelMenuMini.add(btnProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 160, 40));
 
         btnInventario.setBackground(new java.awt.Color(236, 236, 236));
@@ -144,6 +164,11 @@ public class FrmMenu extends javax.swing.JFrame {
         btnProductos.setNextFocusableComponent(btnClientes);
         btnProductos.setOpaque(true);
         btnProductos.setSelected(true);
+        btnProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProductosActionPerformed(evt);
+            }
+        });
         panelMenuMini.add(btnProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 150, 40));
 
         btnEmpleados.setBackground(new java.awt.Color(236, 236, 236));
@@ -164,13 +189,6 @@ public class FrmMenu extends javax.swing.JFrame {
             }
         });
         panelMenuMini.add(btnEmpleados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 150, 40));
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(153, 0, 204));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8-application-32.png"))); // NOI18N
-        jLabel1.setText("Dashboard");
-        panelMenuMini.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 120, 50));
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(51, 51, 51));
@@ -198,11 +216,27 @@ public class FrmMenu extends javax.swing.JFrame {
 
         panelMenuMini.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 450, 160, 4));
 
+        btnDashBoard.setBackground(new java.awt.Color(237, 237, 237));
+        btnDashBoard.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnDashBoard.setForeground(new java.awt.Color(255, 51, 255));
+        btnDashBoard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8-application-32.png"))); // NOI18N
+        btnDashBoard.setText("Dashboard");
+        btnDashBoard.setBorder(null);
+        btnDashBoard.setBorderPainted(false);
+        btnDashBoard.setContentAreaFilled(false);
+        btnDashBoard.setFocusPainted(false);
+        btnDashBoard.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDashBoardActionPerformed(evt);
+            }
+        });
+        panelMenuMini.add(btnDashBoard, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, -1, -1));
+
         panelMenu.add(panelMenuMini, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, 770));
 
         lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/EasyMarket.png"))); // NOI18N
-        panelMenu.add(lblLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 10, 210, 150));
+        panelMenu.add(lblLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 20, 210, 150));
 
         jLabel2.setFont(new java.awt.Font("Britannic Bold", 0, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
@@ -220,32 +254,25 @@ public class FrmMenu extends javax.swing.JFrame {
         btnSalir.setContentAreaFilled(false);
         btnSalir.setFocusPainted(false);
         btnSalir.setRequestFocusEnabled(false);
-        panelMenu.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(1078, 30, 30, 30));
+        panelMenu.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(1180, 30, 30, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(panelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 1128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+            .addComponent(panelMenu, javax.swing.GroupLayout.DEFAULT_SIZE, 1261, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(panelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 710, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+            .addComponent(panelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 710, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnInventarioActionPerformed
-
+    
     private void btnEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpleadosActionPerformed
         //Abrimos el formulario para administrar empleados 
+        panelContenido.removeAll();
         FrmAdministrarEmpleados frmEmpleados = new FrmAdministrarEmpleados();
         panelContenido.add(frmEmpleados);
         Dimension sizeContenedor = panelContenido.getSize();
@@ -254,6 +281,60 @@ public class FrmMenu extends javax.swing.JFrame {
                         ((int) sizeContenedor.getHeight() - (int) sizeFrm.getHeight()) / 2);
         frmEmpleados.show();
     }//GEN-LAST:event_btnEmpleadosActionPerformed
+//******************************************************************    
+//Abrir el formulario para administrar Proveedores
+    private void btnProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProveedorActionPerformed
+        panelContenido.removeAll();
+        //this.setUndecorated(true);
+        FrmProveedor frmProveedor = new FrmProveedor();        
+        panelContenido.add(frmProveedor);
+        Dimension sizeContenedor = panelContenido.getSize();
+        Dimension sizeFrm = frmProveedor.getSize();
+        frmProveedor.setLocation((((int) sizeContenedor.getWidth() - (int) sizeFrm.getWidth()) / 2),
+                        ((int) sizeContenedor.getHeight() - (int) sizeFrm.getHeight()) / 2);
+        frmProveedor.show();
+    }//GEN-LAST:event_btnProveedorActionPerformed
+    
+    private void btnDashBoardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashBoardActionPerformed
+        panelContenido.removeAll();
+        lblBienvenida.setVisible(true);
+    }//GEN-LAST:event_btnDashBoardActionPerformed
+
+    private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
+        panelContenido.removeAll();
+        //this.setUndecorated(true);
+        FrmProducto frmProducto = new FrmProducto();        
+        panelContenido.add(frmProducto);
+        Dimension sizeContenedor = panelContenido.getSize();
+        Dimension sizeFrm = frmProducto.getSize();
+        frmProducto.setLocation((((int) sizeContenedor.getWidth() - (int) sizeFrm.getWidth()) / 2),
+                        ((int) sizeContenedor.getHeight() - (int) sizeFrm.getHeight()) / 2);
+        frmProducto.show();
+    }//GEN-LAST:event_btnProductosActionPerformed
+
+    private void btnInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarioActionPerformed
+        panelContenido.removeAll();
+        //this.setUndecorated(true);
+        FrmInventario frmInventario = new FrmInventario();        
+        panelContenido.add(frmInventario);
+        Dimension sizeContenedor = panelContenido.getSize();
+        Dimension sizeFrm = frmInventario.getSize();
+        frmInventario.setLocation((((int) sizeContenedor.getWidth() - (int) sizeFrm.getWidth()) / 2),
+                        ((int) sizeContenedor.getHeight() - (int) sizeFrm.getHeight()) / 2);
+        frmInventario.show();
+    }//GEN-LAST:event_btnInventarioActionPerformed
+
+    private void btnFacturacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturacionActionPerformed
+        panelContenido.removeAll();
+        //this.setUndecorated(true);
+        FrmFacturacion frmFacturacion = new FrmFacturacion();        
+        panelContenido.add(frmFacturacion);
+        Dimension sizeContenedor = panelContenido.getSize();
+        Dimension sizeFrm = frmFacturacion.getSize();
+        frmFacturacion.setLocation((((int) sizeContenedor.getWidth() - (int) sizeFrm.getWidth()) / 2),
+                        ((int) sizeContenedor.getHeight() - (int) sizeFrm.getHeight()) / 2);
+        frmFacturacion.show();
+    }//GEN-LAST:event_btnFacturacionActionPerformed
 
    //**************************************************************
     public static void main(String args[]) {
@@ -303,6 +384,7 @@ public class FrmMenu extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClientes;
+    private javax.swing.JButton btnDashBoard;
     private javax.swing.JButton btnEmpleados;
     private javax.swing.JButton btnFacturacion;
     private javax.swing.JButton btnInventario;
@@ -310,10 +392,10 @@ public class FrmMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnProveedor;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lblBienvenida;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JPanel panelContenido;
     private javax.swing.JPanel panelMenu;

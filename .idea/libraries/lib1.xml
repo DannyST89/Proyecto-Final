@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="lib1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Etapa 02/Etapa2/build/classes/lib/jcalendar-1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Etapa 02/Etapa2/build/classes/lib/mssql-jdbc-8.4.1.jre8.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
