@@ -152,6 +152,11 @@ public class FrmFacturacion extends javax.swing.JInternalFrame {
                 txtCantidadActionPerformed(evt);
             }
         });
+        txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCantidadKeyReleased(evt);
+            }
+        });
         panelContenido.add(txtCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 270, 140, 30));
 
         txtIdFactura.setEditable(false);
@@ -410,6 +415,10 @@ public class FrmFacturacion extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, ex.getMessage());
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
+       calculaTotalFactura();
+    }//GEN-LAST:event_txtCantidadKeyReleased
     
     //***********************************************
     //Método para limpiar el formulario
