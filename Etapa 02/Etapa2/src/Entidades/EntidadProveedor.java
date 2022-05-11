@@ -5,7 +5,7 @@ import java.sql.Date;
 
 
 public class EntidadProveedor {
-      private int id_proveedor;
+    private int id_proveedor;
     private String nombreProveedor;
     private String direccion;
     private String telefono;
