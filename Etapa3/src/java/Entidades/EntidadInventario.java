@@ -10,28 +10,25 @@ public class EntidadInventario {
     private int cantidadIngresada;
     private int existencia;
     private int cantidadVendida;
-    private String codigoBarra;
     private boolean existe;
     //Constructores
 
-    public EntidadInventario(int idInventario, int idProducto, String descripcion, int cantidadIngresada, int existencia, int cantidadVendida, String codigoBarra,boolean existe) {
+    public EntidadInventario(int idInventario, int idProducto, String descripcion, int cantidadIngresada, int existencia, int cantidadVendida,boolean existe) {
         this.idInventario = idInventario;
         this.idProducto = idProducto;
         this.descripcion = descripcion;
         this.cantidadIngresada = cantidadIngresada;
         this.existencia = existencia;
         this.cantidadVendida = cantidadVendida;
-        this.codigoBarra = codigoBarra;
         this.existe = existe;
     }
-     public EntidadInventario(int idInventario, int idProducto, String descripcion, int cantidadIngresada, int existencia, int cantidadVendida, String codigoBarra) {
+     public EntidadInventario(int idInventario, int idProducto, String descripcion, int cantidadIngresada, int existencia, int cantidadVendida) {
         this.idInventario = idInventario;
         this.idProducto = idProducto;
         this.descripcion = descripcion;
         this.cantidadIngresada = cantidadIngresada;
         this.existencia = existencia;
         this.cantidadVendida = cantidadVendida;
-        this.codigoBarra = codigoBarra;
     }
      public EntidadInventario() {
         idInventario = 0;
@@ -40,7 +37,6 @@ public class EntidadInventario {
         cantidadIngresada = 0;
         existencia = 0;
         cantidadVendida = 0;
-        codigoBarra = "";
     }
     //métodos de acceso
      //Getter 
@@ -69,9 +65,6 @@ public class EntidadInventario {
         return cantidadVendida;
     }
 
-    public String getCodigoBarra() {
-        return codigoBarra;
-    }
 
     public boolean isExiste() {
         return existe;
@@ -102,9 +95,6 @@ public class EntidadInventario {
         this.cantidadVendida = cantidadVendida;
     }
 
-    public void setCodigoBarra(String codigoBarra) {
-        this.codigoBarra = codigoBarra;
-    }
 
     public void setExiste(boolean existe) {
         this.existe = existe;

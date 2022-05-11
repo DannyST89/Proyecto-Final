@@ -59,7 +59,8 @@ public class DAEmpleado {
             sm.setString(7, empleado.getCargo());    
             sm.setDate(8, (Date)empleado.getFechaIngreso());   
             sm.setString(9, empleado.getNombreUsuario()); 
-            sm.setString(10, empleado.getConstrasenia());            
+            sm.setString(10, empleado.getConstrasenia());          
+          
             sm.execute();
             ResultSet rs = sm.getGeneratedKeys();
             if(rs != null && rs.next()){

@@ -6,26 +6,23 @@ public class EntidadProducto {
     //Atributos
     private int idProducto;
     private int idProveedor;
-    private String codigoBarra;
     private String nombreProveedor;
     private String descripcion;
     private double precioUnidad;
     private boolean existe;
     //Agregamos los constructores
 
-    public EntidadProducto(int idProducto, int idProveedor, String codigoBarra, String nombreProveedor, String descripcion, double precioUnidad, boolean existe) {
+    public EntidadProducto(int idProducto, int idProveedor,String nombreProveedor, String descripcion, double precioUnidad, boolean existe) {
         this.idProducto = idProducto;
         this.idProveedor = idProveedor;
-        this.codigoBarra = codigoBarra;
         this.nombreProveedor = nombreProveedor;
         this.descripcion = descripcion;
         this.precioUnidad = precioUnidad;
         this.existe = existe;
     }
-    public EntidadProducto(int idProducto, int idProveedor, String codigoBarra, String nombreProveedor, String descripcion, double precioUnidad) {
+    public EntidadProducto(int idProducto, int idProveedor,String nombreProveedor, String descripcion, double precioUnidad) {
         this.idProducto = idProducto;
         this.idProveedor = idProveedor;
-        this.codigoBarra = codigoBarra;
         this.nombreProveedor = nombreProveedor;
         this.descripcion = descripcion;
         this.precioUnidad = precioUnidad;
@@ -36,7 +33,6 @@ public class EntidadProducto {
    public EntidadProducto() {
         idProducto = 0;
         idProveedor = 0;
-        codigoBarra = "";
         nombreProveedor = "";
         descripcion = "";
         precioUnidad = 0;
@@ -52,11 +48,6 @@ public class EntidadProducto {
     public int getIdProveedor() {
         return idProveedor;
     }
-
-    public String getCodigoBarra() {
-        return codigoBarra;
-    }
-
     public String getNombreProveedor() {
         return nombreProveedor;
     }
@@ -82,11 +73,6 @@ public class EntidadProducto {
     public void setIdProveedor(int idProveedor) {
         this.idProveedor = idProveedor;
     }
-
-    public void setCodigoBarra(String codigoBarra) {
-        this.codigoBarra = codigoBarra;
-    }
-
     public void setNombreProveedor(String nombreProveedor) {
         this.nombreProveedor = nombreProveedor;
     }

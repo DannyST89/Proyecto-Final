@@ -78,4 +78,20 @@ public class BLProveedor {
         }
         return resultado;
     }
+      //********************************************************** 
+    //Modificar un proveedor
+    public int modificarProveedor(EntidadProveedor proveedor) throws Exception{
+        int resultado = -1;
+        DAProveedor datosProveedor;
+        try
+        {
+            datosProveedor = new DAProveedor();
+            resultado = datosProveedor.modificarProveedor(proveedor);
+            mensaje = datosProveedor.getMensaje();
+        } catch (Exception ex)
+        {
+            throw ex;
+        }
+        return resultado;
+    }
 }

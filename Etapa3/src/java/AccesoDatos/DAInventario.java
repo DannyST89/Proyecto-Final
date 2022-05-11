@@ -44,23 +44,20 @@ public class DAInventario {
         
         try
         {
-            CallableStatement cs = _cnn.prepareCall("{call SP_ACTUALIZAR_INVENTARIO(?,?,?,?,?,?,?)}");
+            CallableStatement cs = _cnn.prepareCall("{call SP_ACTUALIZAR_INVENTARIO(?,?,?,?,?,?)}");
             cs.setInt(1, inventario.getIdInventario());  
             cs.setInt(2, inventario.getIdProducto());      
             cs.setString(3, inventario.getDescripcion());       
             cs.setInt(4, inventario.getCantidadIngresada());     
             cs.setInt(5, inventario.getExistencia());   
-            //cs.setInt(6, inventario.getCantidadVendida()); 
-            cs.setString(6, inventario.getCodigoBarra());      
-            cs.setString(7, mensaje);
+            cs.setString(6, mensaje);
 
             cs.registerOutParameter(1, Types.INTEGER);     
-            cs.registerOutParameter(7, Types.VARCHAR);
+            cs.registerOutParameter(6, Types.VARCHAR);
             resultado = cs.executeUpdate();
             idInventario = cs.getInt(1);
             
-            mensaje  = cs.getString(7);
-            
+            mensaje  = cs.getString(6);            
             
         } catch (Exception ex)
         {
@@ -99,7 +96,7 @@ public class DAInventario {
         {
             Statement stm = _cnn.createStatement();
             String sentencia = "SELECT ID_INVENTARIO,ID_PRODUCTO ,DESCRIPCION,CANTIDA_INGRESADA,EXISTENCIA,"
-                             + "CANTIDAD_VENDIDA, CODIGO_BARRA FROM INVENTARIOS";
+                             + "CANTIDAD_VENDIDA FROM INVENTARIOS";
             if(!condicion.equals("")){
                 sentencia = String.format("%s WHERE %s", sentencia, condicion);
             }
@@ -110,8 +107,7 @@ public class DAInventario {
                                                rs.getString("DESCRIPCION"),
                                                rs.getInt("CANTIDA_INGRESADA"),
                                                rs.getInt("EXISTENCIA"),
-                                               rs.getInt("CANTIDAD_VENDIDA"),
-                                               rs.getString("CODIGO_BARRA")
+                                               rs.getInt("CANTIDAD_VENDIDA")
 
                                               
                 ));
@@ -130,7 +126,7 @@ public class DAInventario {
            try {
                Statement stm = _cnn.createStatement();
                String sentencia = "SELECT ID_INVENTARIO,ID_PRODUCTO ,DESCRIPCION,CANTIDA_INGRESADA,EXISTENCIA,"
-                             + "CANTIDAD_VENDIDA, CODIGO_BARRA FROM INVENTARIOS";
+                             + "CANTIDAD_VENDIDA FROM INVENTARIOS";
                if (!condicion.equals("")) {
                    sentencia = String.format("%s WHERE %s", sentencia, condicion);
                }
@@ -141,8 +137,7 @@ public class DAInventario {
                    inventario.setDescripcion(rs.getString(3));
                    inventario.setCantidadIngresada(rs.getInt(4));  
                    inventario.setExistencia(rs.getInt(5));  
-                   inventario.setCantidadVendida(rs.getInt(6));                   
-                   inventario.setCodigoBarra(rs.getString(7));   
+                   inventario.setCantidadVendida(rs.getInt(6));                     
                    inventario.setExiste(true);
                }
 
@@ -165,8 +160,7 @@ public class DAInventario {
                rs = stm.executeQuery(sentencia);
                if (rs.next()) {
                    producto.setIdProducto(rs.getInt(1));                
-                   producto.setDescripcion(rs.getString(2));  
-                   producto.setCodigoBarra(rs.getString(3));    
+                   producto.setDescripcion(rs.getString(2));   
                    producto.setExiste(true);
                }
 

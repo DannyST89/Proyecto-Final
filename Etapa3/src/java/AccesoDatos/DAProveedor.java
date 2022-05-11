@@ -6,6 +6,7 @@ import Entidades.EntidadProveedor;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -154,4 +155,38 @@ public class DAProveedor {
            }
            return proveedor;
     }//fin ObtenerUnProveedor  
+    //Método para modificar
+    public int modificarProveedor(EntidadProveedor proveedor) throws SQLException{
+        int resultado = 0;
+        String sentencia = "UPDATE PROVEEDORES SET NOMBRE_PROVEEDOR=?,DIRECCION=?,TELEFONO=?,EXTENSION=?,"
+                         + "CORREO=?,NUMERO_CUENTA=? WHERE ID_PROVEEDOR=?";
+        
+        try
+        {
+            
+            PreparedStatement ps = _cnn.prepareStatement(sentencia);
+            ps.setString(1, proveedor.getNombreProveedor()); 
+            ps.setString(2, proveedor.getDireccion());    
+            ps.setString(3, proveedor.getTelefono());    
+            ps.setInt(4, proveedor.getExtension());   
+            ps.setString(5, proveedor.getCorreo());  
+            ps.setString(6, proveedor.getNumeroCuenta());  
+            ps.setInt(7, proveedor.getId_proveedor()); 
+
+               
+           
+            resultado = ps.executeUpdate();
+            if(resultado > 0){
+                mensaje = "Actualizado Correctamente";
+            }                
+        } catch (SQLException ex)
+        {
+            throw ex;
+        } finally
+        {
+            _cnn = null;
+        }
+        return resultado;
+    }//Fin void modificarEmpleado
+
 }

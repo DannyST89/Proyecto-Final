@@ -27,7 +27,7 @@
     </head>
     <body>
         <header>
-           <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #212A32;">
+           <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #6358DC;">
                 <div class="container">
                     <a class="navbar-brand text-white" href="index.html">EasyMarket <i class="fas fa-tasks"></i></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +38,16 @@
                             <li class="nav-item">
                                 <a class="nav-link text-white" href="index.html">Inicio</a>
                             </li>
-                            <li class="nav-item dropdown">
+                           <li class="nav-item">
+                                <a class="nav-link text-white" href="FrmFactura.jsp">Facturación</a>
+                            </li>   
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="frmListarClientes.jsp">Sobre Nosotros</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="FrmListarFacturas.jsp">Contactenos</a>
+                            </li>       
+                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Administrativo</a>
                                 <ul class="dropdown-menu">
                                   <li><a class="dropdown-item" href="FrmEmpleado.jsp">Empleados</a></li>
@@ -46,20 +55,12 @@
                                   <li><a class="dropdown-item" href="FrmProducto.jsp">Productos</a></li>
                                   <li><a class="dropdown-item" href="FrmInventario.jsp">Inventario</a></li>
                                   <li><a class="dropdown-item" href="FrmVentas.jsp">Ventas</a></li>
-                                  <li><a class="dropdown-item" href="FrmCliente.jsp">Clientes</a></li>
+                                  <li><a class="dropdown-item" href="FrmCliente.jsp">Clientes</a></li>                                  <li><a class="dropdown-item" href="FrmCliente.jsp">Clientes</a></li>
+
                                   <li><hr class="dropdown-divider"></li>
-                                  <li><a class="dropdown-item" href="#">Separated link</a></li>
+                                  <li><a class="dropdown-item" href="FrmLogin.jsp">Cerrar Cesión</a></li>
                                 </ul>
-                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="frmListarClientes.jsp">Sobre Nosotros</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="FrmListarFacturas.jsp">Contactenos</a>
-                            </li>       
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="FrmLogin.jsp">Cerrar Cesión</a>
-                            </li>  
+                             </li> 
                         </ul>
                     </div>
                 </div>
@@ -71,9 +72,9 @@
                 <h1 class="text-center">Administrar Proveedores</h1>
             </div>                      
             <br>
-
+            
             <!-- El formulario se va a cargar a si mismo -->    
-            <form action="FrmEmpleado.jsp" method="post">
+            <form action="FrmProveedor.jsp" method="post">
                 <div class="form-group row">
                     <div class="input-group col-xs-2">
                         <input type="submit" id="btnbuscar" name="btnbuscar" value="Buscar" 
@@ -84,6 +85,9 @@
                     &nbsp;
                     
                 </div> 
+                 <div class="form-group">              
+                <a href="FrmAdminProveedores.jsp?idCrearModificar=-1" class="btn btn-outline-primary"> Agregar un nuevo empleado </a> 
+            </div>
             </form>
             <hr>
             <table class="table">
@@ -132,14 +136,20 @@
                         <!--Columna para los botones -->
                         <td>
                             <!--Botón para modificar -->
-                            <a href="#"> <i class="bi bi-pencil-square" style="color:#ffca2c;"></i></a> |
+                            <a href="FrmAdminProveedores.jsp?idCrearModificar=<%=codigo%>"> <i class="bi bi-pencil-square" style="color:#ffca2c;"></i></a> |
                             <!--Botón para Eliminar -->
-                            <a href="#"> <i class="bi bi-trash3-fill" style="color:#FF2000;"></i></a> 
+                            <a href="EliminarProveedor?idEliminar=<%=codigo%>"> <i class="bi bi-trash3-fill" style="color:#FF2000;"></i></a> 
                         </td>
                     </tr>
                     <%}%><!--Para cerrar el for --> 
                 </tbody
             </table>
+                <%
+                    if(request.getParameter("meCli") != null){
+                        out.print("<h2 class='text-danger'>" + new String(request.getParameter("meCli").getBytes("ISO-8859-1"),"UTF-8")+"</h2>");
+                    }    
+                    
+                %>
                 <br> 
                 <!--               
                 
@@ -158,5 +168,6 @@
 </div>
         <script src="lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
         <script src="lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+        
     </body>
 </html>

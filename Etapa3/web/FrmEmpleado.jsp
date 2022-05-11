@@ -3,6 +3,7 @@
     Created on : 04/05/2022, 09:46:33 AM
     Author     : DSdev
 --%>
+<%@page import="com.sun.glass.events.ViewEvent"%>
 <%@page import="Entidades.*"%>
 <%@page import="Logica.*"%>
 <%@page import="java.util.List" %>
@@ -26,7 +27,7 @@
     </head>
     <body>
         <header>
-           <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #212A32;">
+           <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #6358DC;">
                 <div class="container">
                     <a class="navbar-brand text-white" href="index.html">EasyMarket <i class="fas fa-tasks"></i></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,29 +37,40 @@
                         <ul class="navbar-nav ms-auto mb-2 mb-log-0">
                             <li class="nav-item">
                                 <a class="nav-link text-white" href="index.html">Inicio</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Administrativo</a>
-                                <ul class="dropdown-menu">
-                                  <li><a class="dropdown-item" href="FrmEmpleado.jsp">Empleados</a></li>
-                                  <li><a class="dropdown-item" href="FrmProveedor.jsp">Proveedores</a></li>
-                                  <li><a class="dropdown-item" href="FrmProducto.jsp">Productos</a></li>
-                                  <li><a class="dropdown-item" href="FrmInventario.jsp">Inventario</a></li>
-                                  <li><a class="dropdown-item" href="FrmVentas.jsp">Ventas</a></li>
-                                  <li><a class="dropdown-item" href="FrmCliente.jsp">Clientes</a></li>
-                                  <li><hr class="dropdown-divider"></li>
-                                  <li><a class="dropdown-item" href="#">Separated link</a></li>
-                                </ul>
-                             </li>
+                            </li>                            
                             <li class="nav-item">
                                 <a class="nav-link text-white" href="frmListarClientes.jsp">Sobre Nosotros</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-white" href="FrmListarFacturas.jsp">Contactenos</a>
                             </li>       
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="FrmLogin.jsp">Cerrar Cesión</a>
-                            </li>  
+                             <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Administrativo</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="FrmEmpleado.jsp">Empleados</a></li>
+                                    <li><a class="dropdown-item" href="FrmProveedor.jsp">Proveedores</a></li>
+                                    <li><a class="dropdown-item" href="FrmProducto.jsp">Productos</a></li>
+                                    <li><a class="dropdown-item" href="FrmInventario.jsp">Inventario</a></li>
+                                    <li><a class="dropdown-item" href="FrmVentas.jsp">Ventas</a></li>
+                                    <li><a class="dropdown-item" href="FrmCliente.jsp">Clientes</a></li>
+                                    <li><a  class="dropdown-item" href="FrmFactura.jsp">Facturación</a></li> 
+                                    <li><hr class="dropdown-divider"></li>
+                                </ul>
+                             </li> 
+                              <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">DSoto</a>
+                                <ul class="dropdown-menu">                                   
+                                    <li><a class="dropdown-item" href="FrmInventario.jsp"></a></li>
+                                    <li><a class="dropdown-item" href="FrmVentas.jsp">Ventas</a></li>
+                                    <li><a class="dropdown-item" href="FrmCliente.jsp">Clientes</a></li>
+                                    <li><a  class="dropdown-item" href="FrmFactura.jsp">Facturación</a></li> 
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="FrmLogin.jsp">Cerrar Cesión</a></li> 
+                                    <li><a class="dropdown-item" href="FrmRegistro.jsp">Registrarse</a></li>
+
+                                </ul>
+                             </li>
+                             
                         </ul>
                     </div>
                 </div>
@@ -70,22 +82,31 @@
                 <h1 class="text-center">Administrar Empleados</h1>
             </div>                      
             <br>
-
+           
             <!-- El formulario se va a cargar a si mismo -->    
             <form action="FrmEmpleado.jsp" method="post">
                 <div class="form-group row">
-                    <div class="input-group col-xs-2">
-                        <input type="submit" id="btnbuscar" name="btnbuscar" value="Buscar" 
-                               class="btn text-white "  style="background-color: #008788;"/>                       
-                        <input type="text" id="txtnombre" name="txtnombre" value="" 
-                               placeholder="Buscar por Nombre" class="form-control "/>               
+                    <div class="input-group col-sm-2">
+                        <input type="submit" id="btnbuscar" 
+                               name="btnbuscar" 
+                               value="Buscar" 
+                               class="btn btn-primary"/>                       
+                        <input 
+                            type="text" 
+                            id="txtnombre" 
+                            name="txtnombre" 
+                            value="" 
+                            placeholder="Buscar por Nombre" class="form-control "
+                        />               
                     </div> 
                     &nbsp;
                     
                 </div> 
             </form>
-            <hr>
-            <table class="table">
+            <div class="form-group float-right">              
+                <a href="FrmAdminEmpleados.jsp?idCrearModificar=-1" class="btn btn-outline-primary"> Agregar un nuevo empleado </a> 
+            </div>
+            <table class="table ">
                 <thead>
                     <tr id="titulos">
                         <th>ID</th>
@@ -98,7 +119,10 @@
                         <th>Cargo</th> 
                         <th>Fecha Ingreso</th>
                         <th>Usuario</th>          
-                        <th>Contraseña</th>
+                        <th>Contraseña</th>      
+                        <th>Opciones</th>
+
+
                     </tr>
                 </thead>
                 <tbody>
@@ -135,34 +159,30 @@
                         <td><%=registro.getCargo()%></td>       
                         <td><%=registro.getFechaIngreso()%></td>       
                         <td><%=registro.getNombreUsuario()%></td>          
-                        <td><%=registro.getConstrasenia()%></td>
+                        <td><%=registro.getConstrasenia()%></td>                      
                         <!--Columna para los botones -->
                         <td>
                             <!--Botón para modificar -->
-                            <a href="#"> <i class="bi bi-pencil-square" style="color:#ffca2c;"></i></a> |
+                            <a href="FrmAdminEmpleados.jsp?idCrearModificar=<%=codigo%>"><i class="bi bi-pencil-square" style="color:#ffca2c;"></i></a> |
                             <!--Botón para Eliminar -->
-                            <a href="#"> <i class="bi bi-trash3-fill" style="color:#FF2000;"></i></a> 
+                            <a href="EliminarEmpleado?idEliminar=<%=codigo%>"><i class="bi bi-trash3-fill" style="color:#FF2000;"></i></a> 
                         </td>
                     </tr>
                     <%}%><!--Para cerrar el for --> 
-                </tbody
+                </tbody> 
             </table>
-                <br> 
-                <!--               
-                
-                <a href="#"> Agregar un nuevo Cliente </a> |
-             <a href="frmListarClientes.jsp"> Actualizar </a> |
-             <a href="index.html"> Regresar al Inicio </a> 
-             
-                
-                -->      
-        </div><!--Fin Container --> 
-            
-
-<!-- Page content -->
-<div class="main">
+            <div class="form-group float-right">
+                <a href="index.html" class="btn btn-success"> Regresar al Inicio </a> 
+            </div>
+                 <%
+                    if(request.getParameter("meCli") != null){
+                        out.print("<h2 class='text-danger'>" + new String(request.getParameter("meCli").getBytes("ISO-8859-1"),"UTF-8")+"</h2>");
+                    }    
+                    
+                %>
+        </div><!--Fin Container --> <!-- Page content -->       
   
-</div>
+
         <script src="lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
         <script src="lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
     </body>

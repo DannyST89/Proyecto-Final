@@ -145,7 +145,7 @@ public class DAFactura {
            EntidadProducto producto = new EntidadProducto();
            try {
                Statement stm = _cnn.createStatement();
-               String sentencia = "SELECT ID_PRODUCTO,DESCRIPCION,CODIGO_BARRAS FROM PRODUCTOS";
+               String sentencia = "SELECT ID_PRODUCTO,DESCRIPCION FROM PRODUCTOS";
                if (!condicion.equals("")) {
                    sentencia = String.format("%s WHERE %s", sentencia, condicion);
                }
@@ -153,7 +153,6 @@ public class DAFactura {
                if (rs.next()) {
                    producto.setIdProducto(rs.getInt(1));                
                    producto.setDescripcion(rs.getString(2));  
-                   producto.setCodigoBarra(rs.getString(3));    
                    producto.setExiste(true);
                }
 
