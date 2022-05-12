@@ -27,56 +27,9 @@
         <link href="css/estilosInventario.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-       <header>
-           <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #212A32;">
-                <div class="container">
-                    <a class="navbar-brand text-white" href="index.html">EasyMarket <i class="fas fa-tasks"></i></a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                        <ul class="navbar-nav ms-auto mb-2 mb-log-0">
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="index.html">Inicio</a>
-                            </li>                            
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="frmListarClientes.jsp">Sobre Nosotros</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="FrmListarFacturas.jsp">Contactenos</a>
-                            </li>       
-                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Administrativo</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="FrmEmpleado.jsp">Empleados</a></li>
-                                    <li><a class="dropdown-item" href="FrmProveedor.jsp">Proveedores</a></li>
-                                    <li><a class="dropdown-item" href="FrmProducto.jsp">Productos</a></li>
-                                    <li><a class="dropdown-item" href="FrmInventario.jsp">Inventario</a></li>
-                                    <li><a class="dropdown-item" href="FrmVentas.jsp">Ventas</a></li>
-                                    <li><a class="dropdown-item" href="FrmCliente.jsp">Clientes</a></li>
-                                    <li><a  class="dropdown-item" href="FrmFactura.jsp">Facturación</a></li> 
-                                    <li><hr class="dropdown-divider"></li>
-                                </ul>
-                             </li> 
-                              <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">DSoto</a>
-                                <ul class="dropdown-menu">                                   
-                                    <li><a class="dropdown-item" href="FrmInventario.jsp"></a></li>
-                                    <li><a class="dropdown-item" href="FrmVentas.jsp">Ventas</a></li>
-                                    <li><a class="dropdown-item" href="FrmCliente.jsp">Clientes</a></li>
-                                    <li><a  class="dropdown-item" href="FrmFactura.jsp">Facturación</a></li> 
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="FrmLogin.jsp">Cerrar Cesión</a></li> 
-                                    <li><a class="dropdown-item" href="FrmRegistro.jsp">Registrarse</a></li>
-
-                                </ul>
-                             </li>
-                             
-                        </ul>
-                    </div>
-                </div>
-               
-            </nav>
+        <header>
+            <!-- llamamos al componente navbar -->
+            <jsp:include page="FrmNavBar.jsp"/>
         </header>
         <div class="container" >
             <div class="card-header">
@@ -98,7 +51,11 @@
                 </div> 
             </form>
             <hr>
-            <table class="table table-bordered">
+            <div>
+                <a href="FrmAdminInventario.jsp?idModificar=-1" class="btn btn-primary">Agregar al Inventario</a>
+
+            </div>
+            <table class="table">
                 <thead>
                     <tr id="titulos">
                         <th>ID</th>
@@ -142,14 +99,20 @@
                         <!--Columna para los botones -->
                         <td>
                             <!--Botón para modificar -->
-                            <a href="#"> <i class="bi bi-pencil-square" style="color:#ffca2c;" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></i></a> |
+                            <a href="FrmAdminInventario.jsp?idModificar=<%=codigo%>"><i class="bi bi-pencil-square" style="color:#ffca2c;"></i></a> |
                             <!--Botón para Eliminar -->
-                            <a href="#"> <i class="bi bi-trash3-fill" style="color:#FF2000;"></i></a> 
+                            <a href="EliminarProductoInventario?idEliminar=<%=codigo%>"> <i class="bi bi-trash3-fill" style="color:#FF2000;"></i></a> 
                         </td>
                     </tr>
                     <%}%><!--Para cerrar el for --> 
                 </tbody
             </table>
+                <%
+                    if(request.getParameter("darClic") != null){
+                        out.print("<h2 class='text-danger'>" + new String(request.getParameter("darClic").getBytes("ISO-8859-1"),"UTF-8")+"</h2>");
+                    }    
+                    
+                %>
                 <br> 
                 <!--               
                 

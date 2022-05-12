@@ -13,7 +13,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Administrar Productos</title>
+        <title>Administrar Empleados</title>
          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
               rel="stylesheet"
               integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
@@ -27,55 +27,8 @@
     </head>
     <body>
         <header>
-           <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #6358DC;">
-                <div class="container">
-                    <a class="navbar-brand text-white" href="index.html">EasyMarket <i class="fas fa-tasks"></i></a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                        <ul class="navbar-nav ms-auto mb-2 mb-log-0">
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="index.html">Inicio</a>
-                            </li>                            
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="frmListarClientes.jsp">Sobre Nosotros</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="FrmListarFacturas.jsp">Contactenos</a>
-                            </li>       
-                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Administrativo</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="FrmEmpleado.jsp">Empleados</a></li>
-                                    <li><a class="dropdown-item" href="FrmProveedor.jsp">Proveedores</a></li>
-                                    <li><a class="dropdown-item" href="FrmProducto.jsp">Productos</a></li>
-                                    <li><a class="dropdown-item" href="FrmInventario.jsp">Inventario</a></li>
-                                    <li><a class="dropdown-item" href="FrmVentas.jsp">Ventas</a></li>
-                                    <li><a class="dropdown-item" href="FrmCliente.jsp">Clientes</a></li>
-                                    <li><a  class="dropdown-item" href="FrmFactura.jsp">Facturación</a></li> 
-                                    <li><hr class="dropdown-divider"></li>
-                                </ul>
-                             </li> 
-                              <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">DSoto</a>
-                                <ul class="dropdown-menu">                                   
-                                    <li><a class="dropdown-item" href="FrmInventario.jsp"></a></li>
-                                    <li><a class="dropdown-item" href="FrmVentas.jsp">Ventas</a></li>
-                                    <li><a class="dropdown-item" href="FrmCliente.jsp">Clientes</a></li>
-                                    <li><a  class="dropdown-item" href="FrmFactura.jsp">Facturación</a></li> 
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="FrmLogin.jsp">Cerrar Cesión</a></li> 
-                                    <li><a class="dropdown-item" href="FrmRegistro.jsp">Registrarse</a></li>
-
-                                </ul>
-                             </li>
-                             
-                        </ul>
-                    </div>
-                </div>
-               
-            </nav>
+            <!-- llamamos al componente navbar -->
+            <jsp:include page="FrmNavBar.jsp"/>
         </header>
         <div class="container">
             <div class="card-header">
@@ -172,7 +125,7 @@
                 </tbody> 
             </table>
             <div class="form-group float-right">
-                <a href="index.html" class="btn btn-success"> Regresar al Inicio </a> 
+                <a href="index.jsp.html" class="btn btn-success"> Regresar al Inicio </a> 
             </div>
                  <%
                     if(request.getParameter("meCli") != null){
