@@ -359,7 +359,7 @@ AS
 						UPDATE INVENTARIOS SET ID_PRODUCTO = @ID_PRODUCTO,
 											   DESCRIPCION = @DESCRIPTION,
 											   CANTIDA_INGRESADA = @CANTIDAD_INGRESADO,
-											   EXISTENCIA =  @CANTIDAD_INGRESADO + @EXISTENCIA
+											   EXISTENCIA +=  @CANTIDAD_INGRESADO
 						WHERE ID_INVENTARIO = @ID_INVENTARIO
 						SET @MSJ = 'Inventario actualizado correctamente'
 					END
@@ -396,7 +396,9 @@ AS
 						SET @MSJ = 'Eliminado correctamente'
 					END
 				ELSE
-					SET @MSJ = 'No fue posible eliminar'
+					BEGIN
+						SET @MSJ = 'No es posible eliminar un producto con existencia'
+					END
 			COMMIT TRANSACTION
 		END TRY
 		BEGIN CATCH

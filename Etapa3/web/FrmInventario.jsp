@@ -51,7 +51,11 @@
                 </div> 
             </form>
             <hr>
-            <table class="table table-bordered">
+            <div>
+                <a href="FrmAdminInventario.jsp?idModificar=-1" class="btn btn-primary">Agregar al Inventario</a>
+
+            </div>
+            <table class="table">
                 <thead>
                     <tr id="titulos">
                         <th>ID</th>
@@ -95,14 +99,20 @@
                         <!--Columna para los botones -->
                         <td>
                             <!--Botón para modificar -->
-                            <a href="#"> <i class="bi bi-pencil-square" style="color:#ffca2c;" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></i></a> |
+                            <a href="FrmAdminInventario.jsp?idModificar=<%=codigo%>"><i class="bi bi-pencil-square" style="color:#ffca2c;"></i></a> |
                             <!--Botón para Eliminar -->
-                            <a href="#"> <i class="bi bi-trash3-fill" style="color:#FF2000;"></i></a> 
+                            <a href="EliminarProductoInventario?idEliminar=<%=codigo%>"> <i class="bi bi-trash3-fill" style="color:#FF2000;"></i></a> 
                         </td>
                     </tr>
                     <%}%><!--Para cerrar el for --> 
                 </tbody
             </table>
+                <%
+                    if(request.getParameter("darClic") != null){
+                        out.print("<h2 class='text-danger'>" + new String(request.getParameter("darClic").getBytes("ISO-8859-1"),"UTF-8")+"</h2>");
+                    }    
+                    
+                %>
                 <br> 
                 <!--               
                 

@@ -26,8 +26,10 @@
         <link href="css/styles.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <!-- llamamos al componente navbar -->
-         <jsp:include page="FrmNavBar.jsp"/>
+        <header>
+            <!-- llamamos al componente navbar -->
+            <jsp:include page="FrmNavBar.jsp"/>
+        </header>
         <div class="container">
             <div class="card-header">
                 <h1 class="text-center">Administrar Empleados</h1>
