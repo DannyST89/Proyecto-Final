@@ -29,14 +29,14 @@
         <header>
            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #212A32;">
                 <div class="container">
-                    <a class="navbar-brand text-white" href="index.html">EasyMarket <i class="fas fa-tasks"></i></a>
+                    <a class="navbar-brand text-white" href="index.jsp.html">EasyMarket <i class="fas fa-tasks"></i></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                         <ul class="navbar-nav ms-auto mb-2 mb-log-0">
                             <li class="nav-item">
-                                <a class="nav-link text-white" href="index.html">Inicio</a>
+                                <a class="nav-link text-white" href="index.jsp.html">Inicio</a>
                             </li>
                            <li class="nav-item">
                                 <a class="nav-link text-white" href="FrmFactura.jsp">Facturación</a>

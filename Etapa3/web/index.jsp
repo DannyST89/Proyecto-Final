@@ -1,64 +1,33 @@
-<!DOCTYPE html>
+<%-- 
+    Document   : indexx
+    Created on : 11/05/2022, 01:44:10 PM
+    Author     : DSdev
+--%>
 
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
         <title>EasyMarket</title>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
               rel="stylesheet"
               integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
               crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" 
                 crossorigin="anonymous"></script>
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
         <link href="lib/fontawesome-free-5.14.0-web/css/all.min.css" rel="stylesheet" type="text/css"/> 
         <link href="css/styles.css" rel="stylesheet" type="text/css"/>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
     </head>
     <body>
-     <header>
-           <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #212A32;">
-                <div class="container">
-                    <a class="navbar-brand text-white" href="index.html">EasyMarket <i class="fas fa-tasks"></i></a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                        <ul class="navbar-nav ms-auto mb-2 mb-log-0">
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="index.html">Inicio</a>
-                            </li>                            
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="frmListarClientes.jsp">Sobre Nosotros</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="FrmListarFacturas.jsp">Contactenos</a>
-                            </li>       
-                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Administrativo</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="FrmEmpleado.jsp">Empleados</a></li>
-                                    <li><a class="dropdown-item" href="FrmProveedor.jsp">Proveedores</a></li>
-                                    <li><a class="dropdown-item" href="FrmProducto.jsp">Productos</a></li>
-                                    <li><a class="dropdown-item" href="FrmInventario.jsp">Inventario</a></li>
-                                    <li><a class="dropdown-item" href="FrmVentas.jsp">Ventas</a></li>
-                                    <li><a class="dropdown-item" href="FrmCliente.jsp">Clientes</a></li>
-                                    <li><a  class="dropdown-item" href="FrmFactura.jsp">Facturación</a></li> 
-                                    <li><hr class="dropdown-divider"></li>
-                                </ul>
-                             </li> 
-                              <li class="nav-item">
-                                <a class="nav-link text-white" href="FrmLogin.jsp">Iniciar Cesión</a>
-                            </li>  
-                             
-                        </ul>
-                    </div>
-                </div>
-               
-            </nav>
+        <header>
+            <!-- llamamos al componente navbar -->
+            <jsp:include page="FrmNavBar.jsp"/>
         </header>
     <div class="container ">
       <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
@@ -111,12 +80,9 @@
       </div>
        
     </div>
-
-    <footer class="border-top">
-        <div class="container">
-            &copy; EasyMarket
-        </div>
-    </footer>
+        <!-- llamamos al componente Footer -->
+            <jsp:include page="FrmFooter.jsp"/>
+    
     <script src="lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
     <script src="lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 
